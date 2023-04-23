@@ -13,4 +13,9 @@
 
 - [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
+## Build and Run via Docker
+docker build -t micronaut-api:latest ./
+
+docker run -p 8080:8080 --name micronaut-api micronaut-api:latest
+
 
