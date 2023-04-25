@@ -1,2 +1,2 @@
-# aws-cdk-projects
+# aws-cdk-templates
 AWS infra deploy with CDK
