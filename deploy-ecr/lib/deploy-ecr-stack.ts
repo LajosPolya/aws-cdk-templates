@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export interface DeployEcrStackProps extends cdk.StackProps {
-  envName: string;
+  repoName: string;
 }
 
 export class DeployEcrStack extends cdk.Stack {
@@ -10,7 +10,7 @@ export class DeployEcrStack extends cdk.Stack {
     super(scope, id, props);
 
     const repository = new cdk.aws_ecr.Repository(this, 'Repository', {
-      repositoryName: `micronaut-api-${props?.envName}`,
+      repositoryName: props.repoName || 'default_name',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       imageScanOnPush: false,
       autoDeleteImages: true,
