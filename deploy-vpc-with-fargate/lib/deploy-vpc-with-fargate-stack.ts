@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 
 export interface DeployVpcWithFargateStackProps extends cdk.StackProps {
   ecrArn: string;
-  envName: string;
+  scope: string;
 }
 
 export class DeployVpcWithFargateStack extends cdk.Stack {
@@ -26,14 +26,14 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
         subnetConfiguration: [
           {
             cidrMask: 16,
-            name: `subnet-group-${props.envName}`,
+            name: `subnet-group-${props.scope}`,
             subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
           },
         ],
     });
 
     const cluster = new cdk.aws_ecs.Cluster(this, 'cluser', {
-      clusterName: `cluster-${props.envName}`,
+      clusterName: `cluster-${props.scope}`,
       vpc: vpc,
       enableFargateCapacityProviders: true,
     });
@@ -41,7 +41,7 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
     const fargateTaskDef = new cdk.aws_ecs.FargateTaskDefinition(this, 'fargate-task-definition', {
       cpu: 256,
       memoryLimitMiB: 512,
-      family: `fargate-family-${props.envName}`,
+      family: `fargate-family-${props.scope}`,
     });
     fargateTaskDef.addContainer('api-container', {
       image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, 'latest'),
@@ -52,9 +52,9 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
         }
       ],
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
-        streamPrefix: `api-logs-${props.envName}`,
+        streamPrefix: `api-logs-${props.scope}`,
         logGroup: new cdk.aws_logs.LogGroup(this, 'log-group', {
-          logGroupName: `/api/${props.envName}`,
+          logGroupName: `/api/${props.scope}`,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
         }),
@@ -62,7 +62,7 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, 'security-group', {
-      securityGroupName: `security-group-${props.envName}`,
+      securityGroupName: `security-group-${props.scope}`,
       description: 'Allow all traffic',
       vpc: vpc,
       allowAllOutbound: true,
@@ -76,7 +76,7 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
       }),
       cluster: cluster,
       desiredCount: 1,
-      serviceName: `api-service-${props.envName}`,
+      serviceName: `api-service-${props.scope}`,
       platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
       securityGroups: [securityGroup],
     });

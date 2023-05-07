@@ -6,13 +6,16 @@ import { DeployVpcWithFargateStack } from '../lib/deploy-vpc-with-fargate-stack'
 const app = new cdk.App();
 
 const ecrArn = app.node.getContext('ecrArn');
-const envName = app.node.getContext('envName');
-const account = app.node.getContext('account');
-const region = app.node.getContext('region');
+const scope = app.node.getContext('scope');
+const account = app.node.tryGetContext('account');
+const region = app.node.tryGetContext('region');
 
 new DeployVpcWithFargateStack(app, 'DeployVpcWithFargateStack', {
-  stackName: `deploy-ecr-${envName}`,
+  stackName: `deploy-ecr-${scope}`,
   ecrArn,
-  envName,
-  env: { account, region },
+  scope,
+  env: {
+    account: account || process.env.CDK_DEFAULT_ACCOUNT, 
+    region: region || process.env.CDK_DEFAULT_REGION,
+  },
 });
