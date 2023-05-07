@@ -9,7 +9,7 @@ export class DeployEcrStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployEcrStackProps) {
     super(scope, id, props);
 
-    const repository = new cdk.aws_ecr.Repository(this, 'Repository', {
+    new cdk.aws_ecr.Repository(this, 'Repository', {
       repositoryName: props.repoName || 'default_name',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       imageScanOnPush: false,
