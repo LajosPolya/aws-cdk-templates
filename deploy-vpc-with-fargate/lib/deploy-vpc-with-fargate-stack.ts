@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export interface DeployVpcWithFargateStackProps extends cdk.StackProps {
-  ecrArn: string;
+  ecrName: string;
   scope: string;
 }
 
@@ -13,7 +13,7 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
     const ecr = cdk.aws_ecr.Repository.fromRepositoryArn(
       this, 
       'ecr', 
-      props.ecrArn,
+      `arn:aws:ecr:${props.env!.region!}:${props.env!.account!}:repository/${props.ecrName}`,
     );
 
     const vpc = new cdk.aws_ec2.Vpc(this, 'vpc', {
@@ -21,7 +21,7 @@ export class DeployVpcWithFargateStack extends cdk.Stack {
         enableDnsHostnames: true,
         enableDnsSupport: true,
         defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
-        availabilityZones: [`${props.env!.region}a`],
+        availabilityZones: [`${props.env!.region!}a`],
         natGateways: 0,
         subnetConfiguration: [
           {
