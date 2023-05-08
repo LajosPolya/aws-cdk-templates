@@ -11,7 +11,9 @@
       "package*.json",
       "yarn.lock",
       "node_modules",
-      "test"
+      "test",
+      ".prettierignore",
+      ".prettierrc.json"
     ]
   },
   "context": {
