@@ -84,7 +84,8 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         allowAllIpv6Outbound: true,
       }
     );
-    const fargateService = new cdk.aws_ecs.FargateService(
+    securityGroup.addIngressRule(cdk.aws_ec2.Peer.anyIpv4(), cdk.aws_ec2.Port.allTcp(), 'Allow all TCP');
+    new cdk.aws_ecs.FargateService(
       this,
       "fargate-service",
       {
@@ -100,7 +101,6 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         securityGroups: [securityGroup],
       }
     );
-    fargateService.connections.allowFromAnyIpv4(cdk.aws_ec2.Port.allTcp());
   }
 
   // TODO: this is a bug
