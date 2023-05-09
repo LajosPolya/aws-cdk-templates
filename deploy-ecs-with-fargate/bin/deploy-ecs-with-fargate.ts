@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { DeployVpcWithFargateStack } from "../lib/deploy-vpc-with-fargate-stack";
+import { DeployEcsWithFargateStack } from "../lib/deploy-ecs-with-fargate-stack";
 
 const app = new cdk.App();
 
@@ -10,7 +10,7 @@ const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
-new DeployVpcWithFargateStack(app, "DeployVpcWithFargateStack", {
+new DeployEcsWithFargateStack(app, "DeployEcsWithFargateStack", {
   stackName: `deploy-ecr-${scope}`,
   ecrName,
   scope,

@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/deploy-vpc-with-fargate.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/deploy-ecs-with-fargate.ts",
   "watch": {
     "include": ["**"],
     "exclude": [

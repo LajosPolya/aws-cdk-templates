@@ -1,16 +1,16 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployVpcWithFargateStackProps extends cdk.StackProps {
+export interface DeployEcsWithFargateStackProps extends cdk.StackProps {
   ecrName: string;
   scope: string;
 }
 
-export class DeployVpcWithFargateStack extends cdk.Stack {
+export class DeployEcsWithFargateStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployVpcWithFargateStackProps
+    props: DeployEcsWithFargateStackProps
   ) {
     super(scope, id, props);
 
