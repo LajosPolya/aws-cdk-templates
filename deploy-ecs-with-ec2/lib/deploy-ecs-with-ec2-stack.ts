@@ -1,5 +1,5 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
 
 export interface DeployEc2WithFargateStackProps extends cdk.StackProps {
   ecrName: string;
@@ -7,7 +7,11 @@ export interface DeployEc2WithFargateStackProps extends cdk.StackProps {
 }
 
 export class DeployEcsWithEc2Stack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployEc2WithFargateStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployEc2WithFargateStackProps
+  ) {
     super(scope, id, props);
 
     const ecr = cdk.aws_ecr.Repository.fromRepositoryArn(
@@ -40,15 +44,22 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       clusterName: `ecs-with-ec2-cluster-${props.scope}`,
       vpc: vpc,
       capacity: {
-        instanceType: cdk.aws_ec2.InstanceType.of(cdk.aws_ec2.InstanceClass.T2, cdk.aws_ec2.InstanceSize.MEDIUM)
-      }
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MEDIUM
+        ),
+      },
     });
 
-    const ec2TaskDef = new cdk.aws_ecs.Ec2TaskDefinition(this, 'ec2-task-definition', {
-      networkMode: cdk.aws_ecs.NetworkMode.HOST,
-      family: `ecs-with-ec2-family-${props.scope}`
-    });
-    ec2TaskDef.addContainer('api-container', {
+    const ec2TaskDef = new cdk.aws_ecs.Ec2TaskDefinition(
+      this,
+      "ec2-task-definition",
+      {
+        networkMode: cdk.aws_ecs.NetworkMode.HOST,
+        family: `ecs-with-ec2-family-${props.scope}`,
+      }
+    );
+    ec2TaskDef.addContainer("api-container", {
       image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
       containerName: `container-${props.scope}`,
       disableNetworking: false,
@@ -68,7 +79,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
           containerPort: 8080,
         },
       ],
-    })
+    });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -82,12 +93,12 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       }
     );
 
-    const ec2Service = new cdk.aws_ecs.Ec2Service(this, 'ec2-service', {
+    const ec2Service = new cdk.aws_ecs.Ec2Service(this, "ec2-service", {
       taskDefinition: ec2TaskDef,
       cluster: cluster,
       desiredCount: 1,
       serviceName: `ec2-service-${props.scope}`,
-    })
+    });
     ec2Service.connections.allowFromAnyIpv4(cdk.aws_ec2.Port.allTcp());
   }
 
