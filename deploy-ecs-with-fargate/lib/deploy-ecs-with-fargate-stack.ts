@@ -40,8 +40,8 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       ],
     });
 
-    const cluster = new cdk.aws_ecs.Cluster(this, "cluser", {
-      clusterName: `cluster-${props.scope}`,
+    const cluster = new cdk.aws_ecs.Cluster(this, "cluster", {
+      clusterName: `ecs-with-fargate-cluster-${props.scope}`,
       vpc: vpc,
       enableFargateCapacityProviders: true,
     });
@@ -52,7 +52,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       {
         cpu: 256,
         memoryLimitMiB: 512,
-        family: `fargate-family-${props.scope}`,
+        family: `ecs-with-fargate-family-${props.scope}`,
       }
     );
     fargateTaskDef.addContainer("api-container", {
@@ -64,9 +64,9 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         },
       ],
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
-        streamPrefix: `api-logs-${props.scope}`,
+        streamPrefix: `ecs-with-fargate-api-logs-${props.scope}`,
         logGroup: new cdk.aws_logs.LogGroup(this, "log-group", {
-          logGroupName: `/api/${props.scope}`,
+          logGroupName: `/ecs-with-fargate-api/${props.scope}`,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
         }),
@@ -95,7 +95,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         }),
         cluster: cluster,
         desiredCount: 1,
-        serviceName: `api-service-${props.scope}`,
+        serviceName: `fargate-service-${props.scope}`,
         platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
         securityGroups: [securityGroup],
       }
