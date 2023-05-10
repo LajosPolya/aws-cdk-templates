@@ -34,7 +34,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `subnet-group-${props.scope}`,
+          name: `ecs-with-fargate-subnet-group-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
