@@ -34,7 +34,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `subnet-group-${props.scope}`,
+          name: `ecs-with-ec2-subnet-group-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
@@ -80,18 +80,6 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
         },
       ],
     });
-
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "security-group",
-      {
-        securityGroupName: `security-group-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
 
     const ec2Service = new cdk.aws_ecs.Ec2Service(this, "ec2-service", {
       taskDefinition: ec2TaskDef,
