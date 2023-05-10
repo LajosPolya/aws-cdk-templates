@@ -46,7 +46,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       capacity: {
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
-          cdk.aws_ec2.InstanceSize.MEDIUM
+          cdk.aws_ec2.InstanceSize.MICRO
         ),
       },
     });
