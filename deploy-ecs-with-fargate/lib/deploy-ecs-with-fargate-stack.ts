@@ -84,23 +84,23 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         allowAllIpv6Outbound: true,
       }
     );
-    securityGroup.addIngressRule(cdk.aws_ec2.Peer.anyIpv4(), cdk.aws_ec2.Port.allTcp(), 'Allow all TCP');
-    new cdk.aws_ecs.FargateService(
-      this,
-      "fargate-service",
-      {
-        taskDefinition: fargateTaskDef,
-        assignPublicIp: true,
-        vpcSubnets: vpc.selectSubnets({
-          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
-        }),
-        cluster: cluster,
-        desiredCount: 1,
-        serviceName: `fargate-service-${props.scope}`,
-        platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
-        securityGroups: [securityGroup],
-      }
+    securityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.anyIpv4(),
+      cdk.aws_ec2.Port.allTcp(),
+      "Allow all TCP"
     );
+    new cdk.aws_ecs.FargateService(this, "fargate-service", {
+      taskDefinition: fargateTaskDef,
+      assignPublicIp: true,
+      vpcSubnets: vpc.selectSubnets({
+        subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+      }),
+      cluster: cluster,
+      desiredCount: 1,
+      serviceName: `fargate-service-${props.scope}`,
+      platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
+      securityGroups: [securityGroup],
+    });
   }
 
   // TODO: this is a bug
