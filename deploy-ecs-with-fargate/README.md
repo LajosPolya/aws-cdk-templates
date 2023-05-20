@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Deploy ECS with Fargate
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This CDK app deploys a Fargate instance within an ECS Cluster.
 
 ## Useful commands
 

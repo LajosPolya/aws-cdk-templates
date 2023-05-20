@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Deploy EC2 Instance
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This CDK app deploys an EC2 Instance with an HTTP server that is open to the public internet.
 
 ## Useful commands
 

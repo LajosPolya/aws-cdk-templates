@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Deploy ECR
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This CDK app deploys an AWS Elastic Container Repository to store docker images.
 
 ## Useful commands
 

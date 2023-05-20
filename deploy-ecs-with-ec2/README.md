@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Deploy ECS with EC2
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This CDK app deploys an EC2 Insance within an ECS Cluster.
 
 ## Useful commands
 
