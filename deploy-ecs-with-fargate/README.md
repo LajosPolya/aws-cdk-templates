@@ -23,4 +23,4 @@ If deploying [micronaut-api](../api/README.md) then once deployed you may access
 
 Currently this will only work in us-east-2 because of a bug: https://github.com/aws/aws-cdk/issues/21690
 
-> **Warning** The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not it use.
+> **Warning** The compute instance(s) deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
