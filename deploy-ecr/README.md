@@ -9,7 +9,7 @@ This CDK app deploys an AWS Elastic Container Repository to store docker images.
 - `npm run test` perform the jest unit tests
 - `npm run check` checks if files are formatted
 - `npm run format` formats files
-- `cdk deploy -c repoName=<repo_name>` deploy this stack to your default AWS account/region
+- `cdk deploy` deploy this stack to your default AWS account/region
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 

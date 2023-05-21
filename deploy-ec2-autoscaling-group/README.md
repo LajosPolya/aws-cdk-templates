@@ -1,6 +1,6 @@
 # Deploy EC2 Auto Scaling Group
 
-This CDK app deploys EC2 instances scaled user an Auto Scaling Group.
+This CDK app deploys EC2 instances scaled using an Auto Scaling Group.
 
 ## Useful commands
 
