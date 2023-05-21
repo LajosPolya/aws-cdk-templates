@@ -22,3 +22,8 @@ The app will set the environment (account and region) based on the the environme
 If deploying [micronaut-api](../api/README.md) then once deployed you may access the `/health` endpoint by either the public IP `http://<public_ip>:8080/health` or the public DNS `http://<public_dns>:8080/health` which can be found in AWS Console -> Amazon Elastic Container Service -> Clusters -> cluser_name -> Tasks -> task_name -> ENI ID -> Public IPv4 address or Public IPv4 DNS respectively.
 
 Currently this will only work in us-east-2 because of a bug: https://github.com/aws/aws-cdk/issues/21690
+
+
+> :warning: **Testing**: Be very careful here!
+
+> **Warning**
