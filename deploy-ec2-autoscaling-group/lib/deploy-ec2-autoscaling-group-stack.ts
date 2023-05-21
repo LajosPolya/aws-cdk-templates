@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 
 export interface DeployEc2AutoscalingGroupStackProps extends cdk.StackProps {
   scope: string;
+  deploySecondInstanceCron: string;
 }
 
 export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
@@ -25,7 +26,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ec2-instance-subnet-group-${props.scope}`,
+          name: `ec2-auto-scaling-subnet-group-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
@@ -35,7 +36,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       this,
       "security-group",
       {
-        securityGroupName: `ec2-instance-security-group-${props.scope}`,
+        securityGroupName: `ec2-auto-scaling-security-group-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -74,9 +75,29 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       }
     );
 
-    new cdk.aws_autoscaling.AutoScalingGroup(this, "auto-scaling-group", {
-      vpc: vpc,
-      launchTemplate: launchTemplate,
+    console.log(props.deploySecondInstanceCron);
+    const autoScalingGroup = new cdk.aws_autoscaling.AutoScalingGroup(
+      this,
+      "auto-scaling-group",
+      {
+        vpc: vpc,
+        launchTemplate: launchTemplate,
+        minCapacity: 1,
+        desiredCapacity: 1,
+        maxCapacity: 2,
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+        },
+        allowAllOutbound: true,
+        autoScalingGroupName: `ec2-auto-scaling-group-${props.scope}`,
+      }
+    );
+    // Schedule a second instance to run on a scedule
+    autoScalingGroup.scaleOnSchedule("scale-on-schedule", {
+      schedule: cdk.aws_autoscaling.Schedule.expression(
+        props.deploySecondInstanceCron
+      ),
+      desiredCapacity: 2,
     });
   }
 
