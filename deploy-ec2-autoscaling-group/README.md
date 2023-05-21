@@ -26,4 +26,4 @@ If the IP address or DNS doesn't work then verify that the browser us using `htt
 
 Currently this will only work in us-east-2 because of a bug: https://github.com/aws/aws-cdk/issues/21690
 
-> **Warning** The compute instance(s) deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
