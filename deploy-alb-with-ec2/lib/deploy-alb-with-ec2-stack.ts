@@ -18,6 +18,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       ),
       enableDnsHostnames: true,
       enableDnsSupport: true,
+      // TODO: This is the default so remove from all instances of VPC
       defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
       // natGateways: 0,
@@ -59,17 +60,6 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
         allowAllOutbound: true,
         allowAllIpv6Outbound: true,
       }
-    );
-    // TODO: Double check this
-    asgSecurityGroup.connections.allowFrom(
-      securityGroup,
-      cdk.aws_ec2.Port.tcp(80),
-      "Allow from ALB"
-    );
-    asgSecurityGroup.connections.allowTo(
-      securityGroup,
-      cdk.aws_ec2.Port.tcp(80),
-      "Allow from ALB"
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
