@@ -10,6 +10,8 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployAlbWithEc2StackProps) {
     super(scope, id, props);
 
+    // Deploy with default subnet configuration which deploys ones public subnet and
+    // one pribate subnet
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
@@ -18,7 +20,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       enableDnsSupport: true,
       defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
-      natGateways: 0,
+      // natGateways: 0,
       /*subnetConfiguration: [
         {
           cidrMask: 16,
@@ -45,6 +47,31 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       "Allow all TCP"
     );
 
+    // TODO: Do we need a SG for the ASG or is one automatically created when attaching the
+    // target to the ALB?
+    const asgSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "asg-security-group",
+      {
+        securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
+        description: "Allow all traffic",
+        vpc: vpc,
+        allowAllOutbound: true,
+        allowAllIpv6Outbound: true,
+      }
+    );
+    // TODO: Double check this
+    asgSecurityGroup.connections.allowFrom(
+      securityGroup,
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow from ALB"
+    );
+    asgSecurityGroup.connections.allowTo(
+      securityGroup,
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow from ALB"
+    );
+
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -67,7 +94,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userData,
-        securityGroup: securityGroup,
+        securityGroup: asgSecurityGroup,
       }
     );
 
@@ -81,7 +108,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
         desiredCapacity: 1,
         maxCapacity: 2,
         vpcSubnets: {
-          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         allowAllOutbound: true,
         autoScalingGroupName: `alb-with-ec2-auto-scaling-group-${props.scope}`,
