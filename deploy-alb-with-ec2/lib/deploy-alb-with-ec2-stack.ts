@@ -10,8 +10,10 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployAlbWithEc2StackProps) {
     super(scope, id, props);
 
-    // Deploy with default subnet configuration which deploys ones public subnet and
-    // one pribate subnet
+    /* Deploy with default subnet configuration which deploys ones public subnet and one private subnet.
+    The default VPC also deploys one NAT Gateway in each AZ thus making the private subnet PRIVATE_WITH_EGRESS
+    which is needed for private instances to communicate with the ALB.
+    */
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
@@ -21,14 +23,6 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       // TODO: This is the default so remove from all instances of VPC
       defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
-      // natGateways: 0,
-      /*subnetConfiguration: [
-        {
-          cidrMask: 16,
-          name: `alb-with-ec2-subnet-group-${props.scope}`,
-          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
-        },
-      ],*/
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
