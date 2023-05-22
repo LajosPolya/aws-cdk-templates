@@ -48,20 +48,6 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       "Allow all TCP"
     );
 
-    // TODO: Do we need a SG for the ASG or is one automatically created when attaching the
-    // target to the ALB?
-    const asgSecurityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "asg-security-group",
-      {
-        securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
-
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -71,6 +57,18 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
+    );
+
+    // TODO: Do we need a SG for the ASG or is one automatically created when attaching the
+    // target to the ALB?
+    const asgSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "asg-security-group",
+      {
+        securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
+        description: "Allow all traffic",
+        vpc: vpc,
+      }
     );
 
     const launchTemplate = new cdk.aws_ec2.LaunchTemplate(
