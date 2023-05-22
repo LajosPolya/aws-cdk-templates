@@ -75,7 +75,6 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       }
     );
 
-    console.log(props.deploySecondInstanceCron);
     const autoScalingGroup = new cdk.aws_autoscaling.AutoScalingGroup(
       this,
       "auto-scaling-group",
