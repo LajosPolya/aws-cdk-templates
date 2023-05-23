@@ -1,8 +1,8 @@
 {
-  "name": "deploy-ec2-autoscaling-group",
+  "name": "deploy-ec2-auto-scaling-group",
   "version": "0.1.0",
   "bin": {
-    "deploy-ec2-autoscaling-group": "bin/deploy-ec2-autoscaling-group.js"
+    "deploy-ec2-auto-scaling-group": "bin/deploy-ec2-auto-scaling-group.js"
   },
   "scripts": {
     "build": "tsc",
