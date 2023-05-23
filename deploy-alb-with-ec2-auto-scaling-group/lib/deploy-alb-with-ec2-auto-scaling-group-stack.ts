@@ -1,13 +1,18 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployAlbWithEc2StackProps extends cdk.StackProps {
+export interface DeployAlbWithEc2AutoScalingGroupStackProps
+  extends cdk.StackProps {
   scope: string;
   deploySecondInstanceCron: string;
 }
 
-export class DeployAlbWithEc2Stack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployAlbWithEc2StackProps) {
+export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployAlbWithEc2AutoScalingGroupStackProps
+  ) {
     super(scope, id, props);
 
     /* Deploy with default subnet configuration which deploys ones public subnet and one private subnet.
@@ -29,7 +34,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       this,
       "security-group",
       {
-        securityGroupName: `alb-with-ec2-security-group-${props.scope}`,
+        securityGroupName: `alb-auto-scaling-group-security-group-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -57,7 +62,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       this,
       "launch-template",
       {
-        launchTemplateName: `alb-with-ec2-launch-template-${props.scope}`,
+        launchTemplateName: `alb-auto-scaling-group-launch-template-${props.scope}`,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO
@@ -68,7 +73,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
           this,
           "asg-security-group",
           {
-            securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
+            securityGroupName: `asg-alb-auto-scaling-security-group-${props.scope}`,
             description: "Allow all traffic",
             vpc: vpc,
           }
@@ -89,7 +94,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         allowAllOutbound: true,
-        autoScalingGroupName: `alb-with-ec2-auto-scaling-group-${props.scope}`,
+        autoScalingGroupName: `alb-auto-scaling-group-${props.scope}`,
       }
     );
     // Schedule a second instance to run on a scedule
@@ -105,7 +110,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       "alb",
       {
         securityGroup: securityGroup,
-        loadBalancerName: `alb-with-ec2-${props.scope}`,
+        loadBalancerName: `alb-auto-scaling-${props.scope}`,
         vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
@@ -119,7 +124,7 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
       port: 80,
       targets: [autoScalingGroup],
-      targetGroupName: `alb-with-ec2-target-${props.scope}`,
+      targetGroupName: `alb-auto-scaling-${props.scope}`,
       healthCheck: {
         enabled: true,
         healthyThresholdCount: 2,

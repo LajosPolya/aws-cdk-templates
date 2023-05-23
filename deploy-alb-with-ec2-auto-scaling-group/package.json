@@ -1,8 +1,8 @@
 {
-  "name": "deploy-alb-with-ec2",
+  "name": "deploy-alb-with-ec2-auto-scaling-group",
   "version": "0.1.0",
   "bin": {
-    "deploy-alb-with-ec2": "bin/deploy-alb-with-ec2.js"
+    "deploy-alb-with-ec2-auto-scaling-group": "bin/deploy-alb-with-ec2-auto-scaling-group.js"
   },
   "scripts": {
     "build": "tsc",

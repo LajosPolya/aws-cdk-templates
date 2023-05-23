@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/deploy-alb-with-ec2.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/deploy-alb-with-ec2-auto-scaling-group.ts",
   "watch": {
     "include": ["**"],
     "exclude": [
