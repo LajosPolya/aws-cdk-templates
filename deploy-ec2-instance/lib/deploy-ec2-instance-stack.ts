@@ -17,9 +17,6 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
       ),
-      enableDnsHostnames: true,
-      enableDnsSupport: true,
-      defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
       availabilityZones: [`${props.env!.region!}a`],
       natGateways: 0,
       subnetConfiguration: [

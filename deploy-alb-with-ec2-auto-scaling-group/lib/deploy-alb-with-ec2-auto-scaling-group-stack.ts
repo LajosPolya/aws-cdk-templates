@@ -27,8 +27,6 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       ),
       enableDnsHostnames: false,
       enableDnsSupport: true,
-      // TODO: This is the default so remove from all instances of VPC
-      defaultInstanceTenancy: cdk.aws_ec2.DefaultInstanceTenancy.DEFAULT,
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
