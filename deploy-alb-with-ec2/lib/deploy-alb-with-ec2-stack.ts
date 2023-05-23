@@ -53,18 +53,6 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
     );
 
-    // TODO: Do we need a SG for the ASG or is one automatically created when attaching the
-    // target to the ALB?
-    const asgSecurityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "asg-security-group",
-      {
-        securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-      }
-    );
-
     const launchTemplate = new cdk.aws_ec2.LaunchTemplate(
       this,
       "launch-template",
@@ -76,7 +64,15 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userData,
-        securityGroup: asgSecurityGroup,
+        securityGroup: new cdk.aws_ec2.SecurityGroup(
+          this,
+          "asg-security-group",
+          {
+            securityGroupName: `asg-alb-with-ec2-security-group-${props.scope}`,
+            description: "Allow all traffic",
+            vpc: vpc,
+          }
+        ),
       }
     );
 
@@ -112,7 +108,6 @@ export class DeployAlbWithEc2Stack extends cdk.Stack {
         loadBalancerName: `alb-with-ec2-${props.scope}`,
         vpc: vpc,
         internetFacing: true,
-        // vpcSubnets:
         deletionProtection: false,
       }
     );
