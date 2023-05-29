@@ -1,4 +1,4 @@
-# Deploy Application Load Balancer with EC@
+# Deploy Application Load Balancer with EC2
 
 This CDK app deploys an Application Load Balancer whose target is an Auto Scaling Group used to scale a set of EC2 instances.
 
