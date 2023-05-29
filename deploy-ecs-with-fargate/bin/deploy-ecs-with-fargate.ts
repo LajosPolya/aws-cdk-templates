@@ -11,7 +11,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
 new DeployEcsWithFargateStack(app, "DeployEcsWithFargateStack", {
-  stackName: `deploy-ecs-with-fargate-${scope}`,
+  stackName: `ecsWithFargate-${scope}`,
   ecrName,
   scope,
   env: {

@@ -31,28 +31,28 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ecs-with-fargate-subnet-group-${props.scope}`,
+          name: `ecsWithFargateSubnetGroup-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
     });
 
     const cluster = new cdk.aws_ecs.Cluster(this, "cluster", {
-      clusterName: `ecs-with-fargate-cluster-${props.scope}`,
+      clusterName: `ecsWithFargateCluster-${props.scope}`,
       vpc: vpc,
       enableFargateCapacityProviders: true,
     });
 
     const fargateTaskDef = new cdk.aws_ecs.FargateTaskDefinition(
       this,
-      "fargate-task-definition",
+      "fargateTaskDefinition",
       {
         cpu: 256,
         memoryLimitMiB: 512,
-        family: `ecs-with-fargate-family-${props.scope}`,
+        family: `ecsWithFargateFamily-${props.scope}`,
       }
     );
-    fargateTaskDef.addContainer("api-container", {
+    fargateTaskDef.addContainer("apiContainer", {
       image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
       essential: true,
       portMappings: [
@@ -61,8 +61,8 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         },
       ],
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
-        streamPrefix: `ecs-with-fargate-api-logs-${props.scope}`,
-        logGroup: new cdk.aws_logs.LogGroup(this, "log-group", {
+        streamPrefix: `ecsWithFargateApiLogs-${props.scope}`,
+        logGroup: new cdk.aws_logs.LogGroup(this, "logGroup", {
           logGroupName: `/ecs-with-fargate-api/${props.scope}`,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -74,7 +74,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       this,
       "security-group",
       {
-        securityGroupName: `ecs-with-fargate-security-group-${props.scope}`,
+        securityGroupName: `ecsWithFargateSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -86,7 +86,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       cdk.aws_ec2.Port.allTcp(),
       "Allow all TCP"
     );
-    new cdk.aws_ecs.FargateService(this, "fargate-service", {
+    new cdk.aws_ecs.FargateService(this, "fargateService", {
       taskDefinition: fargateTaskDef,
       assignPublicIp: true,
       vpcSubnets: vpc.selectSubnets({
@@ -94,7 +94,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       }),
       cluster: cluster,
       desiredCount: 1,
-      serviceName: `fargate-service-${props.scope}`,
+      serviceName: `fargateService-${props.scope}`,
       platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
       securityGroups: [securityGroup],
     });
