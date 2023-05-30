@@ -11,7 +11,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
 new DeployEcsWithEc2Stack(app, "DeployEcsWithEc2Stack", {
-  stackName: `deploy-ecs-with-ec2-${scope}`,
+  stackName: `ecsWithEc2-${scope}`,
   ecrName,
   scope,
   env: {

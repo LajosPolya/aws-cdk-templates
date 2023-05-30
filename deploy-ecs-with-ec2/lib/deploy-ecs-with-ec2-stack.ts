@@ -34,14 +34,14 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ecs-with-ec2-subnet-group-${props.scope}`,
+          name: `ecsWithEc2SubnetGroup-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
     });
 
     const cluster = new cdk.aws_ecs.Cluster(this, "cluster", {
-      clusterName: `ecs-with-ec2-cluster-${props.scope}`,
+      clusterName: `ecsWithEc2Cluster-${props.scope}`,
       vpc: vpc,
       capacity: {
         instanceType: cdk.aws_ec2.InstanceType.of(
@@ -53,13 +53,13 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
 
     const ec2TaskDef = new cdk.aws_ecs.Ec2TaskDefinition(
       this,
-      "ec2-task-definition",
+      "ec2TaskDefinition",
       {
         networkMode: cdk.aws_ecs.NetworkMode.HOST,
-        family: `ecs-with-ec2-family-${props.scope}`,
+        family: `ecsWithEc2Family-${props.scope}`,
       }
     );
-    ec2TaskDef.addContainer("api-container", {
+    ec2TaskDef.addContainer("apiContainer", {
       image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
       containerName: `container-${props.scope}`,
       disableNetworking: false,
@@ -67,8 +67,8 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       essential: true,
       memoryLimitMiB: 512,
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
-        streamPrefix: `ecs-with-ec2-api-logs-${props.scope}`,
-        logGroup: new cdk.aws_logs.LogGroup(this, "log-group", {
+        streamPrefix: `ecsWithEc2ApiLogs-${props.scope}`,
+        logGroup: new cdk.aws_logs.LogGroup(this, "logGroup", {
           logGroupName: `/ecs-with-ec2-api/${props.scope}`,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -81,11 +81,11 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       ],
     });
 
-    const ec2Service = new cdk.aws_ecs.Ec2Service(this, "ec2-service", {
+    const ec2Service = new cdk.aws_ecs.Ec2Service(this, "ec2Service", {
       taskDefinition: ec2TaskDef,
       cluster: cluster,
       desiredCount: 1,
-      serviceName: `ec2-service-${props.scope}`,
+      serviceName: `ec2Service-${props.scope}`,
     });
     ec2Service.connections.allowFromAnyIpv4(cdk.aws_ec2.Port.allTcp());
   }
