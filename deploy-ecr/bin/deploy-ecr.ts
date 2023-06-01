@@ -10,7 +10,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
 new DeployEcrStack(app, "DeployEcrStack", {
-  stackName: `deploy-ecr-${repoName}`,
+  stackName: `ecr-${repoName}`,
   repoName,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
