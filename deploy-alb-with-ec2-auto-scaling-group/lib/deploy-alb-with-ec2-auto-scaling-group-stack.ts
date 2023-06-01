@@ -32,9 +32,9 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "security-group",
+      "securityGroup",
       {
-        securityGroupName: `alb-auto-scaling-group-security-group-${props.scope}`,
+        securityGroupName: `albAutoScalingGroupSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -60,9 +60,9 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
 
     const launchTemplate = new cdk.aws_ec2.LaunchTemplate(
       this,
-      "launch-template",
+      "launchTemplate",
       {
-        launchTemplateName: `alb-auto-scaling-group-launch-template-${props.scope}`,
+        launchTemplateName: `albAutoScalingGroupLaunchTemplate-${props.scope}`,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO
@@ -71,9 +71,9 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
         userData: userData,
         securityGroup: new cdk.aws_ec2.SecurityGroup(
           this,
-          "asg-security-group",
+          "asgSecurityGroup",
           {
-            securityGroupName: `asg-alb-auto-scaling-security-group-${props.scope}`,
+            securityGroupName: `asgAlbAutoScalingSecurityGroup-${props.scope}`,
             description: "Allow all traffic",
             vpc: vpc,
           }
@@ -83,7 +83,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
 
     const autoScalingGroup = new cdk.aws_autoscaling.AutoScalingGroup(
       this,
-      "auto-scaling-group",
+      "autoScalingGroup",
       {
         vpc: vpc,
         launchTemplate: launchTemplate,
@@ -94,11 +94,11 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         allowAllOutbound: true,
-        autoScalingGroupName: `alb-auto-scaling-group-${props.scope}`,
+        autoScalingGroupName: `albAutoScalingGroup-${props.scope}`,
       }
     );
     // Schedule a second instance to run on a scedule
-    autoScalingGroup.scaleOnSchedule("scale-on-schedule", {
+    autoScalingGroup.scaleOnSchedule("scaleOnSchedule", {
       schedule: cdk.aws_autoscaling.Schedule.expression(
         props.deploySecondInstanceCron
       ),
@@ -110,13 +110,13 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       "alb",
       {
         securityGroup: securityGroup,
-        loadBalancerName: `alb-auto-scaling-${props.scope}`,
+        loadBalancerName: `albAutoScaling-${props.scope}`,
         vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
       }
     );
-    const listener = alb.addListener("internet-listener", {
+    const listener = alb.addListener("internetListener", {
       port: 80,
       open: true,
     });
@@ -124,7 +124,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
       port: 80,
       targets: [autoScalingGroup],
-      targetGroupName: `alb-auto-scaling-${props.scope}`,
+      targetGroupName: `albAutoScaling-${props.scope}`,
       healthCheck: {
         enabled: true,
         healthyThresholdCount: 2,

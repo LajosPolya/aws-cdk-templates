@@ -15,7 +15,7 @@ new DeployAlbWithEc2AutoScalingGroupStack(
   app,
   "DeployAlbWithEc2AutoScalingGroupStack",
   {
-    stackName: `deploy-alb-with-ec2-auto-scaling-group-${scope}`,
+    stackName: `albWithEc2AutoScalingGroup-${scope}`,
     scope,
     deploySecondInstanceCron,
     env: {
