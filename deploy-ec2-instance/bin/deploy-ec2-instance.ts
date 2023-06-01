@@ -10,7 +10,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
 new DeployEc2InstanceStack(app, "DeployEc2InstanceStack", {
-  stackName: `deploy-ec2-instance-${scope}`,
+  stackName: `ec2Instance-${scope}`,
   scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,

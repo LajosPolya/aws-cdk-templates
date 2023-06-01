@@ -22,7 +22,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ec2-instance-subnet-group-${props.scope}`,
+          name: `ec2InstanceSubnetGroup-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
@@ -30,9 +30,9 @@ export class DeployEc2InstanceStack extends cdk.Stack {
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "security-group",
+      "securityGroup",
       {
-        securityGroupName: `ec2-instance-security-group-${props.scope}`,
+        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -70,7 +70,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
       // role: Does this need a role
-      instanceName: `ec2-instance-${props.scope}`,
+      instanceName: `ec2Instance-${props.scope}`,
     });
   }
 
