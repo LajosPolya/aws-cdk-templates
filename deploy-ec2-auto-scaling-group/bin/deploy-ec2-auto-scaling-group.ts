@@ -12,7 +12,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
 new DeployEc2AutoscalingGroupStack(app, "DeployEc2AutoscalingGroupStack", {
-  stackName: `deploy-ec2-auto-scaling-group-${scope}`,
+  stackName: `ec2AutoScalingGroup-${scope}`,
   scope,
   deploySecondInstanceCron,
   env: {

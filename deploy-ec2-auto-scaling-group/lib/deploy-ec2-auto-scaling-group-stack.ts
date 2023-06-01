@@ -23,7 +23,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ec2-auto-scaling-subnet-group-${props.scope}`,
+          name: `ec2AutoScalingSubnetGroup-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
@@ -31,9 +31,9 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "security-group",
+      "securityGroup",
       {
-        securityGroupName: `ec2-auto-scaling-security-group-${props.scope}`,
+        securityGroupName: `ec2AutoScalingSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
         allowAllOutbound: true,
@@ -61,7 +61,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       this,
       "launch-template",
       {
-        launchTemplateName: `ec2-auto-scaling-group-launch-template-${props.scope}`,
+        launchTemplateName: `ec2AutoScalingGroupLaunchTemplate-${props.scope}`,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO
@@ -74,7 +74,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
 
     const autoScalingGroup = new cdk.aws_autoscaling.AutoScalingGroup(
       this,
-      "auto-scaling-group",
+      "autoScalingGroup",
       {
         vpc: vpc,
         launchTemplate: launchTemplate,
@@ -85,11 +85,11 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
         allowAllOutbound: true,
-        autoScalingGroupName: `ec2-auto-scaling-group-${props.scope}`,
+        autoScalingGroupName: `ec2AutoScalingGroup-${props.scope}`,
       }
     );
     // Schedule a second instance to run on a scedule
-    autoScalingGroup.scaleOnSchedule("scale-on-schedule", {
+    autoScalingGroup.scaleOnSchedule("scaleOnSchedule", {
       schedule: cdk.aws_autoscaling.Schedule.expression(
         props.deploySecondInstanceCron
       ),
