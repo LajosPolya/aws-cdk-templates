@@ -28,17 +28,13 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "security-group",
-      {
-        securityGroupName: `alb-ec2-instance-security-group-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
+    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
+      securityGroupName: `albEc2InstanceSecurityGroup-${props.scope}`,
+      description: "Allow all traffic",
+      vpc: vpc,
+      allowAllOutbound: true,
+      allowAllIpv6Outbound: true,
+    });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
@@ -56,7 +52,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
     );
 
-    const ec2Instance1 = new cdk.aws_ec2.Instance(this, "ec2-istance-1", {
+    const ec2Instance1 = new cdk.aws_ec2.Instance(this, "ec2Instance1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
@@ -70,10 +66,10 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
       // role: Does this need a role
-      instanceName: `ec2-instance-1-${props.scope}`,
+      instanceName: `ec2Instance1-${props.scope}`,
     });
 
-    const ec2Instance2 = new cdk.aws_ec2.Instance(this, "ec2-istance-2", {
+    const ec2Instance2 = new cdk.aws_ec2.Instance(this, "ec2Instance2", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
@@ -87,7 +83,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
       // role: Does this need a role
-      instanceName: `ec2-instance-2-${props.scope}`,
+      instanceName: `ec2Instance2-${props.scope}`,
     });
 
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
@@ -95,13 +91,13 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       "alb",
       {
         securityGroup: securityGroup,
-        loadBalancerName: `alb-ec2-instance-${props.scope}`,
+        loadBalancerName: `albEc2Instance-${props.scope}`,
         vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
       }
     );
-    const listener = alb.addListener("internet-listener", {
+    const listener = alb.addListener("internetListener", {
       port: 80,
       open: true,
     });
@@ -113,7 +109,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
       port: 80,
       targets: [instance1Target, instance2Target],
-      targetGroupName: `alb-ec2-instance-${props.scope}`,
+      targetGroupName: `albEc2Instance-${props.scope}`,
       healthCheck: {
         enabled: true,
         healthyThresholdCount: 2,
