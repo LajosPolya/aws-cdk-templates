@@ -30,17 +30,13 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "securityGroup",
-      {
-        securityGroupName: `albAutoScalingGroupSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
+    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
+      securityGroupName: `albAutoScalingGroupSecurityGroup-${props.scope}`,
+      description: "Allow all traffic",
+      vpc: vpc,
+      allowAllOutbound: true,
+      allowAllIpv6Outbound: true,
+    });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
@@ -69,15 +65,11 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userData,
-        securityGroup: new cdk.aws_ec2.SecurityGroup(
-          this,
-          "asgSecurityGroup",
-          {
-            securityGroupName: `asgAlbAutoScalingSecurityGroup-${props.scope}`,
-            description: "Allow all traffic",
-            vpc: vpc,
-          }
-        ),
+        securityGroup: new cdk.aws_ec2.SecurityGroup(this, "asgSecurityGroup", {
+          securityGroupName: `asgAlbAutoScalingSecurityGroup-${props.scope}`,
+          description: "Allow all traffic",
+          vpc: vpc,
+        }),
       }
     );
 
