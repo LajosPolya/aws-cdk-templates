@@ -29,8 +29,6 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 `curl --location 'http://<alb_dns>:80'`
 
-Currently this will only work in us-east-2 because of a bug: https://github.com/aws/aws-cdk/issues/21690
-
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 `cdk destroy -c scope=<scope>`

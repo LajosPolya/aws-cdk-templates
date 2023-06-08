@@ -73,11 +73,4 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       instanceName: `ec2Instance-${props.scope}`,
     });
   }
-
-  // TODO: this is a bug
-  // https://github.com/aws/aws-cdk/issues/21690
-  customAvailabilityZones = ["us-east-2a"];
-  get availabilityZones() {
-    return this.customAvailabilityZones;
-  }
 }

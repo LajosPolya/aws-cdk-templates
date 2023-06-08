@@ -1,8 +1,6 @@
 # Welcome to your CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This CDK app deploys a Network Load Balancer whose target is an Auto Scaling Group used to scale a set of EC2 instances.
 
 ## Useful commands
 
@@ -32,8 +30,6 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 ### cURL
 
 `curl --location 'http://<nlb_dns>:80'`
-
-Currently this will only work in us-east-2 because of a bug: https://github.com/aws/aws-cdk/issues/21690
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 

@@ -122,11 +122,4 @@ export class DeployNlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       },
     });
   }
-
-  // TODO: this is a bug
-  // https://github.com/aws/aws-cdk/issues/21690
-  customAvailabilityZones = ["us-east-2a", "us-east-2b"];
-  get availabilityZones() {
-    return this.customAvailabilityZones;
-  }
 }

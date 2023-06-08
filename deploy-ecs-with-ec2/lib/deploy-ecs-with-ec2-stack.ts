@@ -89,11 +89,4 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
     });
     ec2Service.connections.allowFromAnyIpv4(cdk.aws_ec2.Port.allTcp());
   }
-
-  // TODO: this is a bug
-  // https://github.com/aws/aws-cdk/issues/21690
-  customAvailabilityZones = ["us-east-2a"];
-  get availabilityZones() {
-    return this.customAvailabilityZones;
-  }
 }

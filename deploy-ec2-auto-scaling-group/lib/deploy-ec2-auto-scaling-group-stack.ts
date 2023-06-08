@@ -96,11 +96,4 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       desiredCapacity: 2,
     });
   }
-
-  // TODO: this is a bug
-  // https://github.com/aws/aws-cdk/issues/21690
-  customAvailabilityZones = ["us-east-2a"];
-  get availabilityZones() {
-    return this.customAvailabilityZones;
-  }
 }
