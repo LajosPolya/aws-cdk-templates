@@ -1,4 +1,4 @@
-# Welcome to your CDK TypeScript project
+# Deploy Network Load Balancer with EC2
 
 This CDK app deploys a Network Load Balancer whose target is an Auto Scaling Group used to scale a set of EC2 instances.
 
