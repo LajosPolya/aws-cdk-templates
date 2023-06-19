@@ -53,7 +53,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       }
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr),
       essential: true,
       portMappings: [
         {

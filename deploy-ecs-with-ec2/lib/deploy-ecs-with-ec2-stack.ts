@@ -60,7 +60,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       }
     );
     ec2TaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr),
       containerName: `container-${props.scope}`,
       disableNetworking: false,
       startTimeout: cdk.Duration.minutes(2),
