@@ -1,4 +1,5 @@
 import * as cdk from "aws-cdk-lib";
+import { NatProvider } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 
 export interface DeployNlbWithEcsFargateStackProps extends cdk.StackProps {
@@ -71,8 +72,14 @@ export class DeployNlbWithEcsFargateStack extends cdk.Stack {
           desiredCount: 2,
           taskDefinition: fargateTaskDef,
           publicLoadBalancer: true,
+          serviceName: `nlbWithEcsFargate-${props.scope}`,
         }
       );
+    // Allow conection from NLB
+    // TODO: change this to `Peer.ipv4(vpc.vpcCidrBlock)` instead if allTcp
+    nlbEcsFargate.service.connections.allowFromAnyIpv4(
+      cdk.aws_ec2.Port.allTcp()
+    );
 
     nlbEcsFargate.targetGroup.configureHealthCheck({
       enabled: true,
