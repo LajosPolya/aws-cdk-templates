@@ -41,11 +41,11 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
       {
         cpu: 256,
         memoryLimitMiB: 512,
-        family: `ecsWithFargateFamily-${props.scope}`,
+        family: `albWithEcsFamily-${props.scope}`,
       }
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, "latest"),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr),
       essential: true,
       portMappings: [
         {
@@ -53,9 +53,9 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
         },
       ],
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
-        streamPrefix: `ecsWithFargateApiLogs-${props.scope}`,
+        streamPrefix: `albWithEcsLogs-${props.scope}`,
         logGroup: new cdk.aws_logs.LogGroup(this, "logGroup", {
-          logGroupName: `/ecs-with-fargate-api/${props.scope}`,
+          logGroupName: `/alb-with-ecs/${props.scope}`,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
         }),
