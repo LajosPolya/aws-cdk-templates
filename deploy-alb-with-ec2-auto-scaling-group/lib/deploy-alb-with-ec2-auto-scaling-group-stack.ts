@@ -30,17 +30,21 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
-      securityGroupName: `albAutoScalingGroupSecurityGroup-${props.scope}`,
-      description: "Allow all traffic",
-      vpc: vpc,
-      allowAllOutbound: true,
-      allowAllIpv6Outbound: true,
-    });
-    securityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP"
+    const launchTemplateSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "securityGroup",
+      {
+        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+        description: "Allow all traffic",
+        vpc: vpc,
+        allowAllOutbound: true,
+        allowAllIpv6Outbound: true,
+      }
+    );
+    launchTemplateSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.ipv4(vpc.vpcCidrBlock),
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow connection from teh VPC (including the ALB)"
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
@@ -65,11 +69,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userData,
-        securityGroup: new cdk.aws_ec2.SecurityGroup(this, "asgSecurityGroup", {
-          securityGroupName: `asgAlbAutoScalingSecurityGroup-${props.scope}`,
-          description: "Allow all traffic",
-          vpc: vpc,
-        }),
+        securityGroup: launchTemplateSecurityGroup,
       }
     );
 
@@ -97,11 +97,28 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       desiredCapacity: 2,
     });
 
+    const albSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "albSecurityGroup",
+      {
+        securityGroupName: `albSecurityGroup-${props.scope}`,
+        description: "ALB Security Group",
+        vpc: vpc,
+        allowAllOutbound: true,
+        allowAllIpv6Outbound: true,
+      }
+    );
+    albSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.anyIpv4(),
+      cdk.aws_ec2.Port.allTcp(),
+      "Allow all TCP"
+    );
+
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
       this,
       "alb",
       {
-        securityGroup: securityGroup,
+        securityGroup: albSecurityGroup,
         loadBalancerName: `albAutoScaling-${props.scope}`,
         vpc: vpc,
         internetFacing: true,

@@ -75,10 +75,10 @@ export class DeployNlbWithEcsFargateStack extends cdk.Stack {
           serviceName: `nlbWithEcsFargate-${props.scope}`,
         }
       );
-    // Allow conection from NLB
-    // TODO: change this to `Peer.ipv4(vpc.vpcCidrBlock)` instead if allTcp
-    nlbEcsFargate.service.connections.allowFromAnyIpv4(
-      cdk.aws_ec2.Port.allTcp()
+    nlbEcsFargate.service.connections.allowFrom(
+      cdk.aws_ec2.Peer.ipv4(vpc.vpcCidrBlock),
+      cdk.aws_ec2.Port.tcp(8080),
+      "Allow connections from the VPC (including the NLB)"
     );
 
     nlbEcsFargate.targetGroup.configureHealthCheck({
