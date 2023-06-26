@@ -149,6 +149,23 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       priority: 1,
     });
 
+    listener.addAction("redirectAction", {
+      action: cdk.aws_elasticloadbalancingv2.ListenerAction.redirect({
+        protocol: "#{protocol}",
+        host: "#{host}",
+        port: "81",
+      }),
+      conditions: [
+        cdk.aws_elasticloadbalancingv2.ListenerCondition.queryStrings([
+          {
+            key: "redirect",
+            value: "true",
+          },
+        ]),
+      ],
+      priority: 2,
+    });
+
     alb.addListener("firstEc2Instance", {
       protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
       port: 81,
