@@ -29,6 +29,8 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 `curl --location 'http://<alb_dns>:80'` -> Contacts one of the two EC2 isntances
 
+`curl --location 'http://<alb_dns>:80/fixedResponse'` -> Returns `"This is a fixed response"`
+
 `curl --location 'http://<alb_dns>:81'` -> Contacts the first EC2 instance
 
 `curl --location 'http://<alb_dns>:82'` -> Contacts the second EC2 instance

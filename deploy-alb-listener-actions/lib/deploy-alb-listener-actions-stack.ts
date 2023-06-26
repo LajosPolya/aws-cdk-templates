@@ -137,6 +137,18 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       },
     });
 
+    listener.addAction("fixedResponseAction", {
+      action: cdk.aws_elasticloadbalancingv2.ListenerAction.fixedResponse(200, {
+        messageBody: "This is a fixed response",
+      }),
+      conditions: [
+        cdk.aws_elasticloadbalancingv2.ListenerCondition.pathPatterns([
+          "/fixedResponse",
+        ]),
+      ],
+      priority: 1,
+    });
+
     alb.addListener("firstEc2Instance", {
       protocol: cdk.aws_elasticloadbalancingv2.ApplicationProtocol.HTTP,
       port: 81,
