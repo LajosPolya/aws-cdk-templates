@@ -1,6 +1,6 @@
 # Deploy Application Load Balancer with Listener Actions
 
-This CDK app deploys an Application Load Balancer whose target is a set of EC2 instances.
+This CDK app deploys an Application Load Balancer whose target is a set of EC2 instances. This deployer also deploys custom listeners which forward traffic to specific a EC2 isntance depending on the port the traffic is transported through.
 
 ## Useful commands
 
@@ -27,7 +27,11 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### cURL
 
-`curl --location 'http://<alb_dns>:80'`
+`curl --location 'http://<alb_dns>:80'` -> Contacts one of the two EC2 isntances
+
+`curl --location 'http://<alb_dns>:81'` -> Contacts the first EC2 instance
+
+`curl --location 'http://<alb_dns>:82'` -> Contacts the second EC2 instance
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
