@@ -4,5 +4,5 @@ This is a simple NojeJS TypeScript AWS Lambda Handler. Once this project is buil
 
 ## Useful commands
 
-* `npm run build`   Builds the handler on Linux systems
-* `npm run build-mingw`   Builds the handler on non-Linux systems for example GitBash installed on Windows. 7zip must also be installed at `"c:\Program Files\7-Zip\7z.exe"`
+- `npm run build` Builds the handler on Linux systems
+- `npm run build-mingw` Builds the handler on non-Linux systems for example GitBash installed on Windows. 7zip must also be installed at `"c:\Program Files\7-Zip\7z.exe"`
