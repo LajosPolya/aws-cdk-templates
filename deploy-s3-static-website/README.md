@@ -1,8 +1,6 @@
 # Deploy an S3 Public Bucket used as a Static Website
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This app deploys a public S3 bucket which can be used as a static website. The instructions below describe how to upload an HTML document to the bucket, this HTML document will be the landing page of the static website.
 
 ## Useful commands
 
