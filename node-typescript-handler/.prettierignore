@@ -1,0 +1,3 @@
+# Copied from .gitignore
+dist
+node_modules
