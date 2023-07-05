@@ -29,4 +29,6 @@ Access the website by its public URL. The URL can be found by visiting the AWS C
 
 > **Warning** The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
+> **Warning** Deleting this bucket will delete all of its contents.
+
 `cdk destroy -c scope=<scope>"`
