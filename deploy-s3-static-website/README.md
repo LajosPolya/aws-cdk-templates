@@ -15,7 +15,7 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 ## Deployment
 
-`cdk deploy -c scope=<scope>"`
+`cdk deploy -c scope=<scope>`
 
 Once the bucket is deployed upload the `resources/index.html` to it.
 
@@ -29,4 +29,4 @@ Access the website by its public URL. The URL can be found by visiting the AWS C
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
-`cdk destroy -c scope=<scope>"`
+`cdk destroy -c scope=<scope>`

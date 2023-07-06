@@ -15,7 +15,7 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 ## Deployment
 
-`cdk deploy -c scope=<scope>"`
+`cdk deploy -c scope=<scope>`
 
 Once the bucket is deployed upload a file to it.
 
@@ -23,4 +23,4 @@ Once the bucket is deployed upload a file to it.
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
-`cdk destroy -c scope=<scope>"`
+`cdk destroy -c scope=<scope>`
