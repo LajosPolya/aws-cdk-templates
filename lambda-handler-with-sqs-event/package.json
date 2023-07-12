@@ -1,0 +1,24 @@
+{
+  "name": "lambda-handler-with-sqs-event",
+  "version": "1.0.0",
+  "description": "Node Lambda Handler whose input is an SQS event",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf dist",
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.js*",
+    "prebuild-mingw": "rm -rf dist",
+    "build-mingw": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild-mingw": "cd dist && \"c:\\Program Files\\7-Zip\\7z.exe\" a index.zip index.js*",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
+  },
+  "author": "Lajos Polya",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.119",
+    "esbuild": "^0.18.11",
+    "prettier": "3.0.0"
+  }
+}
