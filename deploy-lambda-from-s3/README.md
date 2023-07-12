@@ -15,21 +15,21 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 
 ## Deployment
 
-Before deploying this lambda, first follow the instructions to deploy a [private S3 bucket](../deploy-s3-private-bucket/README.md) to deploy and S3 bucket which houses the Lambda handler's code.
+Before deploying this lambda, first follow the instructions to deploy a [private S3 bucket](../deploy-s3-private-bucket/README.md) which houses the Lambda handler's code.
 
 Next, follow the instructions in [node-typescript-handler](../node-typescript-handler/README.md) to build a zip files of the Lambda handler's code.
 
 Then, upload the zip file to the private S3 bucket: 
 
-`cd dist`
+`cd node-typescript-handler/dist`
 
 `aws s3 cp index.zip s3://<bucket_name>`
 
 Finally, deploy the lambda:
 
-`cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>"-c objectKey=<objectKey>`
+`cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
 
-Where `buckerArn` represents the S3 bucket's ARN and `objectKey` represents the object's name in the S3 bucket.
+Where `buckerArn` represents the S3 bucket's ARN and `objectKey` references the zip file's name in the S3 bucket.
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
@@ -41,6 +41,6 @@ To invoke the lambda via CLI execute the following command:
 
 The function name takes the form `bucketCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
-> **Warning** To prevent accidental execution of the lamnda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-`cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>"-c objectKey=<objectKey>`
+`cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
