@@ -17,11 +17,11 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 
 Before deploying this lambda, first follow the instructions to deploy a [private S3 bucket](../deploy-s3-private-bucket/README.md) which houses the Lambda handler's code.
 
-Next, follow the instructions in [node-typescript-handler](../node-typescript-handler/README.md) to build a zip files of the Lambda handler's code.
+Next, follow the instructions in [lambda-handler](../lambda-handler/README.md) to build a zip files of the Lambda handler's code.
 
 Then, upload the zip file to the private S3 bucket: 
 
-`cd node-typescript-handler/dist`
+`cd lambda-handler/dist`
 
 `aws s3 cp index.zip s3://<bucket_name>`
 
