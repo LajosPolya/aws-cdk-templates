@@ -17,7 +17,7 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 
 Before deploying this lambda, first follow the instructions to deploy a [private S3 bucket](../deploy-s3-private-bucket/README.md) which houses the Lambda handler's code.
 
-Next, follow the instructions in [lambda-handler](../lambda-handler/README.md) to build a zip files of the Lambda handler's code.
+Next, follow the instructions in [lambda-handler](../lambda-handler/README.md) to build a zip file of the Lambda handler's code.
 
 Then, upload the zip file to the private S3 bucket: 
 
@@ -27,7 +27,7 @@ Then, upload the zip file to the private S3 bucket:
 
 Finally, deploy the lambda:
 
-`cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
+`cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip`
 
 Where `buckerArn` represents the S3 bucket's ARN and `objectKey` references the zip file's name in the S3 bucket.
 
@@ -44,3 +44,5 @@ The function name takes the form `bucketCodeLambda-<scope>` where scope is the c
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 `cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
+
+Also destroy the S3 bucket by following the instructions in [private S3 bucket](../deploy-s3-private-bucket/README.md#deployment)
