@@ -1,4 +1,4 @@
-# NodeJS TypeScript AWS Lambda Hanlder
+# NodeJS TypeScript AWS Lambda Handler
 
 This is a simple NodeJS TypeScript AWS Lambda Handler. Once this project is built, its zipped distribution file can be used as an AWS Lambda handler.
 

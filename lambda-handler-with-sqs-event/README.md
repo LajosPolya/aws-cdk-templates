@@ -1,4 +1,4 @@
-# NodeJS TypeScript AWS Lambda Hanlder
+# NodeJS TypeScript AWS Lambda Handler
 
 This is NodeJS TypeScript AWS Lambda Handler which can be triggered by an SQS message. Once this project is built, its zipped distribution file can be used as an AWS Lambda handler.
 
