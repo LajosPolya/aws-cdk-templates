@@ -21,8 +21,10 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 - `triggerLambdaCron` is a valid cron expression (in UTC) stating when to trigger the Lambda. For example, `"30 15 * * ? *"`, translates to "trigger the lambda at 3:15pm UTC". More info on the EventBridge scheduler can be found at https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
 
+Once the lambda has been triggered, to look at the logs visit: AWS Console -> CloudWatch -> Log Groups -> `/aws/lambda/lambdaTriggeredByEventBridge-<scope>` -> Most recent Log Stream
+
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-`cdk destroy -c scope=<scope>`
+`cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>`
