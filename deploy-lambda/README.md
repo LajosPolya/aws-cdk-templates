@@ -25,6 +25,6 @@ This deploys a Lambda which when invoked will return a JSON string. To invoke th
 
 The function name takes the form `inlineCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
-> **Warning** To prevent accidental execution of the lamnda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 `cdk destroy -c scope=<scope>`
