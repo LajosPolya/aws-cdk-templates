@@ -15,7 +15,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by even
 
 ## Deployment
 
-Before deploying this lambda, first follow the instructions in [lambda-handler-with-eventbridge-event](../lambda-handler-with-eventbridge-event/README.md) to build a zip files of the Lambda handler's code.
+Before deploying this lambda, first follow the instructions in [lambda-handler-with-eventbridge-event](../lambda-handler-with-eventbridge-event/README.md) to build a zip file of the Lambda handler's code.
 
 `cdk deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"`
 

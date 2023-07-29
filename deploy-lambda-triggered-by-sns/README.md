@@ -15,7 +15,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by mess
 
 ## Deployment
 
-Before deploying this lambda, first follow the instructions in [lambda-handler-with-sns-event](../lambda-handler-with-sns-event/README.md) to build a zip files of the Lambda handler's code.
+Before deploying this lambda, first follow the instructions in [lambda-handler-with-sns-event](../lambda-handler-with-sns-event/README.md) to build a zip file of the Lambda handler's code.
 
 `cdk deploy -c scope=<scope>`
 
