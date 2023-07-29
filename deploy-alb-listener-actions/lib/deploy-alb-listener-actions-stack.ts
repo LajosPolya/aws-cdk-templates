@@ -207,5 +207,11 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
         ),
       ]),
     });
+
+    new cdk.CfnOutput(this, "albDnsName", {
+      description: "The ALB's public DNS name",
+      value: alb.loadBalancerDnsName,
+      exportName: `albDnsName-${props.scope}`,
+    });
   }
 }

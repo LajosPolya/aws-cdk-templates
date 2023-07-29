@@ -19,23 +19,23 @@ This CDK app deploys an Application Load Balancer whose target is a set of EC2 i
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys an Application Load Balancer which can be used to communicate with an HTTP server on two EC2 instances. The server can be accessed by the Application Load Balancer's public DNS which can be found in AWS Console -> EC2 -> Load Balancers -> DNS_name.
-
-### Browser
-
-If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<dns>/`.
+This deploys an Application Load Balancer which can be used to communicate with an HTTP server on two EC2 instances. The server can be accessed by the Application Load Balancer's public DNS name which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL
 
-`curl --location 'http://<alb_dns>:80'` -> Contacts one of the two EC2 isntances
+`curl --location 'http://<albDnsName>:80'` -> Contacts one of the two EC2 isntances
 
-`curl --location 'http://<alb_dns>:80/fixedResponse'` -> Returns `"This is a fixed response"`
+`curl --location 'http://<albDnsName>:80/fixedResponse'` -> Responds with `"This is a fixed response"`
 
-`curl --location 'http://<alb_dns>:80?redirect=true'` -> Redirects the request to the first EC2 instance
+`curl --location 'http://<albDnsName>:80?redirect=true'` -> Redirects the request to the first EC2 instance
 
-`curl --location 'http://<alb_dns>:81'` -> Contacts the first EC2 instance
+`curl --location 'http://<albDnsName>:81'` -> Contacts the first EC2 instance
 
-`curl --location 'http://<alb_dns>:82'` -> Contacts the second EC2 instance
+`curl --location 'http://<albDnsName>:82'` -> Contacts the second EC2 instance
+
+### Browser
+
+If the DNS name doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/`.
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
