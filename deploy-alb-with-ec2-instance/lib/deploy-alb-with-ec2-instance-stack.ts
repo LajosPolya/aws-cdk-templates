@@ -34,7 +34,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       {
         securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "EC2 Security Group",
-        vpc: vpc,
+        vpc,
         allowAllOutbound: true,
         allowAllIpv6Outbound: true,
       }
@@ -61,15 +61,14 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
       allowAllOutbound: true,
-      vpc: vpc,
+      vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      // role: Does this need a role
+      userData,
       instanceName: `ec2Instance1-${props.scope}`,
     });
 
@@ -78,15 +77,14 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
       allowAllOutbound: true,
-      vpc: vpc,
+      vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      // role: Does this need a role
+      userData,
       instanceName: `ec2Instance2-${props.scope}`,
     });
 
@@ -96,7 +94,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       {
         securityGroupName: `albSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
-        vpc: vpc,
+        vpc,
         allowAllOutbound: true,
         allowAllIpv6Outbound: true,
       }
@@ -113,7 +111,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       {
         securityGroup: albSecurityGroup,
         loadBalancerName: `albEc2Instance-${props.scope}`,
-        vpc: vpc,
+        vpc,
         internetFacing: true,
         deletionProtection: false,
       }
@@ -135,6 +133,12 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         enabled: true,
         healthyThresholdCount: 2,
       },
+    });
+
+    new cdk.CfnOutput(this, "albDnsName", {
+      description: "The DNS name of the ALB",
+      value: alb.loadBalancerDnsName,
+      exportName: `albDnsName-${props.scope}`,
     });
   }
 }
