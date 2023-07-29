@@ -21,15 +21,15 @@ This CDK app deploys an Application Load Balancer whose target is an Auto Scalin
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys an Application Load Balancer which can be used to communicate with an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by the Application Load Balancer's public DNS which can be found in AWS Console -> EC2 -> Load Balancers -> DNS_name.
-
-### Browser
-
-If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<dns>/`.
+This deploys an Application Load Balancer which can be used to communicate with an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL
 
-`curl --location 'http://<alb_dns>:80'`
+`curl --location 'http://<albDnsName>'`
+
+### Browser
+
+If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/`.
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 

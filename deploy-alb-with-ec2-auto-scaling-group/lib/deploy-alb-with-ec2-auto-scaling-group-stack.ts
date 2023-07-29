@@ -36,7 +36,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       {
         securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
-        vpc: vpc,
+        vpc,
         allowAllOutbound: true,
         allowAllIpv6Outbound: true,
       }
@@ -68,7 +68,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
           cdk.aws_ec2.InstanceSize.MICRO
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-        userData: userData,
+        userData,
         securityGroup: launchTemplateSecurityGroup,
       }
     );
@@ -103,7 +103,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       {
         securityGroupName: `albSecurityGroup-${props.scope}`,
         description: "ALB Security Group",
-        vpc: vpc,
+        vpc,
         allowAllOutbound: true,
         allowAllIpv6Outbound: true,
       }
@@ -120,7 +120,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       {
         securityGroup: albSecurityGroup,
         loadBalancerName: `albAutoScaling-${props.scope}`,
-        vpc: vpc,
+        vpc,
         internetFacing: true,
         deletionProtection: false,
       }
@@ -138,6 +138,12 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
         enabled: true,
         healthyThresholdCount: 2,
       },
+    });
+
+    new cdk.CfnOutput(this, "albDnsName", {
+      description: "The Load Balancer's DNS name",
+      value: alb.loadBalancerDnsName,
+      exportName: `albDnsName-${props.scope}`,
     });
   }
 }
