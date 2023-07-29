@@ -28,17 +28,13 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       ],
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "securityGroup",
-      {
-        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
+    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
+      securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+      description: "Allow all traffic",
+      vpc,
+      allowAllOutbound: true,
+      allowAllIpv6Outbound: true,
+    });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
@@ -56,7 +52,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
     );
 
-    new cdk.aws_ec2.Instance(this, "ec2-istance", {
+    const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -69,8 +65,19 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      // role: Does this need a role
       instanceName: `ec2Instance-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "publicIp", {
+      description: "Public IP of the EC2 instance",
+      value: instance.instancePublicIp,
+      exportName: `ec2InstancePublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "publicDnsName", {
+      description: "Public DNS name of the EC2 instance",
+      value: instance.instancePublicDnsName,
+      exportName: `ec2InstancePublicDnsName-${props.scope}`,
     });
   }
 }

@@ -19,7 +19,14 @@ This CDK app deploys an EC2 Instance with an HTTP server that is open to the pub
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys an HTTP server on an EC2 instance. The server can be accessed by either the public IP or the public DNS which can be found in AWS Console -> EC2 -> Instances (running) -> instance_id0 -> Auto-assigned IP address or Public IPv4 DNS respectively.
+This deploys an HTTP server on an EC2 instance. The server can be accessed by either the public IP or the public DNS which are both exported by the CDK and therefore printed to the CLI when the app is deployed.
+
+### Command Line
+
+`curl --location 'http://<publicDnsName>'` or `curl --location 'http://<publicIp>'`
+
+### Browser
+
 If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
 
 > **Warning** The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
