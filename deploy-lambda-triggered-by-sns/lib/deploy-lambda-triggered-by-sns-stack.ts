@@ -32,6 +32,7 @@ export class DeployLambdaTriggeredBySnsStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(3),
       functionName: `lambdaTriggeredBySns-${props.scope}`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
+      retryAttempts: 0,
     });
 
     eventSource.bind(lambda);

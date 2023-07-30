@@ -31,6 +31,7 @@ export class DeployLambdaFromS3Stack extends cdk.Stack {
       timeout: cdk.Duration.seconds(3),
       functionName: `bucketCodeLambda-${props.scope}`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
+      retryAttempts: 0,
     });
   }
 }

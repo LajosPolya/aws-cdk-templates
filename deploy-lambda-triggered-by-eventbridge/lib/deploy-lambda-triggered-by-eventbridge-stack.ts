@@ -30,6 +30,7 @@ export class DeployLambdaTriggeredByEventbridgeStack extends cdk.Stack {
         timeout: cdk.Duration.seconds(3),
         functionName: `lambdaTriggeredByEventBridge-${props.scope}`,
         logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
+        retryAttempts: 0,
       },
     );
 

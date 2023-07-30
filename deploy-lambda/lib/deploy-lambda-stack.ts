@@ -26,6 +26,7 @@ exports.handler = async(event) => {
       timeout: cdk.Duration.seconds(3),
       functionName: `inlineCodeLambda-${props.scope}`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
+      retryAttempts: 0,
     });
   }
 }
