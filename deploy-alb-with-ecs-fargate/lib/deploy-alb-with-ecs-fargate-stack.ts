@@ -81,5 +81,11 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
       port: "8080",
       healthyHttpCodes: "204",
     });
+
+    new cdk.CfnOutput(this, "albDnsName", {
+      description: "The Application Load Balancer's public DNS name",
+      value: albEcsFargate.loadBalancer.loadBalancerDnsName,
+      exportName: `albDnsName-${props.scope}`,
+    });
   }
 }
