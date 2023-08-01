@@ -29,17 +29,13 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
       ],
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "securityGroup",
-      {
-        securityGroupName: `ec2AutoScalingSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
+    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
+      securityGroupName: `ec2AutoScalingSecurityGroup-${props.scope}`,
+      description: "Allow all traffic",
+      vpc: vpc,
+      allowAllOutbound: true,
+      allowAllIpv6Outbound: true,
+    });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
@@ -94,6 +90,12 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
         props.deploySecondInstanceCron
       ),
       desiredCapacity: 2,
+    });
+
+    new cdk.CfnOutput(this, "autoscalingGroupName", {
+      description: "The name of the Autoscaling Group",
+      value: autoScalingGroup.autoScalingGroupName,
+      exportName: `autoscalingGroupName-${props.scope}`,
     });
   }
 }
