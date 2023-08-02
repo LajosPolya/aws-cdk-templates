@@ -25,7 +25,7 @@ This deploys a Lambda which when invoked by an SNS message will print the body o
 
 `aws sns publish --topic-arn <topic-arn> --message "Hello World!"`
 
-The `topic-arn` represents the SNS topic's ARN. The ARN can be found on the Simple Notification Service page of the AWS Console.
+The `topic-arn` represents the SNS topic's ARN. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
 To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredBySns-<scope>` -> and click on the most recent Log Stream. The message "Hello World!" will be printed in the logs.
 

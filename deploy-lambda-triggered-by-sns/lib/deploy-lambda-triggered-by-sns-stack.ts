@@ -36,5 +36,11 @@ export class DeployLambdaTriggeredBySnsStack extends cdk.Stack {
     });
 
     eventSource.bind(lambda);
+
+    new cdk.CfnOutput(this, "topicArn", {
+      description: "The ARN of the Topic used to trigger the Lambda",
+      value: topic.topicArn,
+      exportName: `topicArn-${props.scope}`,
+    });
   }
 }
