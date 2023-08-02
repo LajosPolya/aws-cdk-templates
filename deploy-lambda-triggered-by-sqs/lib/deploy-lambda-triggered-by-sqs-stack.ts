@@ -35,5 +35,11 @@ export class DeployLambdaTriggeredBySqsStack extends cdk.Stack {
     });
 
     eventSource.bind(lambda);
+
+    new cdk.CfnOutput(this, "sqsUrl", {
+      description: "The URL of the Queue used to trigger the Lambda",
+      value: queue.queueUrl,
+      exportName: `sqsUrl-${props.scope}`,
+    });
   }
 }
