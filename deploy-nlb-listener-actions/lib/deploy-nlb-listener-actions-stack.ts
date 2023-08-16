@@ -108,7 +108,7 @@ export class DeployNlbListenerActionsStack extends cdk.Stack {
       new cdk.aws_elasticloadbalancingv2_targets.InstanceTarget(ec2Instance1);
     const instance2Target =
       new cdk.aws_elasticloadbalancingv2_targets.InstanceTarget(ec2Instance2);
-    const targetGroup1 = listener.addTargets("firstEc2Instance", {
+    listener.addTargets("bothEc2InstanceTargets", {
       protocol: cdk.aws_elasticloadbalancingv2.Protocol.TCP,
       port: DeployNlbListenerActionsStack.port,
       targets: [instance1Target, instance2Target],
