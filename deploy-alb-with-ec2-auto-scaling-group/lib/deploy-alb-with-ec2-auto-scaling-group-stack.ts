@@ -44,7 +44,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
     launchTemplateSecurityGroup.addIngressRule(
       cdk.aws_ec2.Peer.ipv4(vpc.vpcCidrBlock),
       cdk.aws_ec2.Port.tcp(80),
-      "Allow connection from teh VPC (including the ALB)"
+      "Allow connection from the VPC (including the ALB)"
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
