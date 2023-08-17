@@ -93,6 +93,9 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         loadBalancerName: `albEc2Instance-${props.scope}`,
         vpc,
         internetFacing: true,
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        },
         deletionProtection: false,
       },
     );
@@ -130,6 +133,9 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         loadBalancerName: `nlbEc2Instance-${props.scope}`,
         vpc,
         internetFacing: true,
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+        },
         deletionProtection: false,
       },
     );
