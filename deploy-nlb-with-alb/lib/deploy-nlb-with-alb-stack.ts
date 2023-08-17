@@ -24,21 +24,6 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    const nlb = new cdk.aws_elasticloadbalancingv2.NetworkLoadBalancer(
-      this,
-      "nlb",
-      {
-        crossZoneEnabled: true,
-        loadBalancerName: `nlbEc2Instance-${props.scope}`,
-        vpc,
-        internetFacing: true,
-        vpcSubnets: {
-          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
-        },
-        deletionProtection: false,
-      },
-    );
-
     const ec2SecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "ec2SecurityGroup",
@@ -139,6 +124,21 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         ),
       ],
     });
+
+    const nlb = new cdk.aws_elasticloadbalancingv2.NetworkLoadBalancer(
+      this,
+      "nlb",
+      {
+        crossZoneEnabled: true,
+        loadBalancerName: `nlbEc2Instance-${props.scope}`,
+        vpc,
+        internetFacing: true,
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+        },
+        deletionProtection: false,
+      },
+    );
 
     nlb.addListener("nlbListenerForAlb", {
       port: 80,
