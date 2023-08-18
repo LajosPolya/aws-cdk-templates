@@ -76,7 +76,7 @@ exports.handler = async(event) => {
       "alb",
       {
         securityGroup: albSecurityGroup,
-        loadBalancerName: `albEc2Instance-${props.scope}`,
+        loadBalancerName: `albForLambda-${props.scope}`,
         vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
