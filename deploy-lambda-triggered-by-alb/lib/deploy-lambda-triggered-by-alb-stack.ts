@@ -13,12 +13,6 @@ export class DeployLambdaTriggeredByAlbStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    /* Deploy with default subnet configuration which deploys one public subnet and one private subnet.
-    The default VPC also deploys one NAT Gateway in each AZ thus making the private subnet PRIVATE_WITH_EGRESS
-    which is needed for private instances to communicate with the ALB. The VPC also doesn't need to enable DNS
-    hostnames for instance since the instances don't need access to the public internet, only the ALB needs
-    access to the public internet.
-    */
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
