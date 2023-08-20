@@ -13,7 +13,7 @@ export class DeployS3StaticWebsiteStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    new cdk.aws_s3.Bucket(this, "s3StaticWebsite", {
+    const bucket = new cdk.aws_s3.Bucket(this, "s3StaticWebsite", {
       bucketName: `s3-static-website-${props.scope}`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
@@ -25,6 +25,18 @@ export class DeployS3StaticWebsiteStack extends cdk.Stack {
         ignorePublicAcls: true,
         restrictPublicBuckets: false,
       }),
+    });
+
+    new cdk.CfnOutput(this, "bucketName", {
+      description: "The public bucket's name",
+      value: bucket.bucketName,
+      exportName: `bucketName-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "bucketWebsiteUrl", {
+      description: "The public bucket's website URL",
+      value: bucket.bucketWebsiteUrl,
+      exportName: `bucketWebsiteUrl-${props.scope}`,
     });
   }
 }

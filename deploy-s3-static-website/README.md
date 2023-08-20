@@ -25,11 +25,13 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 Once the bucket is deployed upload the `resources/index.html` to it.
 
-`aws s3 cp resources/index.html s3://<bucket_name>`
+`aws s3 cp resources/index.html s3://<bucketName>`
 
-Access the website by its public URL. The URL can be found by visiting the AWS Consol -> S3 -> Buckets -> bucket_name -> Properties -> Static Website Hosting -> Bucket website endpoint
+The `bucketName` is exported by the CDK and therefore printed to the CLI when this app is deployed.
 
-`curl --location 'http://<s3-static-website-url>'`
+Access the website by its public URL. The URL is exported by the CDK as `s3StaticWebsiteUrl` and therefore printed to the CLI when this app is deployed.
+
+`curl --location '<s3StaticWebsiteUrl>'`
 
 ## Destruction :boom:
 
