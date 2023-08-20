@@ -1,6 +1,6 @@
 # Deploy a Lambda
 
-This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK for simplicity.
+This CDK app deploys a Lambda whose code is stored in a private S3 bucket.
 
 ## Useful commands
 
