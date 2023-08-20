@@ -15,7 +15,13 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 ## Deployment
 
+### *nix/Mac
+
 `cdk deploy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`
 
 Once the bucket is deployed upload the `resources/index.html` to it.
 
@@ -25,8 +31,14 @@ Access the website by its public URL. The URL can be found by visiting the AWS C
 
 `curl --location 'http://<s3-static-website-url>'`
 
-> **Warning** The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> **Warning** The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent unwanted cost, always destroy this AWS environment when it's not in use.
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
+### *nix/Mac
+
 `cdk destroy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`

@@ -15,7 +15,13 @@ This CDK app deploys EC2 instances scaled using an Auto Scaling Group.
 
 ## Deployment
 
+### *nix/Mac
+
 `cdk deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
 
 - `deploySecondInstanceCron` is a valid cron expression (in UTC) stating when to deploy the second EC2 instance. For example, `"30 15 * * *"`, translates to "run the second job at 3:15pm UTC". More info on the cron scheduler can be found at http://crontab.org/
 
@@ -39,4 +45,10 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
+### *nix/Mac
+
 `cdk destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`

@@ -15,7 +15,13 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 ## Deployment
 
+### *nix/Mac
+
 `cdk deploy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`
 
 Once the bucket is deployed upload a file to it.
 
@@ -23,4 +29,10 @@ Once the bucket is deployed upload a file to it.
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
+### *nix/Mac
+
 `cdk destroy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`

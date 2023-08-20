@@ -15,7 +15,13 @@ This CDK app deploys an EC2 Instance with an HTTP server that is open to the pub
 
 ## Deployment
 
-`cdk deploy scope=<scope>`
+### *nix/Mac
+
+`cdk deploy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
@@ -31,4 +37,10 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 > **Warning** The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-`cdk destroy scope=<scope>`
+### *nix/Mac
+
+`cdk destroy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd destroy -c scope=<scope>`

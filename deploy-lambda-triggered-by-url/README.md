@@ -17,7 +17,13 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by call
 
 Before deploying this lambda, first follow the instructions in [lambda-handler](../lambda-handler/README.md) to build a zip file of the Lambda handler's code.
 
-`cdk deploy -c scope=<scope>"`
+### *nix/Mac
+
+`cdk deploy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`
 
 This deploys a Lambda which when invoked by calling its URL will synchronously respond with a JSON message. To invoke the lambda via CLI execute the following command:
 
@@ -29,4 +35,10 @@ The app will set the environment (account and region) based on the the environme
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
+### *nix/Mac
+
 `cdk destroy -c scope=<scope>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope>`

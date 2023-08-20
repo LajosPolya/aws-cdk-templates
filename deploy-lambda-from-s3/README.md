@@ -27,7 +27,13 @@ Then, upload the zip file to the private S3 bucket:
 
 Finally, deploy the lambda:
 
+### *nix/Mac
+
 `cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip`
 
 Where `buckerArn` represents the S3 bucket's ARN and `objectKey` references the zip file's name in the S3 bucket.
 
@@ -43,6 +49,12 @@ The function name takes the form `bucketCodeLambda-<scope>` where scope is the c
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
+### *nix/Mac
+
 `cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
+
+### Git Bash on Windows
+
+`winpty cdk.cmd destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
 
 Also destroy the S3 bucket by following the instructions in [private S3 bucket](../deploy-s3-private-bucket/README.md#deployment)
