@@ -1,4 +1,4 @@
-# Deploy an S3 Public Bucket used as a Static Website
+# Deploy an S3 Private Bucket
 
 This app deploys a private S3 bucket. The bucket can be used to store any type of file such as zipped lambda distribution files.
 

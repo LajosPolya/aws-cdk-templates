@@ -1,4 +1,4 @@
-# Deploy a Lambda
+# Deploy a Lambda Triggered by an SQS Message
 
 This CDK app deploys a Lambda. This Lambda is configured to be triggered by messages on an SQS queue. The Lambda's code is contained in this repo for simplicity.
 

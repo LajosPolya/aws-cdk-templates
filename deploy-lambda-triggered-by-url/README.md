@@ -1,4 +1,4 @@
-# Deploy a Lambda
+# Deploy a Lambda Triggered by its URL
 
 This CDK app deploys a Lambda. This Lambda is configured to be triggered by calling a URL. The Lambda's code is contained in this repo for simplicity.
 

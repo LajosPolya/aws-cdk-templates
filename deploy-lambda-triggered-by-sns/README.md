@@ -1,4 +1,4 @@
-# Deploy a Lambda
+# Deploy a Lambda Triggered by an SNS Event
 
 This CDK app deploys a Lambda. This Lambda is configured to be triggered by messages sent by an SNS topic. The Lambda's code is contained in this repo for simplicity.
 
