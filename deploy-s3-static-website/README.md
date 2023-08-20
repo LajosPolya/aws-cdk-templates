@@ -13,7 +13,7 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -31,7 +31,7 @@ Access the website by its public URL. The URL can be found by visiting the AWS C
 
 `curl --location 'http://<s3-static-website-url>'`
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent unwanted cost, always destroy this AWS environment when it's not in use.
 

@@ -13,7 +13,7 @@ This CDK app deploys EC2 instances scaled using an Auto Scaling Group.
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -43,7 +43,7 @@ The above list of commands outputs a public DNS name for each EC2 isntance in th
 
 If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 

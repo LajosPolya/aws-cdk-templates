@@ -13,7 +13,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by even
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 Before deploying this lambda, first follow the instructions in [lambda-handler-with-eventbridge-event](../lambda-handler-with-eventbridge-event/README.md) to build a zip file of the Lambda handler's code.
 
@@ -31,7 +31,7 @@ Once the lambda has been triggered, to look at the logs visit: AWS Console -> Cl
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 

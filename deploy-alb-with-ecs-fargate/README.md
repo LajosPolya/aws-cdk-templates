@@ -13,7 +13,7 @@ This CDK app deploys an Application Load Balancer whose target is a set of ECS F
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -37,7 +37,7 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/health`.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 

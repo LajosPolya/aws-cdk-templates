@@ -13,7 +13,7 @@ This CDK app deploys an AWS Elastic Container Repository to store docker images.
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -35,7 +35,7 @@ Have a docker image ready. One can be create by following the instruction in [ap
 `docker tag <docker_image_id> <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<new_tag_name>`
 `docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<new_tag_name>`
 
-## Destruction
+## Destruction :boom:
 
 ### *nix/Mac
 

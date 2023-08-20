@@ -13,7 +13,7 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -27,7 +27,7 @@ Once the bucket is deployed upload a file to it.
 
 `aws s3 cp <filename> s3://<bucket_name>`
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** Deleting this bucket will delete all of its contents.
 

@@ -13,7 +13,7 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 Before deploying this lambda, first follow the instructions to deploy a [private S3 bucket](../deploy-s3-private-bucket/README.md) which houses the Lambda handler's code.
 
@@ -47,7 +47,7 @@ To invoke the lambda via CLI execute the following command:
 
 The function name takes the form `bucketCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 

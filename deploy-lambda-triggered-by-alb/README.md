@@ -13,7 +13,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by an A
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 Before deploying this lambda, first follow the instructions in [lambda-handler-with-alb-event](../lambda-handler-with-alb-event/README.md) to build a zip file of the Lambda handler's code.
 
@@ -39,7 +39,7 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredByAlb-<scope>` -> and click on the most recent Log Stream. The Lambda's event and context objects will be printed in the logs.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 

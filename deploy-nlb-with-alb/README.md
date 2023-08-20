@@ -20,7 +20,7 @@ This CDK app deploys a Network Load Balancer whose target is an Application Load
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 ### *nix/Mac
 
@@ -42,7 +42,7 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 `curl --location 'http://<nlb_dns>:80'` -> Contacts one of the two EC2 isntances
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 

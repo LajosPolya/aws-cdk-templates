@@ -13,7 +13,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by mess
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Deployment
+## Deployment :rocket:
 
 Before deploying this lambda, first follow the instructions in [lambda-handler-with-sqs-event](../lambda-handler-with-sqs-event/README.md) to build a zip file of the Lambda handler's code.
 
@@ -35,7 +35,7 @@ The `queue-url` parameter can either be the SQS queue's name or its URL. This va
 
 To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredBySqs-<scope>` -> and click on the most recent Log Stream. The message "hello world" will be printed in the logs.
 
-## Destruction
+## Destruction :boom:
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
