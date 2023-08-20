@@ -15,7 +15,7 @@ This CDK app deploys an AWS Elastic Container Repository to store docker images.
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c repoName=<repo_name>`
 
@@ -37,7 +37,7 @@ Have a docker image ready. One can be create by following the instruction in [ap
 
 ## Destruction :boom:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c repoName=<repo_name>`
 

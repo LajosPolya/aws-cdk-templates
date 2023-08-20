@@ -15,7 +15,7 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
 
@@ -35,7 +35,7 @@ The function name takes the form `inlineCodeLambda-<scope>` where scope is the c
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
 

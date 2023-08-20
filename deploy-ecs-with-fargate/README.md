@@ -15,7 +15,7 @@ This CDK app deploys a Fargate instance within an ECS Cluster.
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c ecrName=<ecr_Name> -c scope=<scope>`
 
@@ -31,7 +31,7 @@ If deploying [micronaut-api](../api/README.md) then once deployed you may access
 
 > **Warning** The compute instance(s) deployed by this app is/are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c ecrName=<ecr_Name> -c scope=<scope>`
 

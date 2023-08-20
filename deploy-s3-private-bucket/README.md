@@ -15,7 +15,7 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
 
@@ -31,7 +31,7 @@ Once the bucket is deployed upload a file to it.
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
 

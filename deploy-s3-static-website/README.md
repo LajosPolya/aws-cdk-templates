@@ -15,7 +15,7 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
 
@@ -37,7 +37,7 @@ Access the website by its public URL. The URL can be found by visiting the AWS C
 
 > **Warning** Deleting this bucket will delete all of its contents.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
 

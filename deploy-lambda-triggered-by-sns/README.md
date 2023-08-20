@@ -17,7 +17,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by mess
 
 Before deploying this lambda, first follow the instructions in [lambda-handler-with-sns-event](../lambda-handler-with-sns-event/README.md) to build a zip file of the Lambda handler's code.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
 
@@ -39,7 +39,7 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
 

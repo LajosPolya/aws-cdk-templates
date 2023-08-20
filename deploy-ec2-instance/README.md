@@ -15,7 +15,7 @@ This CDK app deploys an EC2 Instance with an HTTP server that is open to the pub
 
 ## Deployment :rocket:
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
 
@@ -39,7 +39,7 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 > **Warning** The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
 
