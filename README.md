@@ -20,7 +20,7 @@ The deployment of some of these CDK stacks cost money! To reduce costs, always d
 
 ### Git Bash
 
-If using Windows it is reccomended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with `winpty`, for example, instead of executing `cdk deploy`, execute `winpty cdk deploy`.
+If using Windows it is reccomended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with [winpty](https://github.com/rprichard/winpty), for example, instead of executing `cdk deploy`, execute `winpty cdk.cmd deploy` (NodeJS must be on `PATH` for this to work).
 
 ### 7 Zip
 
