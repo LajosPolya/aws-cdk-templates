@@ -36,13 +36,19 @@ export class DeployLambdaTriggeredByEventbridgeStack extends cdk.Stack {
 
     const target = new cdk.aws_events_targets.LambdaFunction(lambda, {});
 
-    new cdk.aws_events.Rule(this, "rule", {
+    const rule = new cdk.aws_events.Rule(this, "rule", {
       targets: [target],
       schedule: cdk.aws_events.Schedule.expression(
         `cron(${props.triggerLambdaCron})`,
       ),
       description: "EventBridge Rule to Trigger Lambda",
       ruleName: `ruleToTriggerLambda-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "logGroupName", {
+      description: "Name of the Lambda's Log Group",
+      value: lambda.logGroup.logGroupName,
+      exportName: `logGroupName-${props.scope}`,
     });
   }
 }

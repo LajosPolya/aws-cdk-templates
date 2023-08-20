@@ -1,6 +1,6 @@
 # NodeJS TypeScript AWS Lambda Handler
 
-This is a NodeJS TypeScript AWS Lambda Handler which can be triggered by an EventBridge event. Once this project is built, its zipped distribution file can be uploaded to AWS and used as an AWS Lambda handler.
+This is a NodeJS TypeScript AWS Lambda handler which can be triggered by an EventBridge event. Once this project is built, its zipped distribution file can be uploaded to AWS and used as an AWS Lambda handler.
 
 ## Useful commands
 

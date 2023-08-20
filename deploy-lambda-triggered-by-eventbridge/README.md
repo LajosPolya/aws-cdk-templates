@@ -17,7 +17,7 @@ This CDK app deploys a Lambda. This Lambda is configured to be triggered by even
 
 Before deploying this lambda, first follow the instructions in [lambda-handler-with-eventbridge-event](../lambda-handler-with-eventbridge-event/README.md) to build a zip file of the Lambda handler's code.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"`
 
@@ -27,7 +27,7 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 - `triggerLambdaCron` is a valid cron expression (in UTC) stating when to trigger the Lambda. For example, `"30 15 * * ? *"`, translates to "trigger the lambda at 3:15pm UTC". More info on the EventBridge scheduler can be found at https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
 
-Once the lambda has been triggered, to look at the logs visit: AWS Console -> CloudWatch -> Log Groups -> `/aws/lambda/lambdaTriggeredByEventBridge-<scope>` -> Most recent Log Stream
+Once the lambda has been triggered, to look at the logs visit: AWS Console -> CloudWatch -> Log Groups -> `<logGroupName>` -> Most recent Log Stream. The `logGroupName` is exported by the CDK and therefore printed to the CLI when this app is deployed.
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
@@ -35,7 +35,7 @@ The app will set the environment (account and region) based on the the environme
 
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
-### *nix/Mac
+### \*nix/Mac
 
 `cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>`
 
