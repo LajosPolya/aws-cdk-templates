@@ -99,7 +99,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         allowAllIpv6Outbound: true,
       }
     );
-    ec2SecurityGroup.addIngressRule(
+    albSecurityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
       "Allow all TCP"
