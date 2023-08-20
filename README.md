@@ -18,4 +18,10 @@ The deployment of some of these CDK stacks cost money! To reduce costs, always d
 
 ## A note on Windows
 
+### Git Bash
+
 If using Windows it is reccomended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with `winpty`, for example, instead of executing `cdk deploy`, execute `winpty cdk deploy`.
+
+### 7 Zip
+
+The Lambda handlers' build process needs a compression library to zip the distribution files but since Windows doesn't ship with a command line compression library, [7 Zip](https://www.7-zip.org/) must be installed to compress the distribution files.
