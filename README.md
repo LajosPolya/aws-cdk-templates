@@ -1,9 +1,21 @@
 # aws-cdk-templates
 
-The goal of this project is to create templates to deploy AWS infrastructure using AWS CDK in TypeScript. This project has two main types of deployments; the `api`, and the directories with the name `deploy-*`. The [api](api) directory describes how to build a docker image out of a simple [Micronaut](https://micronaut.io/) application. While the `deploy-*` directories describe how to deploy AWS infrastructure. Each directory has its own README describing the deployment process.
+The goal of this project is to create templates to deploy AWS infrastructure using AWS CDK in TypeScript. This project has three main types of directories;
+
+1. `deploy-*` directories deploy AWS infrastructure. Each directory has its own README describing the deployment process.
+2. The [api](api) directory describes how to build a docker image out of a simple [Micronaut](https://micronaut.io/) application.
+3. `lambda-handler*` directories contain Lambda handlers referenced by some of the deployers.
 
 One of the major benefits of deploying AWS infrastructure using AWS CDK is that the infrastructure can be deployed and destroyed programmatically and every deployment is identical. This allows for quick and easy cleanup as well as rapid prototyping.
 
-These deployment examples are meant to be used as an opportunity to learn about AWS infrastructure and should not be used in a production environment.
+These deployment examples are meant to be used as an opportunity to learn about AWS infrastructure and should not be used in production environments.
 
-The deployment of some of these CDK stacks costs money! To reduce costs, always destroy the deployment when it is no longer in use!
+The deployment of some of these CDK stacks cost money! To reduce costs, always destroy the deployment when it is no longer in use!
+
+## Installing the AWS CDK
+
+`npm install -g aws-cdk`
+
+## A note on Windows
+
+If using Windows it is reccomended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with `winpty`, for example, instead of executing `cdk deploy`, execute `winpty cdk deploy`.
