@@ -99,7 +99,7 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         deletionProtection: false,
       },
     );
-    alb.addListener("internetListener", {
+    const albListener = alb.addListener("internetListener", {
       port: 80,
       open: true,
       defaultTargetGroups: [
@@ -140,28 +140,32 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       },
     );
 
+    const nlbTargetGroup =
+      new cdk.aws_elasticloadbalancingv2.NetworkTargetGroup(
+        this,
+        "defaultNetworkTargetGroup",
+        {
+          port: 80,
+          protocol: cdk.aws_elasticloadbalancingv2.Protocol.TCP,
+          targets: [
+            new cdk.aws_elasticloadbalancingv2_targets.AlbTarget(alb, 80),
+          ],
+          targetGroupName: `nlbTargetsAlb-${props.scope}`,
+          healthCheck: {
+            enabled: true,
+            healthyThresholdCount: 2,
+          },
+          vpc,
+        },
+      );
     nlb.addListener("nlbListenerForAlb", {
       port: 80,
-      defaultTargetGroups: [
-        new cdk.aws_elasticloadbalancingv2.NetworkTargetGroup(
-          this,
-          "defaultNetworkTargetGroup",
-          {
-            port: 80,
-            protocol: cdk.aws_elasticloadbalancingv2.Protocol.TCP,
-            targets: [
-              new cdk.aws_elasticloadbalancingv2_targets.AlbTarget(alb, 80),
-            ],
-            targetGroupName: `nlbTargetsAlb-${props.scope}`,
-            healthCheck: {
-              enabled: true,
-              healthyThresholdCount: 2,
-            },
-            vpc,
-          },
-        ),
-      ],
+      defaultTargetGroups: [nlbTargetGroup],
     });
+
+    // Add explicit dependency from the NLB's Target Group to the ALB's Listener to prevent errors when destroying the stack
+    // https://github.com/aws/aws-cdk/issues/17208
+    nlbTargetGroup.node.addDependency(albListener);
 
     new cdk.CfnOutput(this, "nlbDnsName", {
       description: "The DNS name of the NLB",

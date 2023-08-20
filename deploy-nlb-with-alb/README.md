@@ -1,13 +1,10 @@
 # Deploy Network Load Balancer with Listener Actions
 
-> **Warning** Destroying this stack fails with the following error `Listener port '80' is in use by registered target '<EC2 Instance Target ARN>' and cannot be removed` and therefore the ALB must manually be deleted using the AWS Console before trying to delete the stack a second time:
-
 1. Attempt to delete stack (errors out)
 2. Delete ALB manually
 3. Delete stack second time (works)
 
 This CDK app deploys a Network Load Balancer whose target is an Application Load Balancer who has one EC2 target.
-
 
 ## Useful commands
 
