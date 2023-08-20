@@ -27,6 +27,8 @@ Once the bucket is deployed upload a file to it.
 
 `aws s3 cp <filename> s3://<bucket_name>`
 
+## Destruction
+
 > **Warning** Deleting this bucket will delete all of its contents.
 
 ### *nix/Mac

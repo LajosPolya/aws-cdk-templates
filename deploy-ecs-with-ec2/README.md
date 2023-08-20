@@ -27,6 +27,8 @@ The app will set the environment (account and region) based on the the environme
 
 If deploying [micronaut-api](../api/README.md) then once deployed you may access the `/health` endpoint by either the public IP `http://<public_ip>:8080/health` or the public DNS `http://<public_dns>:8080/health` which can be found in AWS Console -> Amazon Elastic Container Service -> Clusters -> cluser_name -> Infrastructure -> Container instance -> container_instance_id -> Public IP or Public DNS respectively.
 
+## Destruction
+
 > **Warning** The compute instance(s) deployed by this app is/are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### *nix/Mac

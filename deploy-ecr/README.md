@@ -35,6 +35,8 @@ Have a docker image ready. One can be create by following the instruction in [ap
 `docker tag <docker_image_id> <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<new_tag_name>`
 `docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<new_tag_name>`
 
+## Destruction
+
 ### *nix/Mac
 
 `cdk destroy -c repoName=<repo_name>`

@@ -35,6 +35,8 @@ The `topic-arn` represents the SNS topic's ARN. This value is exported by the CD
 
 To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredBySns-<scope>` -> and click on the most recent Log Stream. The message "Hello World!" will be printed in the logs.
 
+## Destruction
+
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### *nix/Mac

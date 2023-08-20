@@ -47,6 +47,8 @@ To invoke the lambda via CLI execute the following command:
 
 The function name takes the form `bucketCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
+## Destruction
+
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### *nix/Mac

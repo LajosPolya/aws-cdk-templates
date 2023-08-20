@@ -39,6 +39,8 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredByAlb-<scope>` -> and click on the most recent Log Stream. The Lambda's event and context objects will be printed in the logs.
 
+## Destruction
+
 > **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### *nix/Mac
