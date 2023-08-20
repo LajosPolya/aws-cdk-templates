@@ -161,5 +161,11 @@ export class DeployNlbListenerActionsStack extends cdk.Stack {
           ),
         ]),
     });
+
+    new cdk.CfnOutput(this, "nlbDnsName", {
+      description: "The Network Load Balancer's public DNS name",
+      value: nlb.loadBalancerDnsName,
+      exportName: `nlbDnsName-${props.scope}`,
+    });
   }
 }
