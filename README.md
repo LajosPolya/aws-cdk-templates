@@ -1,4 +1,4 @@
-# aws-cdk-templates
+# aws-cdk-templates :rocket:
 
 The goal of this project is to create templates to deploy AWS infrastructure using AWS CDK in TypeScript. This project has three main types of directories;
 
@@ -12,11 +12,11 @@ These deployment examples are meant to be used as an opportunity to learn about 
 
 The deployment of some of these CDK stacks cost money! To reduce costs, always destroy the deployment when it is no longer in use!
 
-## Installing the AWS CDK
+## Installing the AWS CDK :hammer_and_wrench:
 
 `npm install -g aws-cdk`
 
-## A note on Windows
+## A note on Windows :paperclip:
 
 ### Git Bash
 
