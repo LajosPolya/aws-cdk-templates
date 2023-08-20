@@ -41,5 +41,11 @@ export class DeployLambdaTriggeredBySqsStack extends cdk.Stack {
       value: queue.queueUrl,
       exportName: `sqsUrl-${props.scope}`,
     });
+
+    new cdk.CfnOutput(this, "logGroupName", {
+      description: "The name of the Lambda's Log Group",
+      value: lambda.logGroup.logGroupName,
+      exportName: `logGroupName-${props.scope}`,
+    });
   }
 }

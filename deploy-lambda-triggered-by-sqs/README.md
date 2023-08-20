@@ -33,7 +33,7 @@ This deploys a Lambda which when invoked by an SQS message will print the body o
 
 The `queue-url` parameter can either be the SQS queue's name or its URL. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
-To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredBySqs-<scope>` -> and click on the most recent Log Stream. The message "hello world" will be printed in the logs.
+To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `<logGroupName>` -> and click on the most recent Log Stream. The message "hello world" will be printed in the logs. The `logGroupName` represents the Lambda's Log Group name which is exported by the CDK and therefore printed to the command line when the app is deployed.
 
 ## Destruction :boom:
 
