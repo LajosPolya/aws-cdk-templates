@@ -13,11 +13,17 @@ export class DeployS3PrivateBucketStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    new cdk.aws_s3.Bucket(this, "s3PrivateBucket", {
+    const bucket = new cdk.aws_s3.Bucket(this, "s3PrivateBucket", {
       bucketName: `s3-private-bucket-${props.scope}`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
+    });
+
+    new cdk.CfnOutput(this, "bucketName", {
+      description: "The private bucket's name",
+      value: bucket.bucketName,
+      exportName: `bucketName-${props.scope}`,
     });
   }
 }

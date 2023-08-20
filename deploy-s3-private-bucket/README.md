@@ -25,7 +25,9 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 Once the bucket is deployed upload a file to it.
 
-`aws s3 cp <filename> s3://<bucket_name>`
+`aws s3 cp <filename> s3://<bucketName>`
+
+The `bucketName` is exported by the CDK and therefore printed to the CLI when this app is deployed.
 
 ## Destruction :boom:
 
