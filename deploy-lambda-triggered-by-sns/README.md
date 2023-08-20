@@ -33,7 +33,7 @@ This deploys a Lambda which when invoked by an SNS message will print the body o
 
 The `topic-arn` represents the SNS topic's ARN. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
-To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredBySns-<scope>` -> and click on the most recent Log Stream. The message "Hello World!" will be printed in the logs.
+To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `<logGroupName>` -> and click on the most recent Log Stream. The message "Hello World!" will be printed in the logs. The `logGroupName` represents the Lambda's Log Group name which is exported by the CDK and therefore printed to the command line when the app is deployed.
 
 ## Destruction :boom:
 

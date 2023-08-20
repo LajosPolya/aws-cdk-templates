@@ -42,5 +42,11 @@ export class DeployLambdaTriggeredBySnsStack extends cdk.Stack {
       value: topic.topicArn,
       exportName: `topicArn-${props.scope}`,
     });
+
+    new cdk.CfnOutput(this, "logGroupName", {
+      description: "The name of the Lambda's Log Group",
+      value: lambda.logGroup.logGroupName,
+      exportName: `logGroupName-${props.scope}`,
+    });
   }
 }

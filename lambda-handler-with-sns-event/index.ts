@@ -1,6 +1,6 @@
-import { Context, SNSEvent } from "aws-lambda";
+import { Context, SNSEvent, SNSHandler } from "aws-lambda";
 
-export const handler = async (
+export const handler: SNSHandler = async (
   event: SNSEvent,
   context: Context,
 ): Promise<any> => {
