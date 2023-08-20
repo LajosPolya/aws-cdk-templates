@@ -37,7 +37,7 @@ This deploys a Lambda which when invoked by an ALB event will synchronously resp
 
 If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<alb_dns>/`.
 
-To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `/aws/lambda/lambdaTriggeredByAlb-<scope>` -> and click on the most recent Log Stream. The Lambda's event and context objects will be printed in the logs.
+To find the output of the Lambda visit the AWS Console and go to CloudWatch -> Log groups -> `<logGroupName>` -> and click on the most recent Log Stream. The Lambda's event and context objects will be printed in the logs. The `logGroupName` represents the Lambda's Log Group name which is exported by the CDK and therefore printed to the command line when the app is deployed.
 
 ## Destruction :boom:
 
