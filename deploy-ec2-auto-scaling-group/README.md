@@ -27,7 +27,7 @@ This CDK app deploys EC2 instances scaled using an Auto Scaling Group.
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by either the public IP or the public DNS which can be found by aither following the instructions below or by visiting the AWS Console.
+This deploys an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by either the public IP or the public DNS which can be found by either following the instructions below or by visiting the AWS Console.
 
 `aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names <autoScalingGroupName> | jq ".AutoScalingGroups[0].Instances[].InstanceId" | aws ec2 describe-instances --instance-ids | jq ".Reservations[].Instances[].PublicDnsName"`
 
