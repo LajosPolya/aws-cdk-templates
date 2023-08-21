@@ -1,9 +1,5 @@
 # Deploy Network Load Balancer with Listener Actions
 
-1. Attempt to delete stack (errors out)
-2. Delete ALB manually
-3. Delete stack second time (works)
-
 This CDK app deploys a Network Load Balancer whose target is an Application Load Balancer who has one EC2 target.
 
 ## Useful commands
