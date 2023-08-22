@@ -118,5 +118,11 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
         healthyThresholdCount: 2,
       },
     });
+
+    new cdk.CfnOutput(this, "nlbDnsName", {
+      description: "The DNS name of the NLB",
+      value: nlb.loadBalancerDnsName,
+      exportName: `nlbDnsName-${props.scope}`,
+    });
   }
 }
