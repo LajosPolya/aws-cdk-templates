@@ -98,5 +98,11 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
       securityGroups: [securityGroup],
     });
+
+    new cdk.CfnOutput(this, "clusterArn", {
+      description: "The ARN of the Fargate Cluster",
+      value: cluster.clusterArn,
+      exportName: `fargateClusterArn-${props.scope}`,
+    });
   }
 }
