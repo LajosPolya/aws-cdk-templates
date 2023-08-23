@@ -85,11 +85,5 @@ export class DeployNlbWithEcsFargateStack extends cdk.Stack {
       healthyThresholdCount: 2,
       port: "8080",
     });
-
-    new cdk.CfnOutput(this, "nlbDnsName", {
-      description: "The DNS name of the NLB",
-      value: nlbEcsFargate.loadBalancer.loadBalancerDnsName,
-      exportName: `nlbDnsName-${props.scope}`,
-    });
   }
 }
