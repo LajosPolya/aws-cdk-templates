@@ -25,15 +25,15 @@ This CDK app deploys a Network Load Balancer whose target is a set of ECS Fargat
 
 The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys a Network Load Balancer which can be used to communicate with an HTTP server on two ECS Fargate tasks. The server can be accessed by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
-
-### Browser
-
-If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<dns>/health`.
+This deploys a Network Load Balancer which can be used to communicate with an HTTP server on two ECS Fargate tasks. If deploying [micronaut-api](../api/README.md) from the [ecr repo](../deploy-ecr/README.md) then once deployed you may access the `/health` endpoint by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL
 
 `curl --location 'http://<nlb_dns>:80/health'`
+
+### Browser
+
+If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<dns>/health`.
 
 ## Destruction :boom:
 
