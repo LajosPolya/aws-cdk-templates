@@ -38,7 +38,7 @@ TASK_IP=$(aws ec2 describe-network-interfaces --network-interface-ids $ENI --que
 curl -I --location 'http://'"$TASK_IP"':8080/health'
 ```
 
-`CLUSTER_ARN` is the ARN of the ECS Cluster which is exported by the CDK and therefore printed to the CLI when the app is deployed. This list of commands should out the response status `204`.
+`clusterArn` is the ARN of the ECS Cluster which is exported by the CDK and therefore printed to the CLI when the app is deployed. This list of commands should output the response status `204`.
 
 ## Destruction :boom:
 

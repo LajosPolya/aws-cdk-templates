@@ -29,15 +29,17 @@ The app will set the environment (account and region) based on the the environme
 
 This deploys an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by either the public IP or the public DNS which can be found by either following the instructions below or by visiting the AWS Console.
 
-`aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names <autoScalingGroupName> | jq ".AutoScalingGroups[0].Instances[].InstanceId" | aws ec2 describe-instances --instance-ids | jq ".Reservations[].Instances[].PublicDnsName"`
+### CLI
+
+```Bash
+INSTANCE_IDS=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names <autoScalingGroupName> --query "AutoScalingGroups[0].Instances[].InstanceId" --output text)
+DOMAINS=$(aws ec2 describe-instances --instance-ids $INTANCE_IDS --query "Reservations[].Instances[].PublicDnsName" --output text)
+for VARIABLE in $DOMAINS; do     curl -I --location 'http://'"$VARIABLE"''; done
+```
 
 - `autoScalingGroupName` the name of the Auto Scaling Group. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
-The above list of commands outputs a public DNS name for each EC2 isntance in the specified Auto Scaling Group. Note that both the [AWS CLI](https://github.com/aws/aws-cli) and [jq](https://jqlang.github.io/jq/download/) must be installed. Each public DNS name can be used to communicate with the servers.
-
-### cURL
-
-`curl --location '<publicDnsName>'`
+The above list of commands makes a request to each of the EC2 isntances in the specified Auto Scaling Group. This list of commands should output the response status `200`. Note that the [AWS CLI](https://github.com/aws/aws-cli) must be installed. Each public DNS name can be used to communicate with the servers.
 
 ### Browser
 
