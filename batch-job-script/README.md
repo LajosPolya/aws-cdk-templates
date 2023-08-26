@@ -10,6 +10,7 @@ This is a NodeJS TypeScript AWS Batch Job script which prints a string to the co
 ## Build Process
 
 ```Bash
+npm ci
 npm run build
 # npm run build-mingw # if build on Windows using Git Bash
 
