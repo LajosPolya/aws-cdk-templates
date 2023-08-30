@@ -69,7 +69,6 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      // role: Does this need a role
       instanceName: `ec2Instance1-${props.scope}`,
     });
 
@@ -86,7 +85,6 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      // role: Does this need a role
       instanceName: `ec2Instance2-${props.scope}`,
     });
 
