@@ -29,7 +29,7 @@ The app will set the environment (account and region) based on the the environme
 
 This deploys a Batch Job with a Fargate Task. The Batch Job can be submitted with the following command. Both `jobQueue` and `jobDefinition` are exported by the CDK and therefore printed to the command line when the app is deployed. The job prints `Hello World from Batch Job` to the logs.
 
-` aws batch submit-job --job-name batch-job --job-queue <jobQueue> --job-definition <jobDefinition>`
+`aws batch submit-job --job-name batch-job --job-queue <jobQueue> --job-definition <jobDefinition>`
 
 ## Destruction :boom:
 
