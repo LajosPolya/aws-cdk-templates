@@ -1,7 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployAlbWithLambdaStackProps extends cdk.StackProps {
+export interface DeployBatchJobWithFargateStackProps extends cdk.StackProps {
   scope: string;
   ecrName: string;
 }
@@ -10,7 +10,7 @@ export class DeployBatchJobWithFargateStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployAlbWithLambdaStackProps,
+    props: DeployBatchJobWithFargateStackProps,
   ) {
     super(scope, id, props);
 
