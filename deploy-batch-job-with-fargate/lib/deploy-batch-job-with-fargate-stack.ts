@@ -29,7 +29,7 @@ export class DeployBatchJobWithFargateStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    const batchecurityGroup = new cdk.aws_ec2.SecurityGroup(
+    const batchSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "batchSecurityGroup",
       {
@@ -40,7 +40,7 @@ export class DeployBatchJobWithFargateStack extends cdk.Stack {
         allowAllIpv6Outbound: true,
       },
     );
-    batchecurityGroup.addIngressRule(
+    batchSecurityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.tcp(80),
       "Allow all",
@@ -53,7 +53,7 @@ export class DeployBatchJobWithFargateStack extends cdk.Stack {
         computeEnvironmentName: `batchJobWithFargate-${props.scope}`,
         type: "MANAGED",
         computeResources: {
-          securityGroupIds: [batchecurityGroup.securityGroupId],
+          securityGroupIds: [batchSecurityGroup.securityGroupId],
           maxvCpus: 1,
           subnets: vpc.privateSubnets.map((subnet) => subnet.subnetId),
           type: "FARGATE_SPOT",
