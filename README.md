@@ -16,6 +16,8 @@ The deployment of some of these CDK stacks cost money! To reduce costs, always d
 
 `npm install -g aws-cdk`
 
+After installing the CDK, intall the [AWS CLI](https://aws.amazon.com/cli/) and [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) the CDK to your AWS environment.
+
 ## A note on Windows :paperclip:
 
 ### Git Bash
