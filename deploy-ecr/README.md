@@ -6,7 +6,6 @@ This CDK app deploys an AWS Elastic Container Repository to store docker images.
 
 - `npm run build` compile typescript to js
 - `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
 - `npm run check` checks if files are formatted
 - `npm run format` formats files
 - `cdk deploy` deploy this stack to your default AWS account/region

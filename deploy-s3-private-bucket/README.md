@@ -6,7 +6,6 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 - `npm run build` compile typescript to js
 - `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
 - `npm run check` checks if files are formatted
 - `npm run format` formats files
 - `cdk deploy` deploy this stack to your default AWS account/region

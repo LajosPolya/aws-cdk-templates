@@ -6,7 +6,6 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 - `npm run build` compile typescript to js
 - `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
 - `npm run check` checks if files are formatted
 - `npm run format` formats files
 - `cdk deploy` deploy this stack to your default AWS account/region
