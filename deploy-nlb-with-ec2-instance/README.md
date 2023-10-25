@@ -27,6 +27,8 @@ The app will set the environment (account and region) based on the the environme
 
 This deploys a Network Load Balancer which can be used to communicate with an HTTP server on two EC2 instances. The server can be accessed by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
+> **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
+
 ### cURL
 
 `curl --location 'http://<nlb_dns>:80'`
