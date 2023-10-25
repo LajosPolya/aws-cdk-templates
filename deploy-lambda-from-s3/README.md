@@ -37,7 +37,7 @@ Finally, deploy the lambda:
 
 Where `buckerArn` represents the S3 bucket's ARN and `objectKey` references the zip file's name in the S3 bucket.
 
-The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
+The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
 This deploys a Lambda which when invoked will return a JSON string. Note, the deployer assumes that the handler function is called `handler` and lives in `index.js`.
 

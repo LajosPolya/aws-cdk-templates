@@ -31,7 +31,7 @@ This deploys a Lambda which when invoked by calling its URL will synchronously r
 
 where `lambdaUrl` is the URL of the lambda. The lambda's URL is exported by this CDK app and therefore printed to the CLI when the app is deployed. The lambda's URL can also be found in the AWS Console on the lambda's page.
 
-The app will set the environment (account and region) based on the the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
+The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
 ## Destruction :boom:
 
