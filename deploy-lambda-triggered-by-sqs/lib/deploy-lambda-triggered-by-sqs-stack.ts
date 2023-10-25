@@ -19,6 +19,7 @@ export class DeployLambdaTriggeredBySqsStack extends cdk.Stack {
 
     const eventSource = new cdk.aws_lambda_event_sources.SqsEventSource(queue);
 
+    // The lambda handler must be compiled, otherwise this will throw an error
     const asset = cdk.aws_lambda.Code.fromAsset(
       "../lambda-handler-with-sqs-event/dist/index.zip",
     );

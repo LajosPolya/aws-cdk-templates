@@ -22,7 +22,7 @@ export class DeployLambdaTriggeredByAlbStack extends cdk.Stack {
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
 
-    // The lambda handler must be compiled, otherwise this will error out
+    // The lambda handler must be compiled, otherwise this will throw an error
     const asset = cdk.aws_lambda.Code.fromAsset(
       "../lambda-handler-with-alb-event/dist/index.zip",
     );

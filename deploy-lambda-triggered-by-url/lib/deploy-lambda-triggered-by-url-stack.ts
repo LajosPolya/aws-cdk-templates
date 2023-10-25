@@ -13,6 +13,7 @@ export class DeployLambdaTriggeredByUrlStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
+    // The lambda handler must be compiled, otherwise this will throw an error
     const asset = cdk.aws_lambda.Code.fromAsset(
       "../lambda-handler/dist/index.zip",
     );
