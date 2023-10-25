@@ -5,4 +5,4 @@ This is a simple NodeJS TypeScript AWS Lambda Handler. Once this project is buil
 ## Useful commands
 
 - `npm run build` Builds the handler on Linux systems
-- `npm run build-mingw` Builds the handler on non-Linux systems for example GitBash installed on Windows. [7zip](https://www.7-zip.org/) must also be installed at `"c:\Program Files\7-Zip\7z.exe"`
+- `npm run build-mingw` Builds the handler on non-Linux systems, for example, GitBash installed on Windows. [7zip](https://www.7-zip.org/) must also be installed at `"c:\Program Files\7-Zip\7z.exe"`
