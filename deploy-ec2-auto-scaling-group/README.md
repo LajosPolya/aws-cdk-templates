@@ -41,7 +41,7 @@ for VARIABLE in $DOMAINS; do     curl -I --location 'http://'"$VARIABLE"''; done
 
 The above list of commands makes a request to each of the EC2 isntances in the specified Auto Scaling Group. This list of commands should output the response status `200`. Note that the [AWS CLI](https://github.com/aws/aws-cli) must be installed. Each public DNS name can be used to communicate with the servers.
 
-### Browser
+### Browser :surfer:
 
 If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
 

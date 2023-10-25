@@ -31,7 +31,7 @@ This deploys an HTTP server on an EC2 instance. The server can be accessed by ei
 
 `curl --location 'http://<publicDnsName>'` or `curl --location 'http://<publicIp>'`
 
-### Browser
+### Browser :surfer:
 
 If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
 

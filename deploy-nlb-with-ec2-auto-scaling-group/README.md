@@ -31,11 +31,11 @@ This deploys a Network Load Balancer which can be used to communicate with an HT
 
 > **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
 
-### cURL
+### cURL :curling_stone:
 
 `curl --location 'http://<nlb_dns>:80'`
 
-### Browser
+### Browser :surfer:
 
 If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<dns>/`.
 

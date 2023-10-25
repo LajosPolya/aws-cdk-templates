@@ -29,11 +29,11 @@ The app will set the environment (account and region) based on the the environme
 
 This deploys an Application Load Balancer which can be used to communicate with an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
-### cURL
+### cURL :curling_stone:
 
 `curl --location 'http://<albDnsName>'`
 
-### Browser
+### Browser :surfer:
 
 If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/`.
 
