@@ -28,7 +28,7 @@ The app will set the environment (account and region) based on the environment v
 
 Reference: https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html
 
-Have a docker image ready. One can be create by following the instruction in [api](../api/README.md)
+Have a docker image ready. One can be created by following the instruction in [api](../api/README.md)
 
 ```Bash
 aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
