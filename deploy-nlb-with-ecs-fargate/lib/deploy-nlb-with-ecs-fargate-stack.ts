@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 
 export interface DeployNlbWithEcsFargateStackProps extends cdk.StackProps {
   ecrName: string;
+  imageTag: string;
   scope: string;
 }
 
@@ -45,7 +46,7 @@ export class DeployNlbWithEcsFargateStack extends cdk.Stack {
       }
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, props.imageTag),
       essential: true,
       portMappings: [
         {

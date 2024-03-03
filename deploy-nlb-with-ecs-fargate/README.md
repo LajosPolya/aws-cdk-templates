@@ -16,11 +16,11 @@ This CDK app deploys a Network Load Balancer whose target is a set of ECS Fargat
 
 ### \*nix/Mac
 
-`cdk deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+`cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 - `ecrName` represents the name of the Elastic Container Repository containing the image to run on the ECS Fargate tasks. Follow the instructions in [deploy-ecr](../deploy-ecr/README.md) to deploy an image of a simple API to an AWS Elastic Container Repository
 
@@ -44,8 +44,8 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+`cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
