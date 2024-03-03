@@ -13,7 +13,7 @@ export class DeployEcrStack extends cdk.Stack {
       repositoryName: props.repoName || "default_name",
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       imageScanOnPush: false,
-      autoDeleteImages: true,
+      emptyOnDelete: true,
     });
   }
 }
