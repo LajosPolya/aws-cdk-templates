@@ -14,6 +14,7 @@
 - [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
 ## Build and Run via Docker
+    # as a prerequisite, install and run docker
     ./gradlew build
 
     docker build -t micronaut-api:latest ./
