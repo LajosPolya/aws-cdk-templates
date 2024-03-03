@@ -16,11 +16,11 @@ This CDK app deploys a Fargate instance within an ECS Cluster.
 
 ### \*nix/Mac
 
-`cdk deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+`cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 - `ecrName` represents the name of the Elastic Container Repository containing the image to run on the ECS Fargate tasks. Follow the instructions in [deploy-ecr](../deploy-ecr/README.md) to deploy an image of a simple API to an AWS Elastic Container Repository
 
@@ -45,8 +45,8 @@ curl -I --location 'http://'"$TASK_IP"':8080/health'
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+`cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`

@@ -6,6 +6,7 @@ import { DeployEcsWithFargateStack } from "../lib/deploy-ecs-with-fargate-stack"
 const app = new cdk.App();
 
 const ecrName = app.node.getContext("ecrName");
+const imageTag = app.node.getContext("tag");
 const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
@@ -13,6 +14,7 @@ const region = app.node.tryGetContext("region");
 new DeployEcsWithFargateStack(app, "DeployEcsWithFargateStack", {
   stackName: `ecsWithFargate-${scope}`,
   ecrName,
+  imageTag,
   scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
