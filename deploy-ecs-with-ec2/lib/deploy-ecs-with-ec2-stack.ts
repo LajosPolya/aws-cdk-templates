@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 
 export interface DeployEc2WithFargateStackProps extends cdk.StackProps {
   ecrName: string;
+  imageTag: string;
   scope: string;
 }
 
@@ -60,7 +61,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       }
     );
     ec2TaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, props.imageTag),
       containerName: `container-${props.scope}`,
       disableNetworking: false,
       startTimeout: cdk.Duration.minutes(2),
