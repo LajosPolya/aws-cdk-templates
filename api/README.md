@@ -22,5 +22,3 @@
 
     # call the API via `curl`
     curl localhost:8080/health -v
-
-
