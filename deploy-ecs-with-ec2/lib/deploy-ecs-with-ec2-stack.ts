@@ -89,5 +89,11 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       serviceName: `ec2Service-${props.scope}`,
     });
     ec2Service.connections.allowFromAnyIpv4(cdk.aws_ec2.Port.allTcp());
+
+    new cdk.CfnOutput(this, "clusterArn", {
+      description: "The ARN of the Fargate Cluster",
+      value: cluster.clusterArn,
+      exportName: `ecsClusterArn-${props.scope}`,
+    });
   }
 }
