@@ -6,7 +6,7 @@ import { DeployAlbWithEc2AutoScalingGroupStack } from "../lib/deploy-alb-with-ec
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
 const deploySecondInstanceCron = app.node.getContext(
-  "deploySecondInstanceCron"
+  "deploySecondInstanceCron",
 );
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
@@ -22,5 +22,5 @@ new DeployAlbWithEc2AutoScalingGroupStack(
       account: account || process.env.CDK_DEFAULT_ACCOUNT,
       region: region || process.env.CDK_DEFAULT_REGION,
     },
-  }
+  },
 );
