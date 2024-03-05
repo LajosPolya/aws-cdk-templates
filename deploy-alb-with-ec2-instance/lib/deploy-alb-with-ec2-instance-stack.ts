@@ -9,7 +9,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployAlbWithEc2InstanceStackProps
+    props: DeployAlbWithEc2InstanceStackProps,
   ) {
     super(scope, id, props);
 
@@ -21,12 +21,27 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
     */
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
-        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
+        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       enableDnsHostnames: false,
       enableDnsSupport: true,
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
+
+    const albSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "albSecurityGroup",
+      {
+        securityGroupName: `albSecurityGroup-${props.scope}`,
+        description: "Allow all traffic",
+        vpc,
+      },
+    );
+    albSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.anyIpv4(),
+      cdk.aws_ec2.Port.allTcp(),
+      "Allow all TCP",
+    );
 
     const ec2SecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -35,14 +50,12 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "EC2 Security Group",
         vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
+      },
     );
     ec2SecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.ipv4(vpc.vpcCidrBlock),
+      cdk.aws_ec2.Peer.securityGroupId(albSecurityGroup.securityGroupId),
       cdk.aws_ec2.Port.tcp(80),
-      "Allow connection from the VPC (including the ALB)"
+      "Allow connection from the ALB",
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
@@ -53,7 +66,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
+      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
     const ec2Instance1 = new cdk.aws_ec2.Instance(this, "ec2Instance1", {
@@ -65,7 +78,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO
+        cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData,
@@ -81,29 +94,12 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO
+        cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData,
       instanceName: `ec2Instance2-${props.scope}`,
     });
-
-    const albSecurityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "albSecurityGroup",
-      {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
-        vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
-      }
-    );
-    albSecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP"
-    );
 
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
       this,
@@ -114,7 +110,7 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         vpc,
         internetFacing: true,
         deletionProtection: false,
-      }
+      },
     );
     const listener = alb.addListener("internetListener", {
       port: 80,
