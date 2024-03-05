@@ -35,8 +35,6 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
         securityGroupName: `albSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       },
     );
     albSecurityGroup.addIngressRule(
@@ -52,8 +50,6 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
         securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "EC2 Security Group",
         vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       },
     );
     ec2SecurityGroup.addIngressRule(
