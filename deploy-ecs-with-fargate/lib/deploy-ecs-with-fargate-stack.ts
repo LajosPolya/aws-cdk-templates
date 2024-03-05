@@ -78,8 +78,6 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
         securityGroupName: `ecsWithFargateSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       }
     );
     securityGroup.addIngressRule(

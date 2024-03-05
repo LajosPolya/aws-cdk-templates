@@ -48,7 +48,7 @@ export class DeployNlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       {
         securityGroupName: `asgNlbAutoScalingSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
-        vpc: vpc,
+        vpc,
       }
     );
     // Allow connection from the NLB

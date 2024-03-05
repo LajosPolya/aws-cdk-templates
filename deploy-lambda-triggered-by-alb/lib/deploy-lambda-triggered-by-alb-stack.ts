@@ -45,8 +45,6 @@ export class DeployLambdaTriggeredByAlbStack extends cdk.Stack {
         securityGroupName: `albSecurityGroup-${props.scope}`,
         description: "Allow all traffic",
         vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       },
     );
     albSecurityGroup.addIngressRule(

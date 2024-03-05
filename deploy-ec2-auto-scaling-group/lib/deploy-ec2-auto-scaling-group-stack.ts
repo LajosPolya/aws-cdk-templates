@@ -32,9 +32,7 @@ export class DeployEc2AutoscalingGroupStack extends cdk.Stack {
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
       securityGroupName: `ec2AutoScalingSecurityGroup-${props.scope}`,
       description: "Allow all traffic",
-      vpc: vpc,
-      allowAllOutbound: true,
-      allowAllIpv6Outbound: true,
+      vpc,
     });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
