@@ -50,7 +50,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       "securityGroup",
       {
         securityGroupName: `launchTemplateSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
+        description: "Allow traffic from ALB",
         vpc,
       },
     );
