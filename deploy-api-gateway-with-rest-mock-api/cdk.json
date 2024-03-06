@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/deploy-api-gateway-with-mock-api.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/deploy-api-gateway-with-rest-mock-api.ts",
   "watch": {
     "include": ["**"],
     "exclude": [

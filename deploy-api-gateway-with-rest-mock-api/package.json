@@ -1,8 +1,8 @@
 {
-  "name": "deploy-api-gateway-with-mock-api",
+  "name": "deploy-api-gateway-with-rest-mock-api",
   "version": "0.1.0",
   "bin": {
-    "deploy-api-gateway-with-mock-api": "bin/deploy-api-gateway-with-mock-api.js"
+    "deploy-api-gateway-with-rest-mock-api": "bin/deploy-api-gateway-with-rest-mock-api.js"
   },
   "scripts": {
     "build": "tsc",

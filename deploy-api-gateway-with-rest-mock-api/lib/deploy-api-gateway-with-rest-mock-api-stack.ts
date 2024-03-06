@@ -1,15 +1,15 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployApiGatewayWithMockApiStackProps extends cdk.StackProps {
+export interface DeployApiGatewayWithRestMockApiStackProps extends cdk.StackProps {
   scope: string;
 }
 
-export class DeployApiGatewayWithMockApiStack extends cdk.Stack {
+export class DeployApiGatewayWithRestMockApiStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployApiGatewayWithMockApiStackProps,
+    props: DeployApiGatewayWithRestMockApiStackProps,
   ) {
     super(scope, id, props);
 
