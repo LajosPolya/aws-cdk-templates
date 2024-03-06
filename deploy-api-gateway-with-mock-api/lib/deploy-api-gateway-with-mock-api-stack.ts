@@ -1,8 +1,16 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
+export interface DeployApiGatewayWithMockApiStackProps extends cdk.StackProps {
+  scope: string;
+}
+
 export class DeployApiGatewayWithMockApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployApiGatewayWithMockApiStackProps,
+  ) {
     super(scope, id, props);
 
     const mockIntegration = new cdk.aws_apigateway.MockIntegration({
@@ -29,13 +37,14 @@ export class DeployApiGatewayWithMockApiStack extends cdk.Stack {
     const api = new cdk.aws_apigateway.RestApi(this, "restAPi", {
       defaultIntegration: mockIntegration,
       defaultMethodOptions: {
+        operationName: "Get root",
         methodResponses: [
           {
             statusCode: "200",
           },
         ],
       },
-      restApiName: "mockRestApi",
+      restApiName: `mockRestApi-${props.scope}`,
       endpointTypes: [cdk.aws_apigateway.EndpointType.REGIONAL],
       description: "A mock REST API",
     });
@@ -56,7 +65,7 @@ export class DeployApiGatewayWithMockApiStack extends cdk.Stack {
 
     new cdk.aws_apigateway.Deployment(this, "deployment", {
       api: api,
-      description: "deployment",
+      description: "Prod deployment",
     });
   }
 }
