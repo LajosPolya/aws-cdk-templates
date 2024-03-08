@@ -63,7 +63,7 @@ exports.handler = async(event) => {
         "Content-Type": "application/json"
     },
     "body": "Lambda Successfully executed. Check logs for additional info."
-};
+  };
 };    
     `);
 
