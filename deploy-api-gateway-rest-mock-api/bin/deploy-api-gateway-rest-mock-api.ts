@@ -8,7 +8,7 @@ const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployApiGatewayRestMockApiStack(app, "DeployApiGatewayRestMockApiStack", {
-  stackName: `apiGatewatRestMockApi-${scope}`,
+  stackName: `apiGatewayRestMockApi-${scope}`,
   scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
