@@ -15,7 +15,7 @@ export class DeployApiGatewayRestLambdaApiStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    // Lambda response must be in exactly this format
+    // Lambda response must be in this exact format
     const parentInlineCode = cdk.aws_lambda.Code.fromInline(`
 exports.handler = async(event) => {
   console.log(JSON.stringify(event));
@@ -46,20 +46,20 @@ exports.handler = async(event) => {
       },
     );
 
-    // Lambda response must be in exactly this format
+    // Lambda response must be in this exact format
     const proxyInlineCode = cdk.aws_lambda.Code.fromInline(`
-        exports.handler = async(event) => {
-          console.log(JSON.stringify(event));
-          return {
-            "isBase64Encoded": false,
-            "statusCode": 200,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": "Proxy Lambda Successfully executed. Called by " + event.path + ". Check logs for additional info."
-          };
-        };    
-            `);
+exports.handler = async(event) => {
+  console.log(JSON.stringify(event));
+  return {
+    "isBase64Encoded": false,
+    "statusCode": 200,
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "body": "Proxy Lambda Successfully executed. Called by " + event.path + ". Check logs for additional info."
+  };
+};
+    `);
 
     const proxyLambda = new cdk.aws_lambda.Function(
       this,
@@ -87,10 +87,11 @@ exports.handler = async(event) => {
 
     const parentPath = api.root.addResource("parent");
     parentPath.addMethod("GET");
+
     const proxyLambdaIntegration = new cdk.aws_apigateway.LambdaIntegration(
       proxyLambda,
     );
-    const proxyPath = parentPath.addProxy({
+    parentPath.addProxy({
       defaultIntegration: proxyLambdaIntegration,
     });
   }
