@@ -1,6 +1,6 @@
-# Deploy Mock REST API Gateway
+# Deploy API Gateway REST Mock API
 
-This CDK app deploys a Mock REST API Gateway.
+This CDK app deploys an API Gateway REST Mock API.
 
 ## Useful commands
 
@@ -24,7 +24,7 @@ This CDK app deploys a Mock REST API Gateway.
 
 The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
 
-This deploys a mock REST API Gateway. The API can be accessed by its URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
+This deploys an API Gateway REST mock API. The API can be accessed by its URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL :curling_stone:
 
