@@ -17,8 +17,8 @@
   "author": "Lajos Polya",
   "license": "ISC",
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.119",
-    "esbuild": "^0.18.11",
-    "prettier": "2.8.8"
+    "@types/aws-lambda": "^8.10.136",
+    "esbuild": "^0.20.1",
+    "prettier": "3.2.5"
   }
 }
