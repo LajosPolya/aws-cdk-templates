@@ -1,0 +1,26 @@
+{
+  "name": "deploy-lambda-from-ecr",
+  "version": "0.1.0",
+  "bin": {
+    "deploy-lambda-from-ecr": "bin/deploy-lambda-from-ecr.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "20.11.19",
+    "aws-cdk": "2.132.0",
+    "prettier": "3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.3.3"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.132.0",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
+  }
+}
