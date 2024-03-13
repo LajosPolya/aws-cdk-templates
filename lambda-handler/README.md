@@ -13,12 +13,13 @@ This is a simple NodeJS TypeScript AWS Lambda Handler. Once this project is buil
 ```Bash
 # as a prerequisite, install and run docker
 # build the lambda
+npm ci
 npm run build # or `npm run build-mingw` on Windows GitBash CLI
 
-docker build --platform linux/amd64 -t lambda-docker-image:test .
+docker build --platform linux/amd64 -t <image_name>:<image_tag> .
 
-docker run --platform linux/amd64 -p 9000:8080 lambda-docker-image:test
+docker run --platform linux/amd64 -p 9000:8080 <image_name>:<image_tag>
 
 # test locally in a separate CLI
-docker run --platform linux/amd64 -p 9000:8080 docker-image:test
+curl http://localhost:9000/2015-03-31/functions/function/invocations -d '{}'
 ```
