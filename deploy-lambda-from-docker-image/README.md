@@ -20,6 +20,8 @@ Follow the instructions in [lambda-handler](../lambda-handler/README.md#Build-Do
 
 ### Deploy the Lambda
 
+Start Docker before initiating the deployment.
+
 #### \*nix/Mac
 
 `cdk deploy -c scope=<scope>`
