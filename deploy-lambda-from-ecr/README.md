@@ -32,17 +32,18 @@ From this directory, run the following commands.
 
 `winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c repoName="<repo_name>" -c tag=<image_tag>`
 
-Where `repo_name` represents the name of deployed ECR repository and `image_tag` the tag of the docker image built in the previous step. Note, `image_tag` isn't used in the deployment of this stack but it's still needed as a parameter.
+Where `repo_name` represents the name of deployed ECR repository and `image_tag` represents the tag of the docker image built in the previous step. Note, `image_tag` isn't used in the deployment of this stack but it's still a required parameter.
+
+The ECR repository's URI is exported by the CDK and therefore printed to the CLI. In the following steps replace the `ecr_repo_uri` variable with the exported URI.
 
 ### Push Docker Image to the ECR repository
 
 ```Bash
-aws ecr get-login-password --region <aws_region> | docker login --username AWS --password-stdin <aws_account>.dkr.ecr.<aws_region>.amazonaws.com
+aws ecr get-login-password --region <aws_region> | docker login --username AWS --password-stdin <ecr_repo_uri>
 
 docker tag <image_name>:<image_tag> <ecr_repo_uri>:<image_tag>
 
 docker push <ecr_repo_uri>:<image_tag>
-
 ```
 
 ### Deploy the Lambda
@@ -60,6 +61,8 @@ This deploys a Lambda which when invoked will return a JSON string.
 To invoke the lambda via CLI execute the following command:
 
 `aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt`
+
+Where `lambdaFunctionName` represents the Lambda function's name. The name of the function is exported by the CDK and therefore printed to the CLI. View the contents of `outfile.txt` to explore the Lambda's response.
 
 ## Destruction :boom:
 
