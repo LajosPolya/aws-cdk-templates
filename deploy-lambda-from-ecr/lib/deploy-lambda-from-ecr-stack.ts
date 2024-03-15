@@ -19,7 +19,7 @@ export class DeployLambdaFromEcrStack extends cdk.Stack {
       tagOrDigest: props.tag,
     });
 
-    new cdk.aws_lambda.Function(this, "ecrImageCodeLambda", {
+    const lambda = new cdk.aws_lambda.Function(this, "ecrImageCodeLambda", {
       runtime: cdk.aws_lambda.Runtime.FROM_IMAGE,
       code: ecrImageCode,
       handler: cdk.aws_lambda.Handler.FROM_IMAGE,
@@ -28,6 +28,12 @@ export class DeployLambdaFromEcrStack extends cdk.Stack {
       functionName: `ecrCodeLambda-${props.scope}`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
       retryAttempts: 0,
+    });
+
+    new cdk.CfnOutput(this, "lambdaName", {
+      description: "Lambda function's name",
+      value: lambda.functionName,
+      exportName: `lambdaFunctionName-${props.scope}`,
     });
   }
 }

@@ -15,6 +15,7 @@ const scope = app.node.getContext("scope");
 const ecrStack = new DeployEcrStack(app, "DeployEcrStack", {
   stackName: `ecr-${repoName}`,
   repoName,
+  scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,
