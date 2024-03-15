@@ -16,7 +16,7 @@ This CDK app deploys a Lambda whose code is stored in a private S3 bucket.
 
 ### Build the Lambda handler
 
-Follow the instructions in [lambda-handler](../lambda-handler/README.md#Build-Docker-Container) to build the handler. Note the Docker image *DOES NOT* need to be built.
+Follow the instructions in [lambda-handler](../lambda-handler/README.md#Build-Docker-Container) to build the lambda handler. Note: only the lambda handler needs to be built with npm. The Docker image _DOES NOT_ need to be built.
 
 ### Deploy the Lambda
 

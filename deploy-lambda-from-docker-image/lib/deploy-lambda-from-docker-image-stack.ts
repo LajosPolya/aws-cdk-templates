@@ -22,9 +22,9 @@ export class DeployLambdaFromDockerImageStack extends cdk.Stack {
     );
 
     const lambda = new cdk.aws_lambda.Function(this, "dockerImageLambda", {
-      runtime: cdk.aws_lambda.Runtime.FROM_IMAGE,
+      runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
       code: dockerImageCode,
-      handler: "Handler.FROM_IMAGE",
+      handler: "index.handler",
       description: "Lambda deployed from local Docker image",
       timeout: cdk.Duration.seconds(3),
       functionName: `dockerImageLambda-${props.scope}`,
