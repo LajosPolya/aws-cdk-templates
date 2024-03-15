@@ -8,6 +8,14 @@ This is a simple NodeJS TypeScript AWS Lambda Handler. Once this project is buil
 - `npm run build` Builds the handler on Linux systems
 - `npm run build-mingw` Builds the handler on non-Linux systems, for example, GitBash installed on Windows. [7zip](https://www.7-zip.org/) must also be installed at `"c:\Program Files\7-Zip\7z.exe"`
 
+## Build Lambda Handler
+
+```Bash
+# build the lambda
+npm ci
+npm run build # or `npm run build-mingw` on Windows GitBash CLI
+```
+
 ## Build Docker Container
 
 ```Bash
@@ -16,6 +24,7 @@ This is a simple NodeJS TypeScript AWS Lambda Handler. Once this project is buil
 npm ci
 npm run build # or `npm run build-mingw` on Windows GitBash CLI
 
+# build docker if necessary
 docker build --platform linux/amd64 -t <image_name>:<image_tag> .
 
 docker run --platform linux/amd64 -p 9000:8080 <image_name>:<image_tag>
@@ -23,3 +32,5 @@ docker run --platform linux/amd64 -p 9000:8080 <image_name>:<image_tag>
 # test locally in a separate CLI
 curl http://localhost:9000/2015-03-31/functions/function/invocations -d '{}'
 ```
+
+Note to developers: This Dockerfile is used by some of the deployers, update with care.
