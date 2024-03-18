@@ -1,4 +1,4 @@
-# Deploy a Lambda
+# Deploy a Lambda from S3
 
 This CDK app deploys a Lambda whose code is stored in a private S3 bucket.
 
