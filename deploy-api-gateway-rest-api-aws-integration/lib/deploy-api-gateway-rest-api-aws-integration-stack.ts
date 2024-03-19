@@ -1,7 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployApiGatewayRestApiAwsIntegrationStackStackProps
+export interface DeployApiGatewayRestApiAwsIntegrationStackProps
   extends cdk.StackProps {
   scope: string;
 }
@@ -10,7 +10,7 @@ export class DeployApiGatewayRestApiAwsIntegrationStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployApiGatewayRestApiAwsIntegrationStackStackProps,
+    props: DeployApiGatewayRestApiAwsIntegrationStackProps,
   ) {
     super(scope, id, props);
 
