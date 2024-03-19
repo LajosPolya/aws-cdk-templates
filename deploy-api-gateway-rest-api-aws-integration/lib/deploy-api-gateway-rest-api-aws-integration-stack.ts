@@ -34,6 +34,11 @@ export class DeployApiGatewayRestApiAwsIntegrationStack extends cdk.Stack {
     const queue = new cdk.aws_sqs.Queue(this, "sqs", {
       queueName: queueName,
       retentionPeriod: cdk.Duration.hours(1),
+      /* After dequeuing, the processor has this much time to handle the message and delete it from the 
+      queue before it becomes visible again for dequeueing by another processor.
+      Therefore it is not recommended to set this value to 0 in production because will duplicate processing 
+      of messages. */
+      visibilityTimeout: cdk.Duration.seconds(0),
     });
     queue.grantSendMessages(role);
 
@@ -68,6 +73,12 @@ export class DeployApiGatewayRestApiAwsIntegrationStack extends cdk.Stack {
           statusCode: "200",
         },
       ],
+    });
+
+    new cdk.CfnOutput(this, "queueUrl", {
+      description: "URL of the SQS queue",
+      exportName: `apiGatewayQueueUrl-${props.scope}`,
+      value: queue.queueUrl,
     });
   }
 }
