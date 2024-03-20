@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { DeployApiGatewayRestMockApiStack } from "../lib/deploy-api-gateway-rest-mock-api-stack";
+import { DeployApiGatewayRestApiMockIntegrationStack } from "../lib/deploy-api-gateway-rest-api-mock-integration-stack";
 
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
-new DeployApiGatewayRestMockApiStack(app, "DeployApiGatewayRestMockApiStack", {
+new DeployApiGatewayRestApiMockIntegrationStack(app, "DeployApiGatewayRestMockApiStack", {
   stackName: `apiGatewayRestMockApi-${scope}`,
   scope,
   env: {

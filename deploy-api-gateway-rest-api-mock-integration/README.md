@@ -1,4 +1,4 @@
-# Deploy API Gateway REST Mock API
+# Deploy API Gateway REST API with Mock API Integration
 
 This CDK app deploys an API Gateway REST Mock API.
 
@@ -44,4 +44,4 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`
