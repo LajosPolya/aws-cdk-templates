@@ -1,4 +1,4 @@
-# Deploy API Gateway REST API backed by Lambda
+# Deploy API Gateway REST API with Lambda Integration
 
 This CDK app deploys an API Gateway REST API backed by Lambda.
 
@@ -50,4 +50,4 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

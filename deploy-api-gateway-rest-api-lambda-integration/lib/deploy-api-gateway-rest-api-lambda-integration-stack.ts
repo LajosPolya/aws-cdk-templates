@@ -2,16 +2,16 @@ import * as cdk from "aws-cdk-lib";
 import { RestApi } from "aws-cdk-lib/aws-apigateway";
 import { Construct } from "constructs";
 
-export interface DeployApiGatewayRestLambdaApiStackProps
+export interface DeployApiGatewayRestApiLambdaIntegrationStackProps
   extends cdk.StackProps {
   scope: string;
 }
 
-export class DeployApiGatewayRestLambdaApiStack extends cdk.Stack {
+export class DeployApiGatewayRestApiLambdaIntegrationStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployApiGatewayRestLambdaApiStackProps,
+    props: DeployApiGatewayRestApiLambdaIntegrationStackProps,
   ) {
     super(scope, id, props);
 

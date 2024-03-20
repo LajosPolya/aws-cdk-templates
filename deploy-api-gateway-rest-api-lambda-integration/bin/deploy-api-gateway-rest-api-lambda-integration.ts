@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { DeployApiGatewayRestLambdaApiStack } from "../lib/deploy-api-gateway-rest-lambda-api-stack";
+import { DeployApiGatewayRestApiLambdaIntegrationStack } from "../lib/deploy-api-gateway-rest-api-lambda-integration-stack";
 
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
-new DeployApiGatewayRestLambdaApiStack(
+new DeployApiGatewayRestApiLambdaIntegrationStack(
   app,
-  "DeployApiGatewayRestLambdaApiStack",
+  "DeployApiGatewayRestApiLambdaIntegrationStack",
   {
     stackName: `apiGatewayRestLambdaApi-${scope}`,
     scope,
