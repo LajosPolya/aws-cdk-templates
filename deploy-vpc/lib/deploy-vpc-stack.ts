@@ -49,10 +49,14 @@ export class DeployVpcStack extends cdk.Stack {
       },
     );
 
-    const publicRouteTable = new cdk.aws_ec2.CfnRouteTable(this, "publicRouteTable", {
-      tags: [testingTag, scopeTag],
-      vpcId: this.vpcL1.attrVpcId,
-    });
+    const publicRouteTable = new cdk.aws_ec2.CfnRouteTable(
+      this,
+      "publicRouteTable",
+      {
+        tags: [testingTag, scopeTag],
+        vpcId: this.vpcL1.attrVpcId,
+      },
+    );
 
     //const gatewayAssociation = new cdk.aws_ec2.CfnGatewayRouteTableAssociation(this, 'gatewayAssociation', {
     //  gatewayId: internetGateway.attrInternetGatewayId,
@@ -86,10 +90,14 @@ export class DeployVpcStack extends cdk.Stack {
     internetGateway.addDependency(this.vpcL1);
     route.addDependency(internetGateway);
 
-    const privateRouteTable = new cdk.aws_ec2.CfnRouteTable(this, "privateRouteTable", {
-      tags: [testingTag, scopeTag],
-      vpcId: this.vpcL1.attrVpcId,
-    });
+    const privateRouteTable = new cdk.aws_ec2.CfnRouteTable(
+      this,
+      "privateRouteTable",
+      {
+        tags: [testingTag, scopeTag],
+        vpcId: this.vpcL1.attrVpcId,
+      },
+    );
 
     // This isn't deployed to an availability zone, what does that mean?
     const privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
@@ -100,15 +108,15 @@ export class DeployVpcStack extends cdk.Stack {
       vpcId: this.vpcL1.attrVpcId,
     });
 
-    const eip = new cdk.aws_ec2.CfnEIP(this, 'elasticIp', {
+    const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
       tags: [testingTag, scopeTag],
-    })    
+    });
 
-    const natGateway = new cdk.aws_ec2.CfnNatGateway(this, 'natGateway', {
+    const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
       allocationId: eip.attrAllocationId,
       subnetId: privateSubnet.attrSubnetId,
       tags: [testingTag, scopeTag],
-    })
+    });
 
     const privateSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
@@ -120,10 +128,10 @@ export class DeployVpcStack extends cdk.Stack {
         },
       );
 
-      new cdk.aws_ec2.CfnRoute(this, 'privateRoute', {
-        destinationCidrBlock: "0.0.0.0/0",
-        natGatewayId: natGateway.attrNatGatewayId,
-        routeTableId: privateRouteTable.attrRouteTableId
-      })
+    new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
+      destinationCidrBlock: "0.0.0.0/0",
+      natGatewayId: natGateway.attrNatGatewayId,
+      routeTableId: privateRouteTable.attrRouteTableId,
+    });
   }
 }
