@@ -49,7 +49,7 @@ export class DeployVpcStack extends cdk.Stack {
       },
     );
 
-    const routeTable = new cdk.aws_ec2.CfnRouteTable(this, "routeTable", {
+    const publicRouteTable = new cdk.aws_ec2.CfnRouteTable(this, "publicRouteTable", {
       tags: [testingTag, scopeTag],
       vpcId: this.vpcL1.attrVpcId,
     });
@@ -59,12 +59,12 @@ export class DeployVpcStack extends cdk.Stack {
     //  routeTableId: routeTable.attrRouteTableId
     //})
 
-    const subnetRouteTableAssociation =
+    const publicSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
         this,
-        "routeTableAssociation",
+        "publicSubnetRouteTableAssociation",
         {
-          routeTableId: routeTable.attrRouteTableId,
+          routeTableId: publicRouteTable.attrRouteTableId,
           subnetId: publicSubnet.attrSubnetId,
         },
       );
@@ -80,9 +80,50 @@ export class DeployVpcStack extends cdk.Stack {
       destinationCidrBlock: "0.0.0.0/0",
       gatewayId: internetGateway.attrInternetGatewayId,
       // networkInterfaceId: networkInterface.attrId,
-      routeTableId: routeTable.attrRouteTableId,
+      routeTableId: publicRouteTable.attrRouteTableId,
     });
+    // Is this dependency needed?
     internetGateway.addDependency(this.vpcL1);
     route.addDependency(internetGateway);
+
+    const privateRouteTable = new cdk.aws_ec2.CfnRouteTable(this, "privateRouteTable", {
+      tags: [testingTag, scopeTag],
+      vpcId: this.vpcL1.attrVpcId,
+    });
+
+    // This isn't deployed to an availability zone, what does that mean?
+    const privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
+      // availabilityZone: 'us-east-1',
+      cidrBlock: "10.0.1.0/24",
+      mapPublicIpOnLaunch: true,
+      tags: [testingTag, scopeTag],
+      vpcId: this.vpcL1.attrVpcId,
+    });
+
+    const eip = new cdk.aws_ec2.CfnEIP(this, 'elasticIp', {
+      tags: [testingTag, scopeTag],
+    })    
+
+    const natGateway = new cdk.aws_ec2.CfnNatGateway(this, 'natGateway', {
+      allocationId: eip.attrAllocationId,
+      subnetId: privateSubnet.attrSubnetId,
+      tags: [testingTag, scopeTag],
+    })
+
+    const privateSubnetRouteTableAssociation =
+      new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
+        this,
+        "privateSubnetRouteTableAssociation",
+        {
+          routeTableId: privateRouteTable.attrRouteTableId,
+          subnetId: privateSubnet.attrSubnetId,
+        },
+      );
+
+      new cdk.aws_ec2.CfnRoute(this, 'privateRoute', {
+        destinationCidrBlock: "0.0.0.0/0",
+        natGatewayId: natGateway.attrNatGatewayId,
+        routeTableId: privateRouteTable.attrRouteTableId
+      })
   }
 }
