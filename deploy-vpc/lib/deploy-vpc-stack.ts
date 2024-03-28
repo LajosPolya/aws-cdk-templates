@@ -7,13 +7,15 @@ export interface DeployVpcStackProps extends cdk.StackProps {
 
 export class DeployVpcStack extends cdk.Stack {
   vpcL1: cdk.aws_ec2.CfnVPC;
+  privateSubnet: cdk.aws_ec2.CfnSubnet;
+  publicSubnet: cdk.aws_ec2.CfnSubnet;
 
   constructor(scope: Construct, id: string, props: DeployVpcStackProps) {
     super(scope, id, props);
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("1", "1", { priority: 1000 });
+    const oneTag = new cdk.Tag("12", "12", { priority: 1000 });
 
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "10.0.0.0/16",
@@ -24,12 +26,13 @@ export class DeployVpcStack extends cdk.Stack {
     });
 
     // This isn't deployed to an availability zone, what does that mean?
-    const publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
+    this.publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
       // availabilityZone: 'us-east-1',
       cidrBlock: "10.0.0.0/24",
       mapPublicIpOnLaunch: true,
       tags: [testingTag, scopeTag],
       vpcId: this.vpcL1.attrVpcId,
+      availabilityZone: 'us-east-2a'
     });
 
     const internetGateway = new cdk.aws_ec2.CfnInternetGateway(
@@ -69,7 +72,7 @@ export class DeployVpcStack extends cdk.Stack {
         "publicSubnetRouteTableAssociation",
         {
           routeTableId: publicRouteTable.attrRouteTableId,
-          subnetId: publicSubnet.attrSubnetId,
+          subnetId: this.publicSubnet.attrSubnetId,
         },
       );
 
@@ -100,23 +103,26 @@ export class DeployVpcStack extends cdk.Stack {
     );
 
     // This isn't deployed to an availability zone, what does that mean?
-    const privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
+    this.privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
       // availabilityZone: 'us-east-1',
       cidrBlock: "10.0.1.0/24",
+      // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
       mapPublicIpOnLaunch: true,
       tags: [testingTag, scopeTag],
       vpcId: this.vpcL1.attrVpcId,
+      availabilityZone: 'us-east-2a'
     });
 
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
+      networkBorderGroup: 'us-east-2',
       tags: [testingTag, scopeTag],
     });
 
-    const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
-      allocationId: eip.attrAllocationId,
-      subnetId: privateSubnet.attrSubnetId,
-      tags: [testingTag, scopeTag],
-    });
+    //const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
+    //  allocationId: eip.attrAllocationId,
+   //   subnetId: this.privateSubnet.attrSubnetId,
+   //   tags: [testingTag, scopeTag],
+   // });
 
     const privateSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
@@ -124,14 +130,14 @@ export class DeployVpcStack extends cdk.Stack {
         "privateSubnetRouteTableAssociation",
         {
           routeTableId: privateRouteTable.attrRouteTableId,
-          subnetId: privateSubnet.attrSubnetId,
+          subnetId: this.privateSubnet.attrSubnetId,
         },
       );
 
-    new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
-      destinationCidrBlock: "0.0.0.0/0",
-      natGatewayId: natGateway.attrNatGatewayId,
-      routeTableId: privateRouteTable.attrRouteTableId,
-    });
+    //new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
+    //  destinationCidrBlock: "0.0.0.0/0",
+    //  natGatewayId: natGateway.attrNatGatewayId,
+    //  routeTableId: privateRouteTable.attrRouteTableId,
+    //});
   }
 }

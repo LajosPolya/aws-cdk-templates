@@ -4,6 +4,7 @@ import { Construct } from "constructs";
 export interface DeployEc2StackProps extends cdk.StackProps {
   scope: string;
   vpcL1: cdk.aws_ec2.CfnVPC;
+  publicSubnet: cdk.aws_ec2.CfnSubnet;
 }
 
 export class DeployEc2Stack extends cdk.Stack {
@@ -17,7 +18,7 @@ export class DeployEc2Stack extends cdk.Stack {
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
-    tags["1"] = "1";
+    tags["12"] = "12";
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,
@@ -40,14 +41,22 @@ export class DeployEc2Stack extends cdk.Stack {
       "#!/bin/bash",
       "yum update -y",
       "yum install -y httpd",
+      "sed -i -e \"s/Listen 80/Listen 8080/g\" /etc/httpd/conf/httpd.conf",
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
+      'var=$(curl 10.0.1.254:8080)',
+      'echo "$var" > /var/www/html/index.html'
     );
+
+    const publicSubnet = cdk.aws_ec2.Subnet.fromSubnetAttributes(this, 'publicSubnet', {
+      availabilityZone: props.publicSubnet.attrAvailabilityZone,
+      subnetId: props.publicSubnet.attrSubnetId
+    })
 
     const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
       vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+        subnets: [publicSubnet]
       },
       allowAllOutbound: true,
       vpc: vpc,
