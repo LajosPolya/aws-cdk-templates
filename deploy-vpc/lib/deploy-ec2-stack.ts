@@ -18,7 +18,7 @@ export class DeployEc2Stack extends cdk.Stack {
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
-    tags["12"] = "12";
+    tags["17"] = "17";
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,
@@ -70,7 +70,7 @@ export class DeployEc2Stack extends cdk.Stack {
       instanceName: `ec2Instance-${props.scope}`,
     });
 
-    new cdk.CfnOutput(this, "publicIp", {
+    /*new cdk.CfnOutput(this, "publicIp", {
       description: "Public IP of the EC2 instance",
       value: instance.instancePublicIp,
       exportName: `ec2InstancePublicIp-${props.scope}`,
@@ -80,6 +80,6 @@ export class DeployEc2Stack extends cdk.Stack {
       description: "Public DNS name of the EC2 instance",
       value: instance.instancePublicDnsName,
       exportName: `ec2InstancePublicDnsName-${props.scope}`,
-    });
+    });*/
   }
 }

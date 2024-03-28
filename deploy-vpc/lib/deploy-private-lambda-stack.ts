@@ -19,7 +19,7 @@ export class DeployPrivateLambdaStack extends cdk.Stack {
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
-    tags["12"] = "12";
+    tags["17"] = "17";
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,
@@ -73,7 +73,7 @@ export class DeployPrivateLambdaStack extends cdk.Stack {
       // associatePublicIpAddress: false,
     });
 
-    new cdk.CfnOutput(this, "publicIp", {
+    /*new cdk.CfnOutput(this, "publicIp", {
       description: "Public IP of the EC2 instance",
       value: instance.instancePublicIp,
       exportName: `ec2InstancePublicIp1-${props.scope}`,
@@ -83,6 +83,6 @@ export class DeployPrivateLambdaStack extends cdk.Stack {
       description: "Public DNS name of the EC2 instance",
       value: instance.instancePublicDnsName,
       exportName: `ec2InstancePublicDnsName1-${props.scope}`,
-    });
+    });*/
   }
 }

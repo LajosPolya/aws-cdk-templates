@@ -15,7 +15,7 @@ export class DeployVpcStack extends cdk.Stack {
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("12", "12", { priority: 1000 });
+    const oneTag = new cdk.Tag("17", "17", { priority: 1000 });
 
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "10.0.0.0/16",
