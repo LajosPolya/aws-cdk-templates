@@ -13,11 +13,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
-      // natGateways: 1,
       availabilityZones: [`${props.env!.region!}a`],
-      // natGatewaySubnets: {
-      //  subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED
-      //},
       subnetConfiguration: [
         {
           cidrMask: 20,
