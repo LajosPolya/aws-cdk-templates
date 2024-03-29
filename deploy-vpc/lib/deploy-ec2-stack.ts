@@ -18,7 +18,7 @@ export class DeployEc2Stack extends cdk.Stack {
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
-    tags["17"] = "17";
+    tags["21"] = "21";
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,
@@ -31,32 +31,34 @@ export class DeployEc2Stack extends cdk.Stack {
     });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP",
+      cdk.aws_ec2.Port.allTraffic(),
+      "Allow all",
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
+    // "sed -i -e \"s/Listen 80/Listen 8080/g\" /etc/httpd/conf/httpd.conf",
     userData.addCommands(
       "#!/bin/bash",
       "yum update -y",
       "yum install -y httpd",
-      "sed -i -e \"s/Listen 80/Listen 8080/g\" /etc/httpd/conf/httpd.conf",
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
-      'var=$(curl 10.0.1.254:8080)',
-      'echo "$var" > /var/www/html/index.html'
     );
 
-    const publicSubnet = cdk.aws_ec2.Subnet.fromSubnetAttributes(this, 'publicSubnet', {
-      availabilityZone: props.publicSubnet.attrAvailabilityZone,
-      subnetId: props.publicSubnet.attrSubnetId
-    })
+    const publicSubnet = cdk.aws_ec2.Subnet.fromSubnetAttributes(
+      this,
+      "publicSubnet",
+      {
+        availabilityZone: props.publicSubnet.attrAvailabilityZone,
+        subnetId: props.publicSubnet.attrSubnetId,
+      },
+    );
 
     const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
       vpcSubnets: {
-        subnets: [publicSubnet]
+        subnets: [publicSubnet],
       },
       allowAllOutbound: true,
       vpc: vpc,

@@ -15,10 +15,10 @@ export class DeployVpcStack extends cdk.Stack {
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("17", "17", { priority: 1000 });
+    const oneTag = new cdk.Tag("21", "21", { priority: 1000 });
 
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
-      cidrBlock: "10.0.0.0/16",
+      cidrBlock: "172.31.0.0/16",
       // TODO: should I just stick to IP addresses instead of DNS support?
       enableDnsHostnames: true,
       enableDnsSupport: true,
@@ -28,11 +28,11 @@ export class DeployVpcStack extends cdk.Stack {
     // This isn't deployed to an availability zone, what does that mean?
     this.publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
       // availabilityZone: 'us-east-1',
-      cidrBlock: "10.0.0.0/24",
+      cidrBlock: "172.31.0.0/20",
       mapPublicIpOnLaunch: true,
       tags: [testingTag, scopeTag],
       vpcId: this.vpcL1.attrVpcId,
-      availabilityZone: 'us-east-2a'
+      availabilityZone: "us-east-2a",
     });
 
     const internetGateway = new cdk.aws_ec2.CfnInternetGateway(
@@ -105,24 +105,24 @@ export class DeployVpcStack extends cdk.Stack {
     // This isn't deployed to an availability zone, what does that mean?
     this.privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
       // availabilityZone: 'us-east-1',
-      cidrBlock: "10.0.1.0/24",
+      cidrBlock: "172.31.16.0/20",
       // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
       mapPublicIpOnLaunch: true,
       tags: [testingTag, scopeTag],
       vpcId: this.vpcL1.attrVpcId,
-      availabilityZone: 'us-east-2a'
+      availabilityZone: "us-east-2a",
     });
 
-    const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
-      networkBorderGroup: 'us-east-2',
-      tags: [testingTag, scopeTag],
-    });
+    //const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
+    //  networkBorderGroup: 'us-east-2',
+    //  tags: [testingTag, scopeTag],
+    //});
 
     //const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
     //  allocationId: eip.attrAllocationId,
-   //   subnetId: this.privateSubnet.attrSubnetId,
-   //   tags: [testingTag, scopeTag],
-   // });
+    //   subnetId: this.privateSubnet.attrSubnetId,
+    //   tags: [testingTag, scopeTag],
+    // });
 
     const privateSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
