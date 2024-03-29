@@ -59,7 +59,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
-    const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
+    const instance = new cdk.aws_ec2.Instance(this, "public1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -72,10 +72,10 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `ec2InstancePu1-${props.scope}`,
+      instanceName: `public1-${props.scope}`,
     });
 
-    const instance3 = new cdk.aws_ec2.Instance(this, "ec2-istance3", {
+    const instance3 = new cdk.aws_ec2.Instance(this, "public2", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -88,10 +88,10 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `ec2InstancePu2-${props.scope}`,
+      instanceName: `public2-${props.scope}`,
     });
 
-    const instance1 = new cdk.aws_ec2.Instance(this, "ec2-istance1", {
+    const instance1 = new cdk.aws_ec2.Instance(this, "privateEgress1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
@@ -104,10 +104,10 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `ec2Instance1-${props.scope}`,
+      instanceName: `privateEgress1-${props.scope}`,
     });
 
-    const instance2 = new cdk.aws_ec2.Instance(this, "ec2-istance2", {
+    const instance2 = new cdk.aws_ec2.Instance(this, "privateIsolated1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
       },
@@ -120,7 +120,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `ec2Instance2-${props.scope}`,
+      instanceName: `privateIsolated1-${props.scope}`,
     });
   }
 }
