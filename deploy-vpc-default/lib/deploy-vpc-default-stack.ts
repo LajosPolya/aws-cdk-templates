@@ -26,12 +26,12 @@ export class DeployVpcDefaultStack extends cdk.Stack {
         },
         {
           cidrMask: 20,
-          name: `privateE-${props.scope}`,
+          name: `privateEgress-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         {
           cidrMask: 20,
-          name: `privateI-${props.scope}`,
+          name: `privateIsolated-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
         },
       ],
