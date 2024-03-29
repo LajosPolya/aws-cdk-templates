@@ -44,8 +44,8 @@ export class DeployVpcDefaultStack extends cdk.Stack {
     });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP",
+      cdk.aws_ec2.Port.allTraffic(),
+      "Allow all traffic",
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
