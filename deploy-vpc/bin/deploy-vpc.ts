@@ -22,7 +22,7 @@ new DeployPrivateLambdaStack(app, "DeployPrivateLambdaStack", {
   stackName: `vpcPrivateLambda-${scope}`,
   scope,
   vpcL1: vpcStack.vpcL1,
-  privateSubnet: vpcStack.privateSubnet,
+  privateSubnet: vpcStack.privateWithEgressSubnet,
   stackTags: vpcStack.stackTags,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,

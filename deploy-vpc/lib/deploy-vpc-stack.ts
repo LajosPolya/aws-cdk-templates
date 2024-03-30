@@ -7,7 +7,8 @@ export interface DeployVpcStackProps extends cdk.StackProps {
 
 export class DeployVpcStack extends cdk.Stack {
   vpcL1: cdk.aws_ec2.CfnVPC;
-  privateSubnet: cdk.aws_ec2.CfnSubnet;
+  privateIsolatedSubnet: cdk.aws_ec2.CfnSubnet;
+  privateWithEgressSubnet: cdk.aws_ec2.CfnSubnet;
   publicSubnet: cdk.aws_ec2.CfnSubnet;
   stackTags: {
     [key: string]: string;
@@ -29,6 +30,9 @@ export class DeployVpcStack extends cdk.Stack {
       tags: tags,
     });
 
+    /**
+     * Private Isolated Route Table and Subnet
+     */
     // This isn't deployed to an availability zone, what does that mean?
     this.publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
       // availabilityZone: 'us-east-1',
@@ -47,14 +51,10 @@ export class DeployVpcStack extends cdk.Stack {
       },
     );
 
-    const vpcGatewayAttachment = new cdk.aws_ec2.CfnVPCGatewayAttachment(
-      this,
-      "gatewayAttachment",
-      {
-        internetGatewayId: internetGateway.attrInternetGatewayId,
-        vpcId: this.vpcL1.attrVpcId,
-      },
-    );
+    new cdk.aws_ec2.CfnVPCGatewayAttachment(this, "gatewayAttachment", {
+      internetGatewayId: internetGateway.attrInternetGatewayId,
+      vpcId: this.vpcL1.attrVpcId,
+    });
 
     const publicRouteTable = new cdk.aws_ec2.CfnRouteTable(
       this,
@@ -70,15 +70,14 @@ export class DeployVpcStack extends cdk.Stack {
     //  routeTableId: routeTable.attrRouteTableId
     //})
 
-    const publicSubnetRouteTableAssociation =
-      new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
-        this,
-        "publicSubnetRouteTableAssociation",
-        {
-          routeTableId: publicRouteTable.attrRouteTableId,
-          subnetId: this.publicSubnet.attrSubnetId,
-        },
-      );
+    new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
+      this,
+      "publicSubnetRouteTableAssociation",
+      {
+        routeTableId: publicRouteTable.attrRouteTableId,
+        subnetId: this.publicSubnet.attrSubnetId,
+      },
+    );
 
     // const networkInterface = new cdk.aws_ec2.CfnNetworkInterface(this, 'networkInterface', {
     //  description: `Test VPC-${props.scope}`,
@@ -97,9 +96,12 @@ export class DeployVpcStack extends cdk.Stack {
     internetGateway.addDependency(this.vpcL1);
     route.addDependency(internetGateway);
 
-    const privateRouteTable = new cdk.aws_ec2.CfnRouteTable(
+    /**
+     * Private with Egress Route Table and Subnet
+     */
+    const privateWithEgressRouteTable = new cdk.aws_ec2.CfnRouteTable(
       this,
-      "privateRouteTable",
+      "privateWithEgressRouteTable",
       {
         tags: tags,
         vpcId: this.vpcL1.attrVpcId,
@@ -107,15 +109,19 @@ export class DeployVpcStack extends cdk.Stack {
     );
 
     // This isn't deployed to an availability zone, what does that mean?
-    this.privateSubnet = new cdk.aws_ec2.CfnSubnet(this, "privateSubnet", {
-      // availabilityZone: 'us-east-1',
-      cidrBlock: "172.31.16.0/20",
-      // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
-      mapPublicIpOnLaunch: true,
-      tags: tags,
-      vpcId: this.vpcL1.attrVpcId,
-      availabilityZone: "us-east-2a",
-    });
+    this.privateWithEgressSubnet = new cdk.aws_ec2.CfnSubnet(
+      this,
+      "privateWithEgressSubnet",
+      {
+        // availabilityZone: 'us-east-1',
+        cidrBlock: "172.31.16.0/20",
+        // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
+        mapPublicIpOnLaunch: true,
+        tags: tags,
+        vpcId: this.vpcL1.attrVpcId,
+        availabilityZone: "us-east-2a",
+      },
+    );
 
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
       networkBorderGroup: "us-east-2",
@@ -142,25 +148,61 @@ export class DeployVpcStack extends cdk.Stack {
     //   routeTableId: privateRouteTable.attrRouteTableId
     // })
 
+    new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
+      this,
+      "privateWithEgressSubnetRouteTableAssociation",
+      {
+        routeTableId: privateWithEgressRouteTable.attrRouteTableId,
+        subnetId: this.privateWithEgressSubnet.attrSubnetId,
+      },
+    );
+
+    new cdk.aws_ec2.CfnRoute(this, "privateWithEgressRouteToNatGateway", {
+      destinationCidrBlock: "0.0.0.0/0",
+      natGatewayId: natGateway.attrNatGatewayId,
+      routeTableId: privateWithEgressRouteTable.attrRouteTableId,
+    });
+
+    /**
+     * Private Isolated Route Table and Subnet
+     */
+    const privateIsolatedRouteTable = new cdk.aws_ec2.CfnRouteTable(
+      this,
+      "privateIsolatedRouteTable",
+      {
+        tags: tags,
+        vpcId: this.vpcL1.attrVpcId,
+      },
+    );
+
+    // This isn't deployed to an availability zone, what does that mean?
+    this.privateIsolatedSubnet = new cdk.aws_ec2.CfnSubnet(
+      this,
+      "privateIsolatedSubnet",
+      {
+        // availabilityZone: 'us-east-1',
+        cidrBlock: "172.31.32.0/20",
+        // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
+        mapPublicIpOnLaunch: true,
+        tags: tags,
+        vpcId: this.vpcL1.attrVpcId,
+        availabilityZone: "us-east-2a",
+      },
+    );
+
+    new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
+      this,
+      "privateIsolatedSubnetRouteTableAssociation",
+      {
+        routeTableId: privateIsolatedRouteTable.attrRouteTableId,
+        subnetId: this.privateIsolatedSubnet.attrSubnetId,
+      },
+    );
+
+    // These tags are used by the other stack to query for the VPC
     this.stackTags = {};
     tags.forEach((tag) => {
       this.stackTags[tag.key] = tag.value;
-    });
-
-    const privateSubnetRouteTableAssociation =
-      new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
-        this,
-        "privateSubnetRouteTableAssociation",
-        {
-          routeTableId: privateRouteTable.attrRouteTableId,
-          subnetId: this.privateSubnet.attrSubnetId,
-        },
-      );
-
-    new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
-      destinationCidrBlock: "0.0.0.0/0",
-      natGatewayId: natGateway.attrNatGatewayId,
-      routeTableId: privateRouteTable.attrRouteTableId,
     });
   }
 }
