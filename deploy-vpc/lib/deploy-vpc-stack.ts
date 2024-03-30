@@ -12,7 +12,7 @@ export class DeployVpcStack extends cdk.Stack {
   publicSubnet: cdk.aws_ec2.CfnSubnet;
   stackTags: {
     [key: string]: string;
-  };
+  } = {};
 
   constructor(scope: Construct, id: string, props: DeployVpcStackProps) {
     super(scope, id, props);
@@ -234,7 +234,6 @@ export class DeployVpcStack extends cdk.Stack {
     );
 
     // These tags are used by the other stack to query for the VPC
-    this.stackTags = {};
     tags.forEach((tag) => {
       this.stackTags[tag.key] = tag.value;
     });
