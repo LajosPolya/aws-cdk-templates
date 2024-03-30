@@ -150,7 +150,6 @@ export class DeployVpcStack extends cdk.Stack {
      * An Elastic IP is needed for the NAT Gateway.
      */
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
-      networkBorderGroup: "us-east-2",
       tags: tags,
     });
 
