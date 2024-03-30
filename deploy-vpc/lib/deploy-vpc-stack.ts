@@ -17,6 +17,8 @@ export class DeployVpcStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployVpcStackProps) {
     super(scope, id, props);
 
+    const availabilityZone = `${props.env!.region!}a`;
+
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
     const oneTag = new cdk.Tag("60", "60", { priority: 1000 });
@@ -59,7 +61,7 @@ export class DeployVpcStack extends cdk.Stack {
       mapPublicIpOnLaunch: true,
       tags: tags,
       vpcId: this.vpcL1.attrVpcId,
-      availabilityZone: "us-east-2a",
+      availabilityZone: availabilityZone,
     });
 
     /**
@@ -114,7 +116,7 @@ export class DeployVpcStack extends cdk.Stack {
         mapPublicIpOnLaunch: true,
         tags: tags,
         vpcId: this.vpcL1.attrVpcId,
-        availabilityZone: "us-east-2a",
+        availabilityZone: availabilityZone,
       },
     );
 
@@ -194,7 +196,7 @@ export class DeployVpcStack extends cdk.Stack {
         mapPublicIpOnLaunch: true,
         tags: tags,
         vpcId: this.vpcL1.attrVpcId,
-        availabilityZone: "us-east-2a",
+        availabilityZone: availabilityZone,
       },
     );
 
