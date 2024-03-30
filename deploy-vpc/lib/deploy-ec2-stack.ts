@@ -16,9 +16,13 @@ export class DeployEc2Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployEc2StackProps) {
     super(scope, id, props);
 
-    // Using tags because of https://github.com/aws/aws-cdk/issues/14809
-    // tags aren't unique so deploying and then deleting deployment
-    // may return wrong VPC
+    /**
+     * VPCs can be queried for by their ID - https://github.com/aws/aws-cdk/issues/14809
+     * which is why we're querying for the VPC by tags.
+     * The issue with querying by tag is that tags are not unique. Therefore
+     * `Vpc::fromLookup` may produce an error if more than one VPCs are found with
+     * the same tags. This method may even find a VPC if it was recently deleted.
+     */
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: props.stackTags,
       isDefault: false,
@@ -141,12 +145,6 @@ export class DeployEc2Stack extends cdk.Stack {
       description: "Public IP of the EC2 instance",
       value: instance.instancePublicIp,
       exportName: `ec2InstancePublicIp-${props.scope}`,
-    });
-
-    new cdk.CfnOutput(this, "publicDnsName", {
-      description: "Public DNS name of the EC2 instance",
-      value: instance.instancePublicDnsName,
-      exportName: `ec2InstancePublicDnsName-${props.scope}`,
     });*/
   }
 }
