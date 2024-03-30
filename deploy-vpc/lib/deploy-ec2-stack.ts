@@ -141,10 +141,40 @@ export class DeployEc2Stack extends cdk.Stack {
       },
     );
 
-    /*new cdk.CfnOutput(this, "publicIp", {
-      description: "Public IP of the EC2 instance",
-      value: instance.instancePublicIp,
-      exportName: `ec2InstancePublicIp-${props.scope}`,
-    });*/
+    new cdk.CfnOutput(this, "publicInstancePublicIp", {
+      description: "Public IP of the public instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `publicInstancePublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "publicInstancePrivateIp", {
+      description: "Private IP of the public instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `privateEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateEgressInstancePublicIp", {
+      description: "Public IP of the private with egress instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `privateEgressEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateEgressInstancePrivateIp", {
+      description: "Private IP of the private with egress instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `privateEgressEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateIsolatedInstancePublicIp", {
+      description: "Public IP of the private with egress instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `privateEgressEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateIsolatedInstancePrivateIp", {
+      description: "Private IP of the private isolated instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `privateIsolatedEc2PublicIp-${props.scope}`,
+    });
   }
 }
