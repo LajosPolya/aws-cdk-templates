@@ -54,7 +54,6 @@ export class DeployVpcStack extends cdk.Stack {
     /**
      * 3. Create the Public Subnet
      */
-    // This isn't deployed to an availability zone, what does that mean?
     this.publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
       cidrBlock: "172.31.0.0/20",
       mapPublicIpOnLaunch: true,
@@ -106,7 +105,6 @@ export class DeployVpcStack extends cdk.Stack {
     /**
      * 7. Create the Private with Egress Subnet
      */
-    // This isn't deployed to an availability zone, what does that mean?
     this.privateWithEgressSubnet = new cdk.aws_ec2.CfnSubnet(
       this,
       "privateWithEgressSubnet",
@@ -187,7 +185,6 @@ export class DeployVpcStack extends cdk.Stack {
     /**
      * 13. Private Isolated Subnet
      */
-    // This isn't deployed to an availability zone, what does that mean?
     this.privateIsolatedSubnet = new cdk.aws_ec2.CfnSubnet(
       this,
       "privateIsolatedSubnet",
