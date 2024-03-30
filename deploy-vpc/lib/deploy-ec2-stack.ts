@@ -15,6 +15,8 @@ export class DeployEc2Stack extends cdk.Stack {
     const tags: {
       [key: string]: string;
     } = {};
+
+    // Using tags because of https://github.com/aws/aws-cdk/issues/14809
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
@@ -22,6 +24,7 @@ export class DeployEc2Stack extends cdk.Stack {
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,
+      isDefault: false,
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
