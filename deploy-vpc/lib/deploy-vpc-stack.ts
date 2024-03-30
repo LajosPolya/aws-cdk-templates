@@ -65,11 +65,6 @@ export class DeployVpcStack extends cdk.Stack {
       },
     );
 
-    //const gatewayAssociation = new cdk.aws_ec2.CfnGatewayRouteTableAssociation(this, 'gatewayAssociation', {
-    //  gatewayId: internetGateway.attrInternetGatewayId,
-    //  routeTableId: routeTable.attrRouteTableId
-    //})
-
     new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
       this,
       "publicSubnetRouteTableAssociation",
@@ -78,13 +73,6 @@ export class DeployVpcStack extends cdk.Stack {
         subnetId: this.publicSubnet.attrSubnetId,
       },
     );
-
-    // const networkInterface = new cdk.aws_ec2.CfnNetworkInterface(this, 'networkInterface', {
-    //  description: `Test VPC-${props.scope}`,
-    //  // groupSet: security group ids
-    //  subnetId: publicSubnet.attrSubnetId,
-    //  tags: [testingTag, scopeTag]
-    //})
 
     const route = new cdk.aws_ec2.CfnRoute(this, "route", {
       destinationCidrBlock: "0.0.0.0/0",
@@ -138,15 +126,6 @@ export class DeployVpcStack extends cdk.Stack {
       subnetId: this.publicSubnet.attrSubnetId,
       tags: tags,
     });
-
-    //new cdk.aws_ec2.CfnEIPAssociation(this, 'eipAssociation', {
-
-    //})
-
-    // new cdk.aws_ec2.CfnGatewayRouteTableAssociation(this, 'gatewayRouteAssociation', {
-    //   gatewayId: natGateway.attrNatGatewayId,
-    //   routeTableId: privateRouteTable.attrRouteTableId
-    // })
 
     new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
       this,
