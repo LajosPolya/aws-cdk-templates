@@ -35,6 +35,8 @@ new DeployEc2Stack(app, "DeployEc2Stack", {
   scope,
   vpcL1: vpcStack.vpcL1,
   publicSubnet: vpcStack.publicSubnet,
+  privateWithEgressSubnet: vpcStack.privateWithEgressSubnet,
+  privateIsolatedSubnet: vpcStack.privateIsolatedSubnet,
   stackTags: vpcStack.stackTags,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,

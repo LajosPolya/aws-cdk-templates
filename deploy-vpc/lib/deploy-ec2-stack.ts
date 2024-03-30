@@ -5,6 +5,8 @@ export interface DeployEc2StackProps extends cdk.StackProps {
   scope: string;
   vpcL1: cdk.aws_ec2.CfnVPC;
   publicSubnet: cdk.aws_ec2.CfnSubnet;
+  privateWithEgressSubnet: cdk.aws_ec2.CfnSubnet;
+  privateIsolatedSubnet: cdk.aws_ec2.CfnSubnet;
   stackTags: {
     [key: string]: string;
   };
@@ -54,7 +56,7 @@ export class DeployEc2Stack extends cdk.Stack {
       },
     );
 
-    const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
+    const publicInstance = new cdk.aws_ec2.Instance(this, "publicInstance", {
       vpcSubnets: {
         subnets: [publicSubnet],
       },
@@ -67,8 +69,66 @@ export class DeployEc2Stack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `ec2Instance-${props.scope}`,
+      instanceName: `public-${props.scope}`,
     });
+
+    const privateWithEgressSubnet = cdk.aws_ec2.Subnet.fromSubnetAttributes(
+      this,
+      "privateWithEgressSubnet",
+      {
+        availabilityZone: props.privateWithEgressSubnet.attrAvailabilityZone,
+        subnetId: props.privateWithEgressSubnet.attrSubnetId,
+      },
+    );
+
+    const privateWithEgressInstance = new cdk.aws_ec2.Instance(
+      this,
+      "privateWithEgressInstance",
+      {
+        vpcSubnets: {
+          subnets: [privateWithEgressSubnet],
+        },
+        allowAllOutbound: true,
+        vpc: vpc,
+        securityGroup: securityGroup,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userData,
+        instanceName: `privateWithEgress-${props.scope}`,
+      },
+    );
+
+    const privateIsolatedSubnet = cdk.aws_ec2.Subnet.fromSubnetAttributes(
+      this,
+      "privateIsolatedSubnet",
+      {
+        availabilityZone: props.privateIsolatedSubnet.attrAvailabilityZone,
+        subnetId: props.privateIsolatedSubnet.attrSubnetId,
+      },
+    );
+
+    const privateIsolatedInstance = new cdk.aws_ec2.Instance(
+      this,
+      "privateIsolatedInstance",
+      {
+        vpcSubnets: {
+          subnets: [privateIsolatedSubnet],
+        },
+        allowAllOutbound: true,
+        vpc: vpc,
+        securityGroup: securityGroup,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userData,
+        instanceName: `privateIsolated-${props.scope}`,
+      },
+    );
 
     /*new cdk.CfnOutput(this, "publicIp", {
       description: "Public IP of the EC2 instance",

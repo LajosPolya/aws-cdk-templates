@@ -19,7 +19,7 @@ export class DeployVpcStack extends cdk.Stack {
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("45", "45", { priority: 1000 });
+    const oneTag = new cdk.Tag("46", "46", { priority: 1000 });
 
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
