@@ -18,7 +18,7 @@ export class DeployEc2Stack extends cdk.Stack {
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
     tags["test"] = "testTag";
-    tags["21"] = "21";
+    tags["45"] = "45";
     tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
       tags: tags,

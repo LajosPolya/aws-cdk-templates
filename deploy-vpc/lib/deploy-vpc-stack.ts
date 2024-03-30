@@ -15,7 +15,7 @@ export class DeployVpcStack extends cdk.Stack {
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("21", "21", { priority: 1000 });
+    const oneTag = new cdk.Tag("45", "45", { priority: 1000 });
 
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "172.31.0.0/16",
@@ -113,16 +113,30 @@ export class DeployVpcStack extends cdk.Stack {
       availabilityZone: "us-east-2a",
     });
 
-    //const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
-    //  networkBorderGroup: 'us-east-2',
-    //  tags: [testingTag, scopeTag],
-    //});
+    const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
+      networkBorderGroup: "us-east-2",
+      tags: [testingTag, scopeTag],
+    });
 
-    //const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
-    //  allocationId: eip.attrAllocationId,
-    //   subnetId: this.privateSubnet.attrSubnetId,
-    //   tags: [testingTag, scopeTag],
-    // });
+    /**
+     * Some what unintuitively, or (maybe) intuitively, the NAT Gateway must reside
+     * inside a public subnet even though it routes traffic from a private subnet to
+     * the internet
+     */
+    const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
+      allocationId: eip.attrAllocationId,
+      subnetId: this.publicSubnet.attrSubnetId,
+      tags: [testingTag, scopeTag],
+    });
+
+    //new cdk.aws_ec2.CfnEIPAssociation(this, 'eipAssociation', {
+
+    //})
+
+    // new cdk.aws_ec2.CfnGatewayRouteTableAssociation(this, 'gatewayRouteAssociation', {
+    //   gatewayId: natGateway.attrNatGatewayId,
+    //   routeTableId: privateRouteTable.attrRouteTableId
+    // })
 
     const privateSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(
@@ -134,10 +148,10 @@ export class DeployVpcStack extends cdk.Stack {
         },
       );
 
-    //new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
-    //  destinationCidrBlock: "0.0.0.0/0",
-    //  natGatewayId: natGateway.attrNatGatewayId,
-    //  routeTableId: privateRouteTable.attrRouteTableId,
-    //});
+    new cdk.aws_ec2.CfnRoute(this, "privateRoute", {
+      destinationCidrBlock: "0.0.0.0/0",
+      natGatewayId: natGateway.attrNatGatewayId,
+      routeTableId: privateRouteTable.attrRouteTableId,
+    });
   }
 }
