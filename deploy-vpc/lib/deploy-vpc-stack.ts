@@ -19,7 +19,7 @@ export class DeployVpcStack extends cdk.Stack {
 
     const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("47", "47", { priority: 1000 });
+    const oneTag = new cdk.Tag("48", "48", { priority: 1000 });
 
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
@@ -56,7 +56,6 @@ export class DeployVpcStack extends cdk.Stack {
      */
     // This isn't deployed to an availability zone, what does that mean?
     this.publicSubnet = new cdk.aws_ec2.CfnSubnet(this, "publicSubnet", {
-      // availabilityZone: 'us-east-1',
       cidrBlock: "172.31.0.0/20",
       mapPublicIpOnLaunch: true,
       tags: tags,
@@ -193,7 +192,6 @@ export class DeployVpcStack extends cdk.Stack {
       this,
       "privateIsolatedSubnet",
       {
-        // availabilityZone: 'us-east-1',
         cidrBlock: "172.31.32.0/20",
         // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
         mapPublicIpOnLaunch: true,
