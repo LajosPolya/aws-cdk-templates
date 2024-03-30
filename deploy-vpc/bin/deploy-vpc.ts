@@ -9,6 +9,7 @@ const scope = app.node.getContext("scope");
 const vpcTag = app.node.getContext("vpcTag");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
+
 const vpcStack = new DeployVpcStack(app, "DeployVpcStack", {
   stackName: `vpc-${scope}`,
   scope,
