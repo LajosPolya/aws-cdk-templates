@@ -25,8 +25,6 @@ export class DeployVpcStack extends cdk.Stack {
     const tags = [testingTag, scopeTag, oneTag];
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "172.31.0.0/16",
-      // TODO: should I just stick to IP addresses instead of DNS support?
-      enableDnsHostnames: true,
       enableDnsSupport: true,
       tags: tags,
     });
