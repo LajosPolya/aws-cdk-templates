@@ -45,6 +45,14 @@ export class DeployVpcDefaultStack extends cdk.Stack {
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
+    /**
+     * NOTE: These commands will FAIL on the EC2 instance located in the PRIVATE_ISOLATED subnet.
+     *
+     * The isolated private subnet has no route to the public internet and is therefore not able to update
+     * or install any external software. For this reason the EC2 instance in the isolated subnet will not
+     * have an httpd server installed on it, meaning that all `curl` commands will fail, but `ping` will
+     * still continue to work from within the VPC.
+     */
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
       "#!/bin/bash",
