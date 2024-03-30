@@ -63,7 +63,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
-    const instance = new cdk.aws_ec2.Instance(this, "public1", {
+    new cdk.aws_ec2.Instance(this, "public1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -78,7 +78,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       instanceName: `public1-${props.scope}`,
     });
 
-    const instance3 = new cdk.aws_ec2.Instance(this, "public2", {
+    new cdk.aws_ec2.Instance(this, "public2", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -93,7 +93,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       instanceName: `public2-${props.scope}`,
     });
 
-    const instance1 = new cdk.aws_ec2.Instance(this, "privateEgress1", {
+    new cdk.aws_ec2.Instance(this, "privateEgress1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
@@ -108,7 +108,7 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       instanceName: `privateEgress1-${props.scope}`,
     });
 
-    const instance2 = new cdk.aws_ec2.Instance(this, "privateIsolated1", {
+    new cdk.aws_ec2.Instance(this, "privateIsolated1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
       },
