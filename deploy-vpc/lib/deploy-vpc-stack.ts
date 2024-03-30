@@ -3,6 +3,7 @@ import { Construct } from "constructs";
 
 export interface DeployVpcStackProps extends cdk.StackProps {
   scope: string;
+  vpcTag: string;
 }
 
 export class DeployVpcStack extends cdk.Stack {
@@ -19,16 +20,15 @@ export class DeployVpcStack extends cdk.Stack {
 
     const availabilityZone = `${props.env!.region!}a`;
 
-    const testingTag = new cdk.Tag("test", "testTag", { priority: 1000 });
-    const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
-    const oneTag = new cdk.Tag("61", "61", { priority: 1000 });
+    const scopeTag = new cdk.Tag(props.scope, props.scope);
+    const vpcTag = new cdk.Tag(props.vpcTag, props.vpcTag);
+    const tags = [scopeTag, vpcTag];
 
-    // tags aren't unique so deploying and then deleting deployment
-    // may return wrong VPC
+    // Tags aren't unique so deploying a VPC with the same tags as
+    // a recently deleted VPC may produce an error
     /**
      * 1. Deploy a VPC
      */
-    const tags = [testingTag, scopeTag, oneTag];
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "172.31.0.0/16",
       enableDnsSupport: true,
