@@ -5,6 +5,9 @@ export interface DeployPrivateLambdaStackProps extends cdk.StackProps {
   scope: string;
   vpcL1: cdk.aws_ec2.CfnVPC;
   privateSubnet: cdk.aws_ec2.CfnSubnet;
+  stackTags: {
+    [key: string]: string;
+  };
 }
 
 export class DeployPrivateLambdaStack extends cdk.Stack {
@@ -15,17 +18,10 @@ export class DeployPrivateLambdaStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    const tag = props.vpcL1.tags.tagValues();
-    const tags: {
-      [key: string]: string;
-    } = {};
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
-    tags["test"] = "testTag";
-    tags["45"] = "45";
-    tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
-      tags: tags,
+      tags: props.stackTags,
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {

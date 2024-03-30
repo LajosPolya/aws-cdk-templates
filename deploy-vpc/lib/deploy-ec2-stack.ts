@@ -5,25 +5,20 @@ export interface DeployEc2StackProps extends cdk.StackProps {
   scope: string;
   vpcL1: cdk.aws_ec2.CfnVPC;
   publicSubnet: cdk.aws_ec2.CfnSubnet;
+  stackTags: {
+    [key: string]: string;
+  };
 }
 
 export class DeployEc2Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: DeployEc2StackProps) {
     super(scope, id, props);
 
-    const tag = props.vpcL1.tags.tagValues();
-    const tags: {
-      [key: string]: string;
-    } = {};
-
     // Using tags because of https://github.com/aws/aws-cdk/issues/14809
     // tags aren't unique so deploying and then deleting deployment
     // may return wrong VPC
-    tags["test"] = "testTag";
-    tags["45"] = "45";
-    tags[props.scope] = props.scope;
     const vpc = cdk.aws_ec2.Vpc.fromLookup(this, "vpcL2", {
-      tags: tags,
+      tags: props.stackTags,
       isDefault: false,
     });
 

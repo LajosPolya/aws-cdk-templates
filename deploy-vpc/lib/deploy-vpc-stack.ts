@@ -9,6 +9,9 @@ export class DeployVpcStack extends cdk.Stack {
   vpcL1: cdk.aws_ec2.CfnVPC;
   privateSubnet: cdk.aws_ec2.CfnSubnet;
   publicSubnet: cdk.aws_ec2.CfnSubnet;
+  stackTags: {
+    [key: string]: string;
+  };
 
   constructor(scope: Construct, id: string, props: DeployVpcStackProps) {
     super(scope, id, props);
@@ -17,12 +20,15 @@ export class DeployVpcStack extends cdk.Stack {
     const scopeTag = new cdk.Tag(props.scope, props.scope, { priority: 1000 });
     const oneTag = new cdk.Tag("45", "45", { priority: 1000 });
 
+    // tags aren't unique so deploying and then deleting deployment
+    // may return wrong VPC
+    const tags = [testingTag, scopeTag, oneTag];
     this.vpcL1 = new cdk.aws_ec2.CfnVPC(this, "vpc", {
       cidrBlock: "172.31.0.0/16",
       // TODO: should I just stick to IP addresses instead of DNS support?
       enableDnsHostnames: true,
       enableDnsSupport: true,
-      tags: [testingTag, scopeTag, oneTag],
+      tags: tags,
     });
 
     // This isn't deployed to an availability zone, what does that mean?
@@ -30,7 +36,7 @@ export class DeployVpcStack extends cdk.Stack {
       // availabilityZone: 'us-east-1',
       cidrBlock: "172.31.0.0/20",
       mapPublicIpOnLaunch: true,
-      tags: [testingTag, scopeTag],
+      tags: tags,
       vpcId: this.vpcL1.attrVpcId,
       availabilityZone: "us-east-2a",
     });
@@ -39,7 +45,7 @@ export class DeployVpcStack extends cdk.Stack {
       this,
       "internetGateway",
       {
-        tags: [testingTag, scopeTag],
+        tags: tags,
       },
     );
 
@@ -56,7 +62,7 @@ export class DeployVpcStack extends cdk.Stack {
       this,
       "publicRouteTable",
       {
-        tags: [testingTag, scopeTag],
+        tags: tags,
         vpcId: this.vpcL1.attrVpcId,
       },
     );
@@ -97,7 +103,7 @@ export class DeployVpcStack extends cdk.Stack {
       this,
       "privateRouteTable",
       {
-        tags: [testingTag, scopeTag],
+        tags: tags,
         vpcId: this.vpcL1.attrVpcId,
       },
     );
@@ -108,14 +114,14 @@ export class DeployVpcStack extends cdk.Stack {
       cidrBlock: "172.31.16.0/20",
       // If you turn this off make sure to turn off `associatePublicIpAddress` on the private EC2
       mapPublicIpOnLaunch: true,
-      tags: [testingTag, scopeTag],
+      tags: tags,
       vpcId: this.vpcL1.attrVpcId,
       availabilityZone: "us-east-2a",
     });
 
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
       networkBorderGroup: "us-east-2",
-      tags: [testingTag, scopeTag],
+      tags: tags,
     });
 
     /**
@@ -126,7 +132,7 @@ export class DeployVpcStack extends cdk.Stack {
     const natGateway = new cdk.aws_ec2.CfnNatGateway(this, "natGateway", {
       allocationId: eip.attrAllocationId,
       subnetId: this.publicSubnet.attrSubnetId,
-      tags: [testingTag, scopeTag],
+      tags: tags,
     });
 
     //new cdk.aws_ec2.CfnEIPAssociation(this, 'eipAssociation', {
@@ -137,6 +143,11 @@ export class DeployVpcStack extends cdk.Stack {
     //   gatewayId: natGateway.attrNatGatewayId,
     //   routeTableId: privateRouteTable.attrRouteTableId
     // })
+
+    this.stackTags = {};
+    tags.forEach((tag) => {
+      this.stackTags[tag.key] = tag.value;
+    });
 
     const privateSubnetRouteTableAssociation =
       new cdk.aws_ec2.CfnSubnetRouteTableAssociation(

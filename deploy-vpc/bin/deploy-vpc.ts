@@ -23,6 +23,7 @@ new DeployPrivateLambdaStack(app, "DeployPrivateLambdaStack", {
   scope,
   vpcL1: vpcStack.vpcL1,
   privateSubnet: vpcStack.privateSubnet,
+  stackTags: vpcStack.stackTags,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,
@@ -34,6 +35,7 @@ new DeployEc2Stack(app, "DeployEc2Stack", {
   scope,
   vpcL1: vpcStack.vpcL1,
   publicSubnet: vpcStack.publicSubnet,
+  stackTags: vpcStack.stackTags,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,
