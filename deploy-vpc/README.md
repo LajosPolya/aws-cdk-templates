@@ -6,8 +6,8 @@ This CDK app deploys a VPC with three subnets.
 2. Private with Egress Subnet routed to the public internet via NAT Gateway.
 3. Private Isolated Subnet not routed to the internet.
 
-Each subnet has an EC2 instance deployed to it. The purpose of this application is to deploy a VPC and all of its necessary parts (subnets, internet gateway, NAT gateway, route tables, etc) as a tool
-to learn more about netorking in AWS.
+Each subnet has an EC2 instance deployed to it. The purpose of this application is to deploy a VPC and all of its necessary components (subnets, internet gateway, NAT gateway, route tables, etc) as a tool
+to learn about newtorking in AWS.
 
 ## Useful commands
 
