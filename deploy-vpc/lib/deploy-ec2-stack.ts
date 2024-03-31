@@ -17,7 +17,7 @@ export class DeployEc2Stack extends cdk.Stack {
     super(scope, id, props);
 
     /**
-     * VPCs can be queried for by their ID - https://github.com/aws/aws-cdk/issues/14809
+     * VPCs can't be queried for by their ID - https://github.com/aws/aws-cdk/issues/14809
      * which is why we're querying for the VPC by tags.
      * The issue with querying by tag is that tags are not unique. Therefore
      * `Vpc::fromLookup` may produce an error if more than one VPCs are found with
