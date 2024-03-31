@@ -155,25 +155,25 @@ export class DeployEc2Stack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "privateEgressInstancePublicIp", {
       description: "Public IP of the private with egress instance",
-      value: publicInstance.instancePublicIp,
+      value: privateWithEgressInstance.instancePublicIp,
       exportName: `privateEgressEc2PublicIp-${props.scope}`,
     });
 
     new cdk.CfnOutput(this, "privateEgressInstancePrivateIp", {
       description: "Private IP of the private with egress instance",
-      value: publicInstance.instancePrivateIp,
+      value: privateWithEgressInstance.instancePrivateIp,
       exportName: `privateEgressEc2PrivateIp-${props.scope}`,
     });
 
     new cdk.CfnOutput(this, "privateIsolatedInstancePublicIp", {
       description: "Public IP of the private with egress instance",
-      value: publicInstance.instancePublicIp,
+      value: privateIsolatedInstance.instancePublicIp,
       exportName: `privateIsolatedEc2PublicIp-${props.scope}`,
     });
 
     new cdk.CfnOutput(this, "privateIsolatedInstancePrivateIp", {
       description: "Private IP of the private isolated instance",
-      value: publicInstance.instancePrivateIp,
+      value: privateIsolatedInstance.instancePrivateIp,
       exportName: `privateIsolatedEc2PrivateIp-${props.scope}`,
     });
   }
