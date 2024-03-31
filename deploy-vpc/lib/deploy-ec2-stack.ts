@@ -43,7 +43,7 @@ export class DeployEc2Stack extends cdk.Stack {
     /**
      * NOTE/WARNING: These commands will FAIL on the EC2 instance located in the PRIVATE_ISOLATED subnet.
      *
-     * The isolated private subnet has no route to the public internet and is therefore not able to update
+     * The private isolated subnet has no route to the public internet and is therefore not able to download
      * or install any external software. For this reason the EC2 instance in the isolated subnet will not
      * have an httpd server installed on it, meaning that all `curl` commands will fail, but `ping` will
      * still continue to work from within the VPC.
