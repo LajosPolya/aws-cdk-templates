@@ -78,21 +78,6 @@ export class DeployVpcDefaultStack extends cdk.Stack {
       instanceName: `public1-${props.scope}`,
     });
 
-    new cdk.aws_ec2.Instance(this, "public2", {
-      vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
-      },
-      vpc: vpc,
-      securityGroup: securityGroup,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      instanceName: `public2-${props.scope}`,
-    });
-
     new cdk.aws_ec2.Instance(this, "privateEgress1", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
