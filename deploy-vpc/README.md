@@ -6,7 +6,7 @@ This CDK app deploys a VPC with three subnets.
 2. Private with Egress Subnet routed to the public internet via NAT Gateway.
 3. Private Isolated Subnet not routed to the internet.
 
-Each subnet has an EC2 instance deployed to it. The purpose of this application is to deploy a VPC and all of its necessary components (subnets, internet gateway, NAT gateway, route tables, etc) as a tool
+Each subnet has an EC2 instance deployed to it. The purpose of this application is to deploy an L1 VPC and all of its necessary components (subnets, internet gateway, NAT gateway, route tables, etc) as a tool
 to learn about newtorking in AWS.
 
 ## Useful commands
@@ -50,7 +50,7 @@ The app will set the environment (account and region) based on the environment v
 The first stack deploys a VPC with three subnets; a Public Subnet which allows inbound and outbound connections to the public internet, a Private Subnet with Egress which only allows outbound connections to the
 public internet, and a Private Isolated Subnet which is only accessible from within the VPC.
 
-The second stack deploys an EC2 instance into each subnet. The EC2 instances within the Public Subnet and the Private with Egress Subnet have an HTTP server installed on them. The EC2 instance within the Private Isolated Subnet doesn't have an HTTP server installed on it because it cannot access the internet an therefore can't install any external software.
+The second stack deploys an EC2 instance into each subnet. The EC2 instances within the Public Subnet and the Private with Egress Subnet have an HTTP server installed on them. The EC2 instance within the Private Isolated Subnet doesn't have an HTTP server installed on it because it cannot access the internet an therefore can't download and install any external software.
 
 ### Testing EC2 Instance Connectivity
 
