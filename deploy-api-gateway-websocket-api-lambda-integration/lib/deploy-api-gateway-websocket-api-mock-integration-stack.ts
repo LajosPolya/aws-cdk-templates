@@ -1,6 +1,5 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
 
 export class DeployApiGatewayWebsocketApiMockIntegrationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -28,17 +27,29 @@ exports.handler = async(event) => {
       description:
         "Lambda deployed with inline code and triggered by API Gateway",
       timeout: cdk.Duration.seconds(3),
-      functionName: `httpApiGatewayLambda`,
+      functionName: `websocketApiGatewayLambda`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
       retryAttempts: 0,
     });
 
-    const connectRouteIntegration = new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration('connect', lambda);
-    const disconnectRouteIntegration = new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration('disconnect', lambda);
-    const defaultRouteIntegration = new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration('default', lambda);
-    const api = new cdk.aws_apigatewayv2.WebSocketApi(this, 'api', {
-      apiName: 'mockWebsocketApi',
-      description: 'Websocket API with Mock Integration',
+    const connectRouteIntegration =
+      new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration(
+        "connect",
+        lambda,
+      );
+    const disconnectRouteIntegration =
+      new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration(
+        "disconnect",
+        lambda,
+      );
+    const defaultRouteIntegration =
+      new cdk.aws_apigatewayv2_integrations.WebSocketLambdaIntegration(
+        "default",
+        lambda,
+      );
+    const api = new cdk.aws_apigatewayv2.WebSocketApi(this, "api", {
+      apiName: "websocketApiWithLambaIntegration",
+      description: "Websocket API with Lambda Integration",
       connectRouteOptions: {
         integration: connectRouteIntegration,
         returnResponse: true,
@@ -51,21 +62,20 @@ exports.handler = async(event) => {
         integration: defaultRouteIntegration,
         returnResponse: true,
       },
+    });
 
-    })
-
-    const stage = new cdk.aws_apigatewayv2.WebSocketStage(this, 'stage', {
+    const stage = new cdk.aws_apigatewayv2.WebSocketStage(this, "stage", {
       webSocketApi: api,
-      stageName: 'test',
-      autoDeploy: true
-    })
+      stageName: "test",
+      autoDeploy: true,
+    });
 
-    new cdk.CfnOutput(this, 'url', {
-      value: stage.url
-    })
+    new cdk.CfnOutput(this, "url", {
+      value: stage.url,
+    });
 
-    new cdk.CfnOutput(this, 'callbackUrl', {
-      value: stage.callbackUrl
-    })
+    new cdk.CfnOutput(this, "callbackUrl", {
+      value: stage.callbackUrl,
+    });
   }
 }
