@@ -1,8 +1,8 @@
 {
-  "name": "deploy-api-gateway-websocket-api-mock-integration",
+  "name": "deploy-api-gateway-websocket-api-lambda-integration",
   "version": "0.1.0",
   "bin": {
-    "deploy-api-gateway-websocket-api-mock-integration": "bin/deploy-api-gateway-websocket-api-mock-integration.js"
+    "deploy-api-gateway-websocket-api-lambda-integration": "bin/deploy-api-gateway-websocket-api-lambda-integration.js"
   },
   "scripts": {
     "build": "tsc",

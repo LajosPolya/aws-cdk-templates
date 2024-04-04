@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { DeployApiGatewayWebsocketApiMockIntegrationStack } from "../lib/deploy-api-gateway-websocket-api-mock-integration-stack";
+import { DeployApiGatewayWebsocketApiLambdaIntegrationStack } from "../lib/deploy-api-gateway-websocket-api-lambda-integration-stack";
 
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
-new DeployApiGatewayWebsocketApiMockIntegrationStack(
+new DeployApiGatewayWebsocketApiLambdaIntegrationStack(
   app,
   "DeployApiGatewayWebsocketApiLambdaIntegrationStack",
   {
