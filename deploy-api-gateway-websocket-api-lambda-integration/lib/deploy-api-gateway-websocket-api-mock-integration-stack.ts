@@ -1,8 +1,17 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
+export interface DeployApiGatewayWebsocketApiMockIntegrationStackProps
+  extends cdk.StackProps {
+  scope: string;
+}
+
 export class DeployApiGatewayWebsocketApiMockIntegrationStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployApiGatewayWebsocketApiMockIntegrationStackProps,
+  ) {
     super(scope, id, props);
 
     // Lambda response must be in this exact format
@@ -27,7 +36,7 @@ exports.handler = async(event) => {
       description:
         "Lambda deployed with inline code and triggered by API Gateway",
       timeout: cdk.Duration.seconds(3),
-      functionName: `websocketApiGatewayLambda`,
+      functionName: `websocketApiGatewayLambda-${props.scope}`,
       logRetention: cdk.aws_logs.RetentionDays.ONE_DAY,
       retryAttempts: 0,
     });
@@ -48,7 +57,7 @@ exports.handler = async(event) => {
         lambda,
       );
     const api = new cdk.aws_apigatewayv2.WebSocketApi(this, "api", {
-      apiName: "websocketApiWithLambaIntegration",
+      apiName: `websocketApiWithLambaIntegration-${props.scope}`,
       description: "Websocket API with Lambda Integration",
       connectRouteOptions: {
         integration: connectRouteIntegration,
