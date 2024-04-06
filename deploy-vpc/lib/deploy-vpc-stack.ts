@@ -100,9 +100,6 @@ export class DeployVpcStack extends cdk.Stack {
       gatewayId: internetGateway.attrInternetGatewayId,
       routeTableId: publicRouteTable.attrRouteTableId,
     });
-    // Is this dependency needed?
-    internetGateway.addDependency(this.vpcL1);
-    route.addDependency(internetGateway);
 
     /**
      * 7. Create the Private with Egress Subnet
