@@ -17,6 +17,9 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
 
     const availabilityZone = `${props.env!.region!}a`;
 
+    /**
+     * 1. Deploy VPC A. This VPC will have connection to VPC B
+     */
     const vpcACidr = "10.0.0.0/16";
     const vpcA = new cdk.aws_ec2.Vpc(this, "vpcA", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(vpcACidr),
@@ -29,6 +32,10 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       createInternetGateway: false,
     });
 
+    /**
+     * 2. Deploy an Internet Gateway and attach it to VPC A. The Internet
+     * Gateway will allow VPC A to route traffic to the Public Internet.
+     */
     const internetGateway = new cdk.aws_ec2.CfnInternetGateway(this, "id", {
       tags: tags,
     });
@@ -42,10 +49,15 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 3. Deploy and Subnet and make it a Public Subnet by create a Route
+     * to direct traffic to the Internet Gateway.
+     */
+    const publicSubnetVpcACidr = "10.0.0.0/24";
     const publicSubnetVpcA = new cdk.aws_ec2.Subnet(this, "publicSubnetVpcA", {
       availabilityZone: availabilityZone,
       vpcId: vpcA.vpcId,
-      cidrBlock: "10.0.0.0/24",
+      cidrBlock: publicSubnetVpcACidr,
       mapPublicIpOnLaunch: true,
     });
 
@@ -55,6 +67,10 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       routeTableId: publicSubnetVpcA.routeTable.routeTableId,
     });
 
+    /**
+     * 4. Deploy VPC B and a Private Isolated Subnet within the VPC.
+     * This VPC doesn't have access to the Public Internet.
+     */
     const vpcBCidr = "10.1.0.0/16";
     const vpcB = new cdk.aws_ec2.Vpc(this, "vpcB", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(vpcBCidr),
@@ -77,6 +93,10 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 5. Create a Transit Gateway to allow the two VPCs to
+     * communicate.
+     */
     const transitGateway = new cdk.aws_ec2.CfnTransitGateway(
       this,
       "transitGateway",
@@ -86,16 +106,9 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       },
     );
 
-    // TODO: Is this needed? Isn't a Transit Gateway Route Table auto-attached?
-    new cdk.aws_ec2.CfnTransitGatewayRouteTable(
-      this,
-      "transitGatewayRouteTable",
-      {
-        transitGatewayId: transitGateway.attrId,
-        tags: tags,
-      },
-    );
-
+    /**
+     * 6. Attach both VPCs to the Transit Gateway.
+     */
     const transitGatewayAttachmentVpcA =
       new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
         this,
@@ -120,8 +133,12 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
         },
       );
 
-    // TODO: The ID doesn't match the VPC
-    const privateRoute = new cdk.aws_ec2.CfnRoute(
+    /**
+     * 7. Traffic from VPC A's Public Subnet to VPC B is routed to the
+     * Transit Gateway. This is what allows VPC A to communicate with
+     * VPC B.
+     */
+    const privateSubnetVpcAToTransitGateway = new cdk.aws_ec2.CfnRoute(
       this,
       "vpcAToTransitGateway",
       {
@@ -130,10 +147,16 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
         routeTableId: publicSubnetVpcA.routeTable.routeTableId,
       },
     );
-    privateRoute.addDependency(transitGatewayAttachmentVpcA);
+    privateSubnetVpcAToTransitGateway.addDependency(
+      transitGatewayAttachmentVpcA,
+    );
 
-    // TODO: The ID doesn't match the VPC
-    const privateRouteB = new cdk.aws_ec2.CfnRoute(
+    /**
+     * 8. Traffic from VPC B's Private Subnet to VPC A is routed to the
+     * Transit Gateway. This is what allows VPC B to communicate with
+     * VPC A.
+     */
+    const privateSubnetVpcBToTransitGateway = new cdk.aws_ec2.CfnRoute(
       this,
       "vpcBToTransitGateway",
       {
@@ -142,10 +165,13 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
         routeTableId: privateIsolatedSubnetVpcB.routeTable.routeTableId,
       },
     );
-    privateRouteB.addDependency(transitGatewayAttachmentVpcB);
+    privateSubnetVpcBToTransitGateway.addDependency(
+      transitGatewayAttachmentVpcB,
+    );
 
     /**
-     * EC2 Instances
+     * 9. Create a Security Group for VPC A EC2 Instances to allow all
+     * ingress and egress traffic.
      */
     const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -162,6 +188,9 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       "Allow all",
     );
 
+    /**
+     * 10. Create User Data for VPC A EC2 Instances to download and start an HTTP Server.
+     */
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -173,6 +202,9 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
+    /**
+     * 11. Deploy and EC2 Instance in VPC A's Public Subnet.
+     */
     new cdk.aws_ec2.Instance(this, "publicInstanceVpcA", {
       vpcSubnets: {
         subnets: [publicSubnetVpcA],
@@ -188,23 +220,32 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       instanceName: `publicVpcA-${props.scope}`,
     });
 
+    /**
+     * 12. Create a Security Group for VPC B EC2 Instances to allow ICMP Ping
+     * traffic from VPC A's Public Subnet. Note that we don't need to allow all
+     * IPV4 traffic since the EC2 Instance this is attached to doesn't have an
+     * HTTP server and thus can only respond to ICMP Ping.
+     */
     const securityGroupVpcB = new cdk.aws_ec2.SecurityGroup(
       this,
       "securityGroupVpcB",
       {
         securityGroupName: `ec2InstanceVpcB-${props.scope}`,
-        description: "Allow all traffic",
+        description: "Allow ICMP Ping from VPC A's Public Subnet",
         vpc: vpcB,
       },
     );
     securityGroupVpcB.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTraffic(),
-      "Allow all",
+      cdk.aws_ec2.Peer.ipv4(publicSubnetVpcACidr),
+      cdk.aws_ec2.Port.icmpPing(),
+      "Allow ICMP Ping from VPC A's Public Subnet",
     );
 
     /**
-     * Notice this EC2 instance doens't have an UserData object attached to it
+     * 13. Deply an EC2 Instance in VPC B's Private Isolated Subnet.
+     * Notice this EC2 instance doens't have an UserData object to download
+     * external data. This is because an EC2 intance in a Private Isolated
+     * Subnet isn't able to download external software.
      */
     new cdk.aws_ec2.Instance(this, "privateIsolatedInstanceVpcB", {
       vpcSubnets: {
