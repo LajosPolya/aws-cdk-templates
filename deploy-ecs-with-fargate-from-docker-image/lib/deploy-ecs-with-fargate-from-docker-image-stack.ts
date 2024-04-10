@@ -1,17 +1,22 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
 
-export interface DeployEcsWithFargateFromDockerImageStackProps extends cdk.StackProps {
+export interface DeployEcsWithFargateFromDockerImageStackProps
+  extends cdk.StackProps {
   scope: string;
-} 
+}
 
 export class DeployEcsWithFargateFromDockerImageStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployEcsWithFargateFromDockerImageStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployEcsWithFargateFromDockerImageStackProps,
+  ) {
     super(scope, id, props);
 
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
-        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
+        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       availabilityZones: [`${props.env!.region!}a`],
       natGateways: 0,
@@ -37,10 +42,10 @@ export class DeployEcsWithFargateFromDockerImageStack extends cdk.Stack {
         cpu: 256,
         memoryLimitMiB: 512,
         family: `ecsFargateFromDockerImage-${props.scope}`,
-      }
+      },
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromAsset('../api'),
+      image: cdk.aws_ecs.ContainerImage.fromAsset("../api"),
       essential: true,
       portMappings: [
         {
@@ -57,19 +62,15 @@ export class DeployEcsWithFargateFromDockerImageStack extends cdk.Stack {
       }),
     });
 
-    const securityGroup = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "securityGroup",
-      {
-        securityGroupName: `ecsFargate-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpc,
-      }
-    );
+    const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
+      securityGroupName: `ecsFargate-${props.scope}`,
+      description: "Allow all traffic",
+      vpc: vpc,
+    });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP"
+      "Allow all TCP",
     );
     new cdk.aws_ecs.FargateService(this, "fargateService", {
       taskDefinition: fargateTaskDef,
