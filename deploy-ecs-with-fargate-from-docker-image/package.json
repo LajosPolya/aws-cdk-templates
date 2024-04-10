@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
   },
   "devDependencies": {
     "@types/node": "20.11.30",
