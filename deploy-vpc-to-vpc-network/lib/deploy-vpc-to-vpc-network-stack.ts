@@ -50,7 +50,7 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
     );
 
     /**
-     * 3. Deploy and Subnet and make it a Public Subnet by create a Route
+     * 3. Deploy a Subnet and make it a Public Subnet by create a Route
      * to direct traffic to the Internet Gateway.
      */
     const publicSubnetVpcACidr = "10.0.0.0/24";
@@ -205,20 +205,24 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
     /**
      * 11. Deploy and EC2 Instance in VPC A's Public Subnet.
      */
-    new cdk.aws_ec2.Instance(this, "publicInstanceVpcA", {
-      vpcSubnets: {
-        subnets: [publicSubnetVpcA],
+    const publicInstance = new cdk.aws_ec2.Instance(
+      this,
+      "publicInstanceVpcA",
+      {
+        vpcSubnets: {
+          subnets: [publicSubnetVpcA],
+        },
+        vpc: vpcA,
+        securityGroup: securityGroupVpcA,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userData,
+        instanceName: `publicVpcA-${props.scope}`,
       },
-      vpc: vpcA,
-      securityGroup: securityGroupVpcA,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      instanceName: `publicVpcA-${props.scope}`,
-    });
+    );
 
     /**
      * 12. Create a Security Group for VPC B EC2 Instances to allow ICMP Ping
@@ -231,14 +235,14 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
       "securityGroupVpcB",
       {
         securityGroupName: `ec2InstanceVpcB-${props.scope}`,
-        description: "Allow ICMP Ping from VPC A's Public Subnet",
+        description: "Allow ICMP Ping from VPC A Public Subnet",
         vpc: vpcB,
       },
     );
     securityGroupVpcB.addIngressRule(
       cdk.aws_ec2.Peer.ipv4(publicSubnetVpcACidr),
       cdk.aws_ec2.Port.icmpPing(),
-      "Allow ICMP Ping from VPC A's Public Subnet",
+      "Allow ICMP Ping from VPC A Public Subnet",
     );
 
     /**
@@ -247,18 +251,37 @@ export class DeployVpcToVpcNetworkStack extends cdk.Stack {
      * external data. This is because an EC2 intance in a Private Isolated
      * Subnet isn't able to download external software.
      */
-    new cdk.aws_ec2.Instance(this, "privateIsolatedInstanceVpcB", {
-      vpcSubnets: {
-        subnets: [privateIsolatedSubnetVpcB],
+    const privateInstance = new cdk.aws_ec2.Instance(
+      this,
+      "privateIsolatedInstanceVpcB",
+      {
+        vpcSubnets: {
+          subnets: [privateIsolatedSubnetVpcB],
+        },
+        vpc: vpcB,
+        securityGroup: securityGroupVpcB,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        instanceName: `privateVpcB-${props.scope}`,
       },
-      vpc: vpcB,
-      securityGroup: securityGroupVpcB,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      instanceName: `privateVpcB-${props.scope}`,
+    );
+
+    /**
+     * 14. Deploy outputs
+     */
+    new cdk.CfnOutput(this, "publicInstancePublicIp", {
+      description: "Public IP of the Public Instance in VPC A",
+      value: publicInstance.instancePublicIp,
+      exportName: `publicInstancePublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateInstancePrivateIp", {
+      description: "Private IP of the Private Instance in VPC B",
+      value: privateInstance.instancePrivateIp,
+      exportName: `privateInstancePrivateIp-${props.scope}`,
     });
   }
 }
