@@ -51,10 +51,11 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     /**
      * VPC A Public Subnet
      */
+    const publicSubnetVpcACidr = "10.0.0.0/24";
     const publicSubnetVpcA = new cdk.aws_ec2.Subnet(this, "publicSubnetVpcA", {
       availabilityZone: availabilityZoneA,
       vpcId: vpcA.vpcId,
-      cidrBlock: "10.0.0.0/24",
+      cidrBlock: publicSubnetVpcACidr,
       mapPublicIpOnLaunch: true,
     });
 
@@ -75,20 +76,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     });
     privateNonRoutableSubnetVpcA.node.addDependency(nonRouteableCidrBlock);
 
-    /**
-     * Add a private routable subnet with public NAT Gateway to VPC A
-     */
-    const routableCirdVpcA = "10.0.2.0/24";
-    const privateRoutableSubnetVpcA = new cdk.aws_ec2.Subnet(this, "privateRoutableSubnetVpcA", {
-      availabilityZone: availabilityZoneA,
-      vpcId: vpcA.vpcId,
-      cidrBlock: routableCirdVpcA,
-      mapPublicIpOnLaunch: true,
-    });
-
     const privateNatGateway = new cdk.aws_ec2.CfnNatGateway(this, 'privateNatGateway', {
       connectivityType: "private",
-      subnetId: privateRoutableSubnetVpcA.subnetId,
+      subnetId: publicSubnetVpcA.subnetId,
       tags: tags
     });
 
@@ -178,11 +168,12 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
-    const cidrVpcB = new cdk.aws_ec2.CfnVPCCidrBlock(this, "secondCidrBlockVpcB", {
+    const nonRouteableCidrBlockVpcB = new cdk.aws_ec2.CfnVPCCidrBlock(this, "secondCidrBlockVpcB", {
       cidrBlock: nonRouteableCidr,
       vpcId: vpcB.vpcId
     })
 
+    // Link to the GitHub
     // Add second CIDR to VPC B
     const privateNonRoutableSubnetVpcB = new cdk.aws_ec2.Subnet(this, "privateNonRoutableSubnetVpcB", {
       availabilityZone: availabilityZoneA,
@@ -190,7 +181,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       cidrBlock: nonRouteableCidr,
       mapPublicIpOnLaunch: true,
     });
-    privateNonRoutableSubnetVpcB.node.addDependency(cidrVpcB);
+    privateNonRoutableSubnetVpcB.node.addDependency(nonRouteableCidrBlockVpcB);
 
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
       tags: tags,
@@ -236,7 +227,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         {
           vpcId: vpcA.vpcId,
           transitGatewayId: transitGateway.attrId,
-          subnetIds: [privateRoutableSubnetVpcA.subnetId],
+          subnetIds: [publicSubnetVpcA.subnetId],
           tags: tags,
         },
       );
@@ -247,7 +238,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     })
   
   const vpcATransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(this, 'vpcAROute', {
-    destinationCidrBlock: routableCirdVpcA,
+    destinationCidrBlock: publicSubnetVpcACidr,
     transitGatewayAttachmentId: transitGatewayAttachmentVpcA.attrId,
     transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
   })
@@ -288,14 +279,14 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     const privateRoutableToTransitGatewayVpcA = new cdk.aws_ec2.CfnRoute(this, "privateRoutableToTransitGatewayVpcA", {
       destinationCidrBlock: privateRoutableCidrVpcB,
       transitGatewayId: transitGateway.attrId,
-      routeTableId: privateRoutableSubnetVpcA.routeTable.routeTableId,
+      routeTableId: publicSubnetVpcA.routeTable.routeTableId,
     });
     privateRoutableToTransitGatewayVpcA.addDependency(transitGatewayAttachmentVpcA);
     privateRoutableToTransitGatewayVpcA.addDependency(transitGatewayAttachmentVpcB);
     privateRoutableToTransitGatewayVpcA.addDependency(transitGateway);
 
     const privateRoutableToTransitGatewayVpcB = new cdk.aws_ec2.CfnRoute(this, "privateRoutableToTransitGatewayVpcB", {
-      destinationCidrBlock: routableCirdVpcA,
+      destinationCidrBlock: publicSubnetVpcACidr,
       transitGatewayId: transitGateway.attrId,
       routeTableId: privateRoutableSubnetVpcB.routeTable.routeTableId,
     });
@@ -327,6 +318,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     })
 
+    const vpcBPrivateInstance = `ec2InstanceBPrivate-${props.scope}`
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -349,7 +341,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData,
-      instanceName: `ec2Instance1-${props.scope}`,
+      instanceName: vpcBPrivateInstance,
     })
 
     const listener = alb.addListener('ec2', {
@@ -390,7 +382,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData,
-      instanceName: `ec2InstanceA-${props.scope}`,
+      instanceName: `ec2InstancePublicA-${props.scope}`,
     })
 
 
@@ -402,12 +394,12 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      `echo "<h1>Hello world from ${alb.loadBalancerDnsName}</h1>" > /var/www/html/index.html`,
-      `echo "<h1>Hello world from ${alb.loadBalancerDnsName}</h1>" >> /var/www/html/index.html`,
-      `echo "<h1>Hello world from ${vpcBInstance.instancePrivateIp}</h1>" >> /var/www/html/index.html`,
-      `echo "<h1>Hello world from $(ping ${vpcBInstance.instancePrivateIp})</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Load Balancer DNS ${alb.loadBalancerDnsName}</h1>" > /var/www/html/index.html`,
+      `echo "<h1>Private IP Private Instance ${vpcBInstance.instancePrivateIp}</h1>" >> /var/www/html/index.html`,
+      //`echo "<h1>Hello world from $(curl --location ${vpcBInstance.instancePrivateIp})</h1>" >> /var/www/html/index.html`,
       //`echo "<h1>Hello world from $(ping ${alb.loadBalancerDnsName})</h1>" >> /var/www/html/index.html`,
-      //`echo "<h1>Hello world from $(curl --location ${alb.loadBalancerDnsName})</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance})</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
     const vpcAPrivateInstance = new cdk.aws_ec2.Instance(this, 'vpcInstancePrivateA', {
@@ -427,6 +419,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       instanceName: `ec2InstanceAPrivate-${props.scope}`,
     })
     vpcAPrivateInstance.node.addDependency(vpcBInstance)
+    vpcAPrivateInstance.node.addDependency(alb)
+    // add depenency on transit gateway maybe?
+    // it also takes a few minutes for the instance to fully return the full message
     
 
 
