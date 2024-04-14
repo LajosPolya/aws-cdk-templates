@@ -300,6 +300,11 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
     })
 
+    /**
+     * Route traffic from un-routable subnet in VPC A through the Private NAT Gateway, through the 
+     * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the 
+     * EC2 instance in the non-routable subnet in VPC B
+     */
     const privateNonRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(this, "privateNonRoutableToNatGatewayVpcA", {
       destinationCidrBlock: privateRoutableCidrVpcB,
       natGatewayId: privateNatGateway.attrNatGatewayId,
@@ -343,6 +348,11 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       cdk.aws_ec2.Port.allTraffic(),
       "Allow all",
     );
+
+    /**
+     * Deploy ALB. The ALB sends traffic from the routable subnet to the EC2 instance in the 
+     * non-routable subnet.
+     */
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(this, 'albVpcB', {
       securityGroup: securityGroupVpcB,
       loadBalancerName: `vpcB-${props.scope}`,
@@ -456,102 +466,5 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     vpcAPrivateInstance.node.addDependency(alb)
     // add depenency on transit gateway maybe?
     // it also takes a few minutes for the instance to fully return the full message
-    
-
-
-    /**
-     * ECS
-     * 
-     * 
-     * 
-     * 
-     * Don't use ECS, they can't download image from ECR registry
-     */
-    // const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
-    //   this,
-    //   "securityGroupVpcA",
-    //   {
-    //     securityGroupName: `ec2InstanceVpcA-${props.scope}`,
-    //     description: "Allow all traffic",
-    //     vpc: vpcA,
-    //   },
-    // );
-    // securityGroupVpcA.addIngressRule(
-    //   cdk.aws_ec2.Peer.anyIpv4(),
-    //   cdk.aws_ec2.Port.allTraffic(),
-    //   "Allow all",
-    // );
-
-    // const clusterVpcA = new cdk.aws_ecs.Cluster(this, "clusterVpcA", {
-    //   clusterName: `vpcA-${props.scope}`,
-    //   vpc: vpcA,
-    //   enableFargateCapacityProviders: true,
-    // });
-
-    // const fargateTaskDef = new cdk.aws_ecs.FargateTaskDefinition(
-    //   this,
-    //   "fargateTaskDefinition",
-    //   {
-    //     cpu: 256,
-    //     memoryLimitMiB: 512,
-    //     family: `ecsWithFargateFamily-${props.scope}`,
-    //   }
-    // );
-    // fargateTaskDef.addContainer("apiContainer", {
-    //   image: cdk.aws_ecs.ContainerImage.fromAsset("../api"),
-    //   essential: true,
-    //   portMappings: [
-    //     {
-    //       containerPort: 8080,
-    //     },
-    //   ],
-    //   logging: cdk.aws_ecs.LogDrivers.awsLogs({
-    //     streamPrefix: `vpcALogs-${props.scope}`,
-    //     logGroup: new cdk.aws_logs.LogGroup(this, "logGroup", {
-    //       logGroupName: `/ecs-with-fargate-api/${props.scope}`,
-    //       retention: cdk.aws_logs.RetentionDays.ONE_DAY,
-    //       removalPolicy: cdk.RemovalPolicy.DESTROY,
-    //     }),
-    //   }),
-    // });
-
-    // new cdk.aws_ecs.FargateService(this, "fargateServicePublic", {
-    //   taskDefinition: fargateTaskDef,
-    //   assignPublicIp: true,
-    //   vpcSubnets: vpcA.selectSubnets({
-    //     subnets: [publicSubnetVpcA],
-    //   }),
-    //   cluster: clusterVpcA,
-    //   desiredCount: 1,
-    //   serviceName: `fargateServicePublic-${props.scope}`,
-    //   platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
-    //   securityGroups: [securityGroupVpcA],
-    // });
-
-    // new cdk.aws_ecs.FargateService(this, "fargateServicePrivateIsolated", {
-    //   taskDefinition: fargateTaskDef,
-    //   assignPublicIp: true,
-    //   vpcSubnets: vpcA.selectSubnets({
-    //     subnets: [privateNonRoutableSubnetVpcA],
-    //   }),
-    //   cluster: clusterVpcA,
-    //   desiredCount: 1,
-    //   serviceName: `fargateServiceIsolated-${props.scope}`,
-    //   platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
-    //   securityGroups: [securityGroupVpcA],
-    // });
-
-    // new cdk.aws_ecs.FargateService(this, "fargateServicePrivateRoutable", {
-    //   taskDefinition: fargateTaskDef,
-    //   assignPublicIp: true,
-    //   vpcSubnets: vpcA.selectSubnets({
-    //     subnets: [privateRoutableSubnetVpcA],
-    //   }),
-    //   cluster: clusterVpcA,
-    //   desiredCount: 1,
-    //   serviceName: `fargateServiceRoutable-${props.scope}`,
-    //   platformVersion: cdk.aws_ecs.FargatePlatformVersion.VERSION1_4,
-    //   securityGroups: [securityGroupVpcA],
-    // });
   }
 }
