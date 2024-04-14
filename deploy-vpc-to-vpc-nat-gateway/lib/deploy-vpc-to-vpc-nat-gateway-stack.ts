@@ -1,12 +1,16 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
 
 export interface DeployVpcToVpcNatGatewayStackProps extends cdk.StackProps {
   scope: string;
 }
 
 export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployVpcToVpcNatGatewayStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployVpcToVpcNatGatewayStackProps,
+  ) {
     super(scope, id, props);
 
     const tags = [new cdk.Tag("scope", props.scope)];
@@ -32,15 +36,19 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     /**
      * 2. Create a non-routable subnet in VPC A. This subnet has the same CIDR as the non-routable
      * subnet in VPC B.
-     * 
+     *
      * The CDK doesn't really support VPCs with multiple CIDRs so they have to be created
      * using CfnVPCCidrBlock
      */
-    const nonRouteableCidr = '100.0.0.0/16'
-    const nonRouteableCidrBlock = new cdk.aws_ec2.CfnVPCCidrBlock(this, "secondCidrBlock", {
-      cidrBlock: nonRouteableCidr,
-      vpcId: vpcA.vpcId
-    })
+    const nonRouteableCidr = "100.0.0.0/16";
+    const nonRouteableCidrBlock = new cdk.aws_ec2.CfnVPCCidrBlock(
+      this,
+      "secondCidrBlock",
+      {
+        cidrBlock: nonRouteableCidr,
+        vpcId: vpcA.vpcId,
+      },
+    );
 
     /**
      * 3. Deploy an Internet Gateway in VPC A to create a Public Subnet.
@@ -80,23 +88,31 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * https://github.com/aws/aws-cdk/issues/9573
      * Add second CIDR to VPC and make it a non-routable subnet
      */
-    const privateNonRoutableSubnetVpcA = new cdk.aws_ec2.Subnet(this, "privateNonRoutableSubnetVpcA", {
-      availabilityZone: availabilityZoneA,
-      vpcId: vpcA.vpcId,
-      cidrBlock: nonRouteableCidr,
-      mapPublicIpOnLaunch: true,
-    });
+    const privateNonRoutableSubnetVpcA = new cdk.aws_ec2.Subnet(
+      this,
+      "privateNonRoutableSubnetVpcA",
+      {
+        availabilityZone: availabilityZoneA,
+        vpcId: vpcA.vpcId,
+        cidrBlock: nonRouteableCidr,
+        mapPublicIpOnLaunch: true,
+      },
+    );
     privateNonRoutableSubnetVpcA.node.addDependency(nonRouteableCidrBlock);
 
     /**
      * 6. Create a Private NAT Gateway. This Private NAT Gateway will allow the non-routable
      * subnet to communicate with the other non-routable subnet in VPC B.
      */
-    const privateNatGateway = new cdk.aws_ec2.CfnNatGateway(this, 'privateNatGateway', {
-      connectivityType: "private",
-      subnetId: publicSubnetVpcA.subnetId,
-      tags: tags
-    });
+    const privateNatGateway = new cdk.aws_ec2.CfnNatGateway(
+      this,
+      "privateNatGateway",
+      {
+        connectivityType: "private",
+        subnetId: publicSubnetVpcA.subnetId,
+        tags: tags,
+      },
+    );
 
     /**
      * 7. Public NAT Gateway for routable subnet
@@ -105,17 +121,25 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       tags: tags,
     });
 
-    const publicNatGatewayA = new cdk.aws_ec2.CfnNatGateway(this, 'publicNatGatewayA', {
-      allocationId: eipA.attrAllocationId,
-      subnetId: publicSubnetVpcA.subnetId,
-      tags: tags
-    });
+    const publicNatGatewayA = new cdk.aws_ec2.CfnNatGateway(
+      this,
+      "publicNatGatewayA",
+      {
+        allocationId: eipA.attrAllocationId,
+        subnetId: publicSubnetVpcA.subnetId,
+        tags: tags,
+      },
+    );
 
-    const privateRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(this, "privateRoutableToNatGatewayVpcA", {
-      destinationCidrBlock: '0.0.0.0/0',
-      natGatewayId: publicNatGatewayA.attrNatGatewayId,
-      routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
-    });
+    const privateRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(
+      this,
+      "privateRoutableToNatGatewayVpcA",
+      {
+        destinationCidrBlock: "0.0.0.0/0",
+        natGatewayId: publicNatGatewayA.attrNatGatewayId,
+        routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
+      },
+    );
 
     /**
      * 8.  Create VPC B. VPC B will also have a non-routalbe subnet with the same CIDR
@@ -166,17 +190,20 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       routeTableId: publicSubnetVpcB.routeTable.routeTableId,
     });
 
-
     /**
-     * 11. Create a second empty Subnet in VPC B. This subnet is only present because 
+     * 11. Create a second empty Subnet in VPC B. This subnet is only present because
      * the ALB must be connected to two subnets.
      */
-    const privateSubnetVpcBForAlb = new cdk.aws_ec2.Subnet(this, "privateSubnetVpcBForAlb", {
-      availabilityZone: availabilityZoneB,
-      vpcId: vpcB.vpcId,
-      cidrBlock: "11.0.1.0/24",
-      mapPublicIpOnLaunch: true,
-    });
+    const privateSubnetVpcBForAlb = new cdk.aws_ec2.Subnet(
+      this,
+      "privateSubnetVpcBForAlb",
+      {
+        availabilityZone: availabilityZoneB,
+        vpcId: vpcB.vpcId,
+        cidrBlock: "11.0.1.0/24",
+        mapPublicIpOnLaunch: true,
+      },
+    );
 
     /**
      * 12. Create Private Routable Subnet in VPC B.
@@ -196,18 +223,26 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 13. Create a non-routable subnet in VPC B. This subnet has the same CIDR as the non-routable
      * subnet in VPC B.
      */
-    const nonRouteableCidrBlockVpcB = new cdk.aws_ec2.CfnVPCCidrBlock(this, "secondCidrBlockVpcB", {
-      cidrBlock: nonRouteableCidr,
-      vpcId: vpcB.vpcId
-    })
+    const nonRouteableCidrBlockVpcB = new cdk.aws_ec2.CfnVPCCidrBlock(
+      this,
+      "secondCidrBlockVpcB",
+      {
+        cidrBlock: nonRouteableCidr,
+        vpcId: vpcB.vpcId,
+      },
+    );
 
     // Add second CIDR to VPC B
-    const privateNonRoutableSubnetVpcB = new cdk.aws_ec2.Subnet(this, "privateNonRoutableSubnetVpcB", {
-      availabilityZone: availabilityZoneA,
-      vpcId: vpcB.vpcId,
-      cidrBlock: nonRouteableCidr,
-      mapPublicIpOnLaunch: true,
-    });
+    const privateNonRoutableSubnetVpcB = new cdk.aws_ec2.Subnet(
+      this,
+      "privateNonRoutableSubnetVpcB",
+      {
+        availabilityZone: availabilityZoneA,
+        vpcId: vpcB.vpcId,
+        cidrBlock: nonRouteableCidr,
+        mapPublicIpOnLaunch: true,
+      },
+    );
     privateNonRoutableSubnetVpcB.node.addDependency(nonRouteableCidrBlockVpcB);
 
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
@@ -218,18 +253,25 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 14. Create a Private NAT Gateway to allow the non-routalbe subnet access to the internet to
      * download the HTTP Server.
      */
-    const publicNatGatewayB = new cdk.aws_ec2.CfnNatGateway(this, 'publicNatGatewayB', {
-      allocationId: eip.attrAllocationId,
-      subnetId: publicSubnetVpcB.subnetId,
-      tags: tags
-    });
+    const publicNatGatewayB = new cdk.aws_ec2.CfnNatGateway(
+      this,
+      "publicNatGatewayB",
+      {
+        allocationId: eip.attrAllocationId,
+        subnetId: publicSubnetVpcB.subnetId,
+        tags: tags,
+      },
+    );
 
-    const privateNonRoutableToNatGatewayVpcB = new cdk.aws_ec2.CfnRoute(this, "privateNonRoutableToNatGatewayVpcB", {
-      destinationCidrBlock: '0.0.0.0/0',
-      natGatewayId: publicNatGatewayB.attrNatGatewayId,
-      routeTableId: privateNonRoutableSubnetVpcB.routeTable.routeTableId,
-    });
-
+    const privateNonRoutableToNatGatewayVpcB = new cdk.aws_ec2.CfnRoute(
+      this,
+      "privateNonRoutableToNatGatewayVpcB",
+      {
+        destinationCidrBlock: "0.0.0.0/0",
+        natGatewayId: publicNatGatewayB.attrNatGatewayId,
+        routeTableId: privateNonRoutableSubnetVpcB.routeTable.routeTableId,
+      },
+    );
 
     /**
      * 15. Create a Transit Gateway.
@@ -238,21 +280,22 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       this,
       "transitGateway",
       {
-        defaultRouteTableAssociation: 'disable',
-        defaultRouteTablePropagation: 'disable',
+        defaultRouteTableAssociation: "disable",
+        defaultRouteTablePropagation: "disable",
         description: "Transit Gateway connecting VPC A and VPC B",
         tags: tags,
       },
     );
 
-    const transitGatewayRouteTable = new cdk.aws_ec2.CfnTransitGatewayRouteTable(
-      this,
-      "transitGatewayRouteTable",
-      {
-        transitGatewayId: transitGateway.attrId,
-        tags: tags,
-      },
-    );
+    const transitGatewayRouteTable =
+      new cdk.aws_ec2.CfnTransitGatewayRouteTable(
+        this,
+        "transitGatewayRouteTable",
+        {
+          transitGatewayId: transitGateway.attrId,
+          tags: tags,
+        },
+      );
 
     const transitGatewayAttachmentVpcA =
       new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
@@ -266,73 +309,116 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         },
       );
 
-    new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(this, 'routeTableAssociationVpcA', {
-      transitGatewayAttachmentId: transitGatewayAttachmentVpcA.attrId,
-      transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
-    })
-  
-  const vpcATransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(this, 'vpcAROute', {
-    destinationCidrBlock: publicSubnetVpcACidr,
-    transitGatewayAttachmentId: transitGatewayAttachmentVpcA.attrId,
-    transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
-  })
-
-  const transitGatewayAttachmentVpcB =
-    new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
+    new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(
       this,
-      "transitGatewayAttachmentToVpcB",
+      "routeTableAssociationVpcA",
       {
-        vpcId: vpcB.vpcId,
-        transitGatewayId: transitGateway.attrId,
-        subnetIds: [privateRoutableSubnetVpcB.subnetId],
-        tags: tags,
+        transitGatewayAttachmentId: transitGatewayAttachmentVpcA.attrId,
+        transitGatewayRouteTableId:
+          transitGatewayRouteTable.attrTransitGatewayRouteTableId,
       },
     );
-    
-    new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(this, 'routeTableAssociationVpcB', {
-      transitGatewayAttachmentId: transitGatewayAttachmentVpcB.attrId,
-      transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
-    })
 
-    const vpcBTransitGatewayRoute =new cdk.aws_ec2.CfnTransitGatewayRoute(this, 'vpcBROute', {
-      destinationCidrBlock: privateRoutableCidrVpcB,
-      transitGatewayAttachmentId: transitGatewayAttachmentVpcB.attrId,
-      transitGatewayRouteTableId: transitGatewayRouteTable.attrTransitGatewayRouteTableId,
-    })
+    const vpcATransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(
+      this,
+      "vpcAROute",
+      {
+        destinationCidrBlock: publicSubnetVpcACidr,
+        transitGatewayAttachmentId: transitGatewayAttachmentVpcA.attrId,
+        transitGatewayRouteTableId:
+          transitGatewayRouteTable.attrTransitGatewayRouteTableId,
+      },
+    );
+
+    const transitGatewayAttachmentVpcB =
+      new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
+        this,
+        "transitGatewayAttachmentToVpcB",
+        {
+          vpcId: vpcB.vpcId,
+          transitGatewayId: transitGateway.attrId,
+          subnetIds: [privateRoutableSubnetVpcB.subnetId],
+          tags: tags,
+        },
+      );
+
+    new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(
+      this,
+      "routeTableAssociationVpcB",
+      {
+        transitGatewayAttachmentId: transitGatewayAttachmentVpcB.attrId,
+        transitGatewayRouteTableId:
+          transitGatewayRouteTable.attrTransitGatewayRouteTableId,
+      },
+    );
+
+    const vpcBTransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(
+      this,
+      "vpcBROute",
+      {
+        destinationCidrBlock: privateRoutableCidrVpcB,
+        transitGatewayAttachmentId: transitGatewayAttachmentVpcB.attrId,
+        transitGatewayRouteTableId:
+          transitGatewayRouteTable.attrTransitGatewayRouteTableId,
+      },
+    );
 
     /**
-     * Route traffic from un-routable subnet in VPC A through the Private NAT Gateway, through the 
-     * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the 
+     * Route traffic from un-routable subnet in VPC A through the Private NAT Gateway, through the
+     * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the
      * EC2 instance in the non-routable subnet in VPC B
      */
-    const privateNonRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(this, "privateNonRoutableToNatGatewayVpcA", {
-      destinationCidrBlock: privateRoutableCidrVpcB,
-      natGatewayId: privateNatGateway.attrNatGatewayId,
-      routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
-    });
+    const privateNonRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(
+      this,
+      "privateNonRoutableToNatGatewayVpcA",
+      {
+        destinationCidrBlock: privateRoutableCidrVpcB,
+        natGatewayId: privateNatGateway.attrNatGatewayId,
+        routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
+      },
+    );
     privateNonRoutableToNatGatewayVpcA.addDependency(privateNatGateway);
-    privateNonRoutableToNatGatewayVpcA.addDependency(transitGatewayAttachmentVpcB);
-    privateNonRoutableToNatGatewayVpcA.addDependency(transitGatewayAttachmentVpcA);
+    privateNonRoutableToNatGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcB,
+    );
+    privateNonRoutableToNatGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcA,
+    );
     privateNonRoutableToNatGatewayVpcA.addDependency(transitGateway);
 
-    const privateRoutableToTransitGatewayVpcA = new cdk.aws_ec2.CfnRoute(this, "privateRoutableToTransitGatewayVpcA", {
-      destinationCidrBlock: privateRoutableCidrVpcB,
-      transitGatewayId: transitGateway.attrId,
-      routeTableId: publicSubnetVpcA.routeTable.routeTableId,
-    });
-    privateRoutableToTransitGatewayVpcA.addDependency(transitGatewayAttachmentVpcA);
-    privateRoutableToTransitGatewayVpcA.addDependency(transitGatewayAttachmentVpcB);
+    const privateRoutableToTransitGatewayVpcA = new cdk.aws_ec2.CfnRoute(
+      this,
+      "privateRoutableToTransitGatewayVpcA",
+      {
+        destinationCidrBlock: privateRoutableCidrVpcB,
+        transitGatewayId: transitGateway.attrId,
+        routeTableId: publicSubnetVpcA.routeTable.routeTableId,
+      },
+    );
+    privateRoutableToTransitGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcA,
+    );
+    privateRoutableToTransitGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcB,
+    );
     privateRoutableToTransitGatewayVpcA.addDependency(transitGateway);
 
-    const privateRoutableToTransitGatewayVpcB = new cdk.aws_ec2.CfnRoute(this, "privateRoutableToTransitGatewayVpcB", {
-      destinationCidrBlock: publicSubnetVpcACidr,
-      transitGatewayId: transitGateway.attrId,
-      routeTableId: privateRoutableSubnetVpcB.routeTable.routeTableId,
-    });
-    privateRoutableToTransitGatewayVpcB.addDependency(transitGatewayAttachmentVpcB);
-    privateRoutableToTransitGatewayVpcB.addDependency(transitGatewayAttachmentVpcA);
+    const privateRoutableToTransitGatewayVpcB = new cdk.aws_ec2.CfnRoute(
+      this,
+      "privateRoutableToTransitGatewayVpcB",
+      {
+        destinationCidrBlock: publicSubnetVpcACidr,
+        transitGatewayId: transitGateway.attrId,
+        routeTableId: privateRoutableSubnetVpcB.routeTable.routeTableId,
+      },
+    );
+    privateRoutableToTransitGatewayVpcB.addDependency(
+      transitGatewayAttachmentVpcB,
+    );
+    privateRoutableToTransitGatewayVpcB.addDependency(
+      transitGatewayAttachmentVpcA,
+    );
     privateRoutableToTransitGatewayVpcB.addDependency(transitGateway);
-
 
     const securityGroupVpcB = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -350,19 +436,23 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     );
 
     /**
-     * Deploy ALB. The ALB sends traffic from the routable subnet to the EC2 instance in the 
+     * Deploy ALB. The ALB sends traffic from the routable subnet to the EC2 instance in the
      * non-routable subnet.
      */
-    const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(this, 'albVpcB', {
-      securityGroup: securityGroupVpcB,
-      loadBalancerName: `vpcB-${props.scope}`,
-      vpc: vpcB,
-      vpcSubnets: {
-        subnets: [privateRoutableSubnetVpcB, privateSubnetVpcBForAlb]
+    const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
+      this,
+      "albVpcB",
+      {
+        securityGroup: securityGroupVpcB,
+        loadBalancerName: `vpcB-${props.scope}`,
+        vpc: vpcB,
+        vpcSubnets: {
+          subnets: [privateRoutableSubnetVpcB, privateSubnetVpcBForAlb],
+        },
       },
-    })
+    );
 
-    const vpcBPrivateInstance = `ec2InstanceBPrivate-${props.scope}`
+    const vpcBPrivateInstance = `ec2InstanceBPrivate-${props.scope}`;
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -373,9 +463,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
-    const vpcBInstance = new cdk.aws_ec2.Instance(this, 'vpcInstance', {
+    const vpcBInstance = new cdk.aws_ec2.Instance(this, "vpcInstance", {
       vpcSubnets: {
-        subnets: [privateNonRoutableSubnetVpcB]
+        subnets: [privateNonRoutableSubnetVpcB],
       },
       vpc: vpcB,
       securityGroup: securityGroupVpcB,
@@ -386,18 +476,17 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData,
       instanceName: vpcBPrivateInstance,
-    })
+    });
 
-    const listener = alb.addListener('ec2', {
-      port: 80
-    })
+    const listener = alb.addListener("ec2", {
+      port: 80,
+    });
     const instance1Target =
       new cdk.aws_elasticloadbalancingv2_targets.InstanceTarget(vpcBInstance);
-    listener.addTargets('targets', {
+    listener.addTargets("targets", {
       targets: [instance1Target],
-      port: 80
-    })
-
+      port: 80,
+    });
 
     const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -414,21 +503,24 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "Allow all",
     );
 
-    const vpcAPublicInstance = new cdk.aws_ec2.Instance(this, 'vpcInstancePublicA', {
-      vpcSubnets: {
-        subnets: [publicSubnetVpcA]
+    const vpcAPublicInstance = new cdk.aws_ec2.Instance(
+      this,
+      "vpcInstancePublicA",
+      {
+        vpcSubnets: {
+          subnets: [publicSubnetVpcA],
+        },
+        vpc: vpcA,
+        securityGroup: securityGroupVpcA,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData,
+        instanceName: `ec2InstancePublicA-${props.scope}`,
       },
-      vpc: vpcA,
-      securityGroup: securityGroupVpcA,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
-      instanceName: `ec2InstancePublicA-${props.scope}`,
-    })
-
+    );
 
     const userDataPrivate = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
@@ -446,24 +538,28 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
-    const vpcAPrivateInstance = new cdk.aws_ec2.Instance(this, 'vpcInstancePrivateA', {
-      vpcSubnets: {
-        subnets: [privateNonRoutableSubnetVpcA]
+    const vpcAPrivateInstance = new cdk.aws_ec2.Instance(
+      this,
+      "vpcInstancePrivateA",
+      {
+        vpcSubnets: {
+          subnets: [privateNonRoutableSubnetVpcA],
+        },
+        vpc: vpcA,
+        securityGroup: securityGroupVpcA,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userDataPrivate,
+        // test this
+        userDataCausesReplacement: true,
+        instanceName: `ec2InstanceAPrivate-${props.scope}`,
       },
-      vpc: vpcA,
-      securityGroup: securityGroupVpcA,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userDataPrivate,
-      // test this
-      userDataCausesReplacement: true,
-      instanceName: `ec2InstanceAPrivate-${props.scope}`,
-    })
-    vpcAPrivateInstance.node.addDependency(vpcBInstance)
-    vpcAPrivateInstance.node.addDependency(alb)
+    );
+    vpcAPrivateInstance.node.addDependency(vpcBInstance);
+    vpcAPrivateInstance.node.addDependency(alb);
     // add depenency on transit gateway maybe?
     // it also takes a few minutes for the instance to fully return the full message
   }

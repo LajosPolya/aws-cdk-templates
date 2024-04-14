@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
-import { DeployVpcToVpcNatGatewayStack } from '../lib/deploy-vpc-to-vpc-nat-gateway-stack';
+import "source-map-support/register";
+import * as cdk from "aws-cdk-lib";
+import { DeployVpcToVpcNatGatewayStack } from "../lib/deploy-vpc-to-vpc-nat-gateway-stack";
 
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
@@ -9,7 +9,7 @@ const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 
-new DeployVpcToVpcNatGatewayStack(app, 'DeployVpcToVpcNatGatewayStack', {
+new DeployVpcToVpcNatGatewayStack(app, "DeployVpcToVpcNatGatewayStack", {
   stackName: `vpcToVpcNetwork-${scope}`,
   scope,
   // vpcTag: vpcTag,
