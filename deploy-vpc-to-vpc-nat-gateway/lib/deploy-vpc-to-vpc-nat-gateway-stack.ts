@@ -245,14 +245,14 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     );
     privateNonRoutableSubnetVpcB.node.addDependency(nonRouteableCidrBlockVpcB);
 
-    const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
-      tags: tags,
-    });
-
     /**
      * 14. Create a Private NAT Gateway to allow the non-routalbe subnet access to the internet to
      * download the HTTP Server.
      */
+    const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
+      tags: tags,
+    });
+
     const publicNatGatewayB = new cdk.aws_ec2.CfnNatGateway(
       this,
       "publicNatGatewayB",
@@ -287,6 +287,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 16. Create a Transit Gateway Route Table
+     */
     const transitGatewayRouteTable =
       new cdk.aws_ec2.CfnTransitGatewayRouteTable(
         this,
@@ -297,6 +300,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         },
       );
 
+    /**
+     * 18. Attach the the Transit Gateway to VPC A
+     */
     const transitGatewayAttachmentVpcA =
       new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
         this,
@@ -309,6 +315,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         },
       );
 
+    /**
+     * 19. Associate the Transit Gateway Route Table with the VPC A Transit Gateway Attachment.
+     */
     new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(
       this,
       "routeTableAssociationVpcA",
@@ -319,6 +328,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 20. Create a Transit Gateway Route from VPC A to the Routable Subnet of VPC B.
+     */
     const vpcATransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(
       this,
       "vpcAROute",
@@ -330,6 +342,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 21. Attach the the Transit Gateway to VPC A
+     */
     const transitGatewayAttachmentVpcB =
       new cdk.aws_ec2.CfnTransitGatewayVpcAttachment(
         this,
@@ -342,6 +357,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         },
       );
 
+    /**
+     * 22. Associate the Transit Gateway Route Table with the VPC B Transit Gateway Attachment.
+     */
     new cdk.aws_ec2.CfnTransitGatewayRouteTableAssociation(
       this,
       "routeTableAssociationVpcB",
@@ -352,6 +370,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 23. Create a Transit Gateway Route from VPC B to the Routable Subnet of VPC A
+     */
     const vpcBTransitGatewayRoute = new cdk.aws_ec2.CfnTransitGatewayRoute(
       this,
       "vpcBROute",
@@ -364,7 +385,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     );
 
     /**
-     * Route traffic from un-routable subnet in VPC A through the Private NAT Gateway, through the
+     * 24. Route traffic from un-routable subnet in VPC A through the Private NAT Gateway, through the
      * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the
      * EC2 instance in the non-routable subnet in VPC B
      */
