@@ -553,8 +553,6 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "systemctl enable httpd",
       `echo "<h1>Load Balancer DNS ${alb.loadBalancerDnsName}</h1>" > /var/www/html/index.html`,
       `echo "<h1>Private IP Private Instance ${vpcBInstance.instancePrivateIp}</h1>" >> /var/www/html/index.html`,
-      //`echo "<h1>Hello world from $(curl --location ${vpcBInstance.instancePrivateIp})</h1>" >> /var/www/html/index.html`,
-      //`echo "<h1>Hello world from $(ping ${alb.loadBalancerDnsName})</h1>" >> /var/www/html/index.html`,
       `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance})</h1>" >> /var/www/html/index.html`,
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
@@ -574,8 +572,6 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userDataPrivate,
-        // test this
-        userDataCausesReplacement: true,
         instanceName: `ec2InstanceAPrivate-${props.scope}`,
       },
     );
