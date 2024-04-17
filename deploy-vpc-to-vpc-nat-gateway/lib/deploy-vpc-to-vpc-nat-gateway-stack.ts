@@ -34,10 +34,10 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     });
 
     /**
-     * 2. Create a non-routable subnet in VPC A. This subnet has the same CIDR as the non-routable
-     * subnet in VPC B.
+     * 2. Create a Non-Routable Subnet in VPC A. This subnet has the same CIDR as the Non-Routable
+     * Subnet in VPC B.
      *
-     * The CDK doesn't really support VPCs with multiple CIDRs so they have to be created
+     * The CDK doesn't fully support VPCs with multiple CIDRs so they have to be created
      * using CfnVPCCidrBlock
      */
     const nonRouteableCidr = "100.0.0.0/16";
@@ -86,7 +86,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     /**
      * 5. Create a private Non-Routable Subnet in VPC A.
      * https://github.com/aws/aws-cdk/issues/9573
-     * Add second CIDR to VPC and make it a Non-Routable Subnet
+     * Add second CIDR to VPC A and make it a Non-Routable Subnet
      */
     const privateNonRoutableSubnetVpcA = new cdk.aws_ec2.Subnet(
       this,
@@ -115,7 +115,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     );
 
     /**
-     * 7. Public NAT Gateway for Routable Subnet
+     * 7. Create a Public NAT Gateway in VPC A for a Routable Subnet
      */
     const eipA = new cdk.aws_ec2.CfnEIP(this, "elasticIpA", {
       tags: tags,
@@ -155,7 +155,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     /**
      * 9. Create an Internet Gateway in VPC B. This Internet Gateway is only present to allow
-     * the EC2 Instanced in the Non-Routable Subnet to download an HTTP server
+     * the EC2 Instance in the Non-Routable Subnet to download an HTTP server
      */
     const internetGatewayB = new cdk.aws_ec2.CfnInternetGateway(this, "igB", {
       tags: tags,
@@ -171,7 +171,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     );
 
     /**
-     * 10. Create a Public Subnet in VPC B.
+     * 10. Create a Public Subnet in VPC B
      */
     const publicSubnetVpcB = new cdk.aws_ec2.Subnet(this, "publicSubnetVpcB", {
       availabilityZone: availabilityZoneA,
@@ -188,7 +188,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     /**
      * 11. Create a second empty Subnet in VPC B. This subnet is only present because
-     * the ALB must be connected to two subnets.
+     * the ALB must be connected to two subnets
      */
     const privateSubnetVpcBForAlb = new cdk.aws_ec2.Subnet(
       this,
@@ -217,7 +217,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     /**
      * 13. Create a Non-Routable Subnet in VPC B. This subnet has the same CIDR as the Non-Routable
-     * Subnet in VPC B.
+     * Subnet in VPC A.
      */
     const nonRouteableCidrBlockVpcB = new cdk.aws_ec2.CfnVPCCidrBlock(
       this,
@@ -242,7 +242,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     privateNonRoutableSubnetVpcB.node.addDependency(nonRouteableCidrBlockVpcB);
 
     /**
-     * 14. Create a Private NAT Gateway to allow the non-routalbe subnet access to the internet to
+     * 14. Create a Private NAT Gateway to allow the Non-Routalbe Subnet access to the internet to
      * download the HTTP Server.
      */
     const eip = new cdk.aws_ec2.CfnEIP(this, "elasticIp", {
@@ -266,7 +266,8 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     });
 
     /**
-     * 15. Create a Transit Gateway.
+     * 15. Create a Transit Gateway. The Transit Gateway allows the two VPCs to
+     * communicate.
      */
     const transitGateway = new cdk.aws_ec2.CfnTransitGateway(
       this,
