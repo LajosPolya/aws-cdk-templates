@@ -408,13 +408,10 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         routeTableId: publicSubnetVpcA.routeTable.routeTableId,
       },
     );
+    // https://github.com/hashicorp/terraform-provider-aws/issues/10025
     privateRoutableToTransitGatewayVpcA.addDependency(
       transitGatewayAttachmentVpcA,
     );
-    privateRoutableToTransitGatewayVpcA.addDependency(
-      transitGatewayAttachmentVpcB,
-    );
-    privateRoutableToTransitGatewayVpcA.addDependency(transitGateway);
 
     const privateRoutableToTransitGatewayVpcB = new cdk.aws_ec2.CfnRoute(
       this,
@@ -428,10 +425,6 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     privateRoutableToTransitGatewayVpcB.addDependency(
       transitGatewayAttachmentVpcB,
     );
-    privateRoutableToTransitGatewayVpcB.addDependency(
-      transitGatewayAttachmentVpcA,
-    );
-    privateRoutableToTransitGatewayVpcB.addDependency(transitGateway);
 
     const securityGroupVpcB = new cdk.aws_ec2.SecurityGroup(
       this,
@@ -556,6 +549,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
+    
     const vpcAPrivateInstance = new cdk.aws_ec2.Instance(
       this,
       "vpcInstancePrivateA",
