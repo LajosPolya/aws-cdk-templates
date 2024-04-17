@@ -389,15 +389,11 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the
      * EC2 instance in the non-routable subnet in VPC B
      */
-    new cdk.aws_ec2.CfnRoute(
-      this,
-      "privateNonRoutableToNatGatewayVpcA",
-      {
-        destinationCidrBlock: privateRoutableCidrVpcB,
-        natGatewayId: privateNatGateway.attrNatGatewayId,
-        routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
-      },
-    );
+    new cdk.aws_ec2.CfnRoute(this, "privateNonRoutableToNatGatewayVpcA", {
+      destinationCidrBlock: privateRoutableCidrVpcB,
+      natGatewayId: privateNatGateway.attrNatGatewayId,
+      routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
+    });
 
     const privateRoutableToTransitGatewayVpcA = new cdk.aws_ec2.CfnRoute(
       this,
@@ -533,7 +529,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     /**
      * This User Data is used by the EC2 instance in the Non-Routable Subnet of VPC A. The goal of this instance is
      * to prove that it has can connect to the instance in the Non-Routable Subnet of VPC B. When a request is made to
-     * this EC2 instance it makes a request, via the Transit Gateway, to the ALB in the Routable Subnet of VPC B which 
+     * this EC2 instance it makes a request, via the Transit Gateway, to the ALB in the Routable Subnet of VPC B which
      * forwards the request to the EC2 instance in the Non-Routable Subnet. Then that EC2 instance'a response makes its
      * way back to this EC2 instance.
      */
@@ -543,9 +539,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      `echo "<h1>Load Balancer DNS ${alb.loadBalancerDnsName}</h1>" > /var/www/html/index.html`,
-      `echo "<h1>Private IP Private Instance ${vpcBInstance.instancePrivateIp}</h1>" >> /var/www/html/index.html`,
       `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance})</h1>" >> /var/www/html/index.html`,
+      // The statement below makes a request to the load balancer in VPC B which forwards it to the EC2 instance in the Non-Routable
+      // Subnet of VPC B.
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
