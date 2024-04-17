@@ -458,7 +458,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       },
     );
 
-    const vpcBPrivateInstance = `ec2InstanceBPrivate-${props.scope}`;
+    const vpcBPrivateInstance = `privateIntanceVpcB-${props.scope}`;
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
@@ -549,7 +549,11 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
-    
+    /**
+     * Note that after a successful deployment it takes up to a couple minutes for this instance to be able to connect to the
+     * EC2 instance in the Non-Routable Subnet of VPC B. So if you don't see the last `echo` statement from the above User Data
+     * then wait a couple of minutes and try the request again.
+     */
     const vpcAPrivateInstance = new cdk.aws_ec2.Instance(
       this,
       "vpcInstancePrivateA",
