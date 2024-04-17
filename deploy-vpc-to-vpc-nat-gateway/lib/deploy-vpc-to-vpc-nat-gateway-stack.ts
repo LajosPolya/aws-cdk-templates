@@ -545,6 +545,13 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     const userDataPrivate = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
+    /**
+     * This User Data is used by the EC2 instance in the Non-Routable Subnet of VPC A. The goal of this instance is
+     * to prove that it has can connect to the instance in the Non-Routable Subnet of VPC B. When a request is made to
+     * this EC2 instance it makes a request, via the Transit Gateway, to the ALB in the Routable Subnet of VPC B which 
+     * forwards the request to the EC2 instance in the Non-Routable Subnet. Then that EC2 instance'a response makes its
+     * way back to this EC2 instance.
+     */
     userDataPrivate.addCommands(
       "#!/bin/bash",
       "yum update -y",
