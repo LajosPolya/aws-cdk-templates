@@ -450,7 +450,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 26. Deploy an EC2 instance into the Non-Routable Subnet of VPC B. Then add it as a Target to the
      * ALB in the Routable Subnet of VPC B
      */
-    const vpcBPrivateInstance = `privateIntanceVpcB-${props.scope}`;
+    const vpcBPrivateInstance = `privateInstanceVpcB-${props.scope}`;
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
     userData.addCommands(
