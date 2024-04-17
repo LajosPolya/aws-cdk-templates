@@ -389,7 +389,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * Transit Gateway to the ALB in the routable subnet in VPC B which forwards traffic to the
      * EC2 instance in the non-routable subnet in VPC B
      */
-    const privateNonRoutableToNatGatewayVpcA = new cdk.aws_ec2.CfnRoute(
+    new cdk.aws_ec2.CfnRoute(
       this,
       "privateNonRoutableToNatGatewayVpcA",
       {
@@ -398,7 +398,6 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         routeTableId: privateNonRoutableSubnetVpcA.routeTable.routeTableId,
       },
     );
-    privateNonRoutableToNatGatewayVpcA.addDependency(transitGateway);
 
     const privateRoutableToTransitGatewayVpcA = new cdk.aws_ec2.CfnRoute(
       this,
@@ -408,6 +407,12 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         transitGatewayId: transitGateway.attrId,
         routeTableId: publicSubnetVpcA.routeTable.routeTableId,
       },
+    );
+    privateRoutableToTransitGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcA,
+    );
+    privateRoutableToTransitGatewayVpcA.addDependency(
+      transitGatewayAttachmentVpcB,
     );
     privateRoutableToTransitGatewayVpcA.addDependency(transitGateway);
 
@@ -419,6 +424,12 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         transitGatewayId: transitGateway.attrId,
         routeTableId: privateRoutableSubnetVpcB.routeTable.routeTableId,
       },
+    );
+    privateRoutableToTransitGatewayVpcB.addDependency(
+      transitGatewayAttachmentVpcB,
+    );
+    privateRoutableToTransitGatewayVpcB.addDependency(
+      transitGatewayAttachmentVpcA,
     );
     privateRoutableToTransitGatewayVpcB.addDependency(transitGateway);
 
@@ -434,7 +445,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     securityGroupVpcB.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTraffic(),
-      "Allow all traffic",
+      "Allow all",
     );
 
     /**
@@ -529,7 +540,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     /**
      * This User Data is used by the EC2 instance in the Non-Routable Subnet of VPC A. The goal of this instance is
      * to prove that it has can connect to the instance in the Non-Routable Subnet of VPC B. When a request is made to
-     * this EC2 instance it makes a request, via the Transit Gateway, to the ALB in the Routable Subnet of VPC B which
+     * this EC2 instance it makes a request, via the Transit Gateway, to the ALB in the Routable Subnet of VPC B which 
      * forwards the request to the EC2 instance in the Non-Routable Subnet. Then that EC2 instance'a response makes its
      * way back to this EC2 instance.
      */
