@@ -543,7 +543,8 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance})</h1>" >> /var/www/html/index.html`,
+      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
+      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via Private NAT Gateway -> Transit Gateway -> ALB</h1>" >> /var/www/html/index.html`,
       // The statement below makes a request to the load balancer in VPC B which forwards it to the EC2 instance in the Non-Routable
       // Subnet of VPC B.
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
@@ -575,5 +576,12 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     vpcAPrivateInstance.node.addDependency(vpcBInstance);
     vpcAPrivateInstance.node.addDependency(alb);
     // It takes a few minutes for the instance to return the full message so does this EC2 instance need a depenency on the Transit Gateway?
+
+    new cdk.CfnOutput(this, "nonRoutableEc2VpcA", {
+      description:
+        "Private IP of the EC2 instance in the Non-Routable Subnet of VPC A",
+      value: vpcAPrivateInstance.instancePrivateIp,
+      exportName: `nonRoutableEc2VpcAPrivateIp-${props.scope}`,
+    });
   }
 }
