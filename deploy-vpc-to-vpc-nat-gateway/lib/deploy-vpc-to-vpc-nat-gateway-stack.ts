@@ -123,7 +123,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     const publicNatGatewayA = new cdk.aws_ec2.CfnNatGateway(
       this,
-      "publicNatGatewayA",
+      "publicNatGatewayVpcA",
       {
         allocationId: eipA.attrAllocationId,
         subnetId: publicSubnetVpcA.subnetId,
@@ -251,7 +251,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     const publicNatGatewayB = new cdk.aws_ec2.CfnNatGateway(
       this,
-      "publicNatGatewayB",
+      "publicNatGatewayVpcB",
       {
         allocationId: eip.attrAllocationId,
         subnetId: publicSubnetVpcB.subnetId,
@@ -488,42 +488,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
     });
 
     /**
-     * 27. Deploy an EC2 intance into the Routable Subnet of VPC A. The goal of this instance
-     * is to allow users to connect to it and make a request to the EC2 instance in the
-     * Non-Routable Subnet of VPC A.
-     */
-    const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
-      this,
-      "securityGroupVpcA",
-      {
-        securityGroupName: `ec2InstanceVpcA-${props.scope}`,
-        description: "Allow all traffic",
-        vpc: vpcA,
-      },
-    );
-    securityGroupVpcA.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTraffic(),
-      "Allow all",
-    );
-
-    new cdk.aws_ec2.Instance(this, "publicInstanceVpcA", {
-      vpcSubnets: {
-        subnets: [publicSubnetVpcA],
-      },
-      vpc: vpcA,
-      securityGroup: securityGroupVpcA,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
-      instanceName: `publicInstanceVpcA-${props.scope}`,
-    });
-
-    /**
-     * 28. Deploy an EC2 instance in the Non-Routable Subnet of VPC A. The goal of this EC2 instance
+     * 27. Deploy an EC2 instance in the Non-Routable Subnet of VPC A. The goal of this EC2 instance
      * is to make a request to EC2 intsance in the Non-Routable Subnet of VPC B. Note that the the
      * two Non-Routalbe Subnets have the same CIDR which is what a Private Nat Gateway and a
      * Transit Gateway is needed for them to be able to communicate.
@@ -550,11 +515,27 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
+    const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "securityGroupVpcA",
+      {
+        securityGroupName: `ec2InstanceVpcA-${props.scope}`,
+        description: "Allow all traffic",
+        vpc: vpcA,
+      },
+    );
+    securityGroupVpcA.addIngressRule(
+      cdk.aws_ec2.Peer.anyIpv4(),
+      cdk.aws_ec2.Port.allTraffic(),
+      "Allow all",
+    );
+
     /**
      * Note that after a successful deployment it takes up to a couple minutes for this instance to be able to connect to the
      * EC2 instance in the Non-Routable Subnet of VPC B. So if you don't see the last `echo` statement from the above User Data
      * then wait a couple of minutes and try the request again.
      */
+    const vpcAPrivateInstanceName = `privateInstanceVpcA-${props.scope}`;
     const vpcAPrivateInstance = new cdk.aws_ec2.Instance(
       this,
       "privateInstanceVpcA",
@@ -570,18 +551,62 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
         userData: userDataPrivate,
-        instanceName: `privateInstanceVpcA-${props.scope}`,
+        instanceName: vpcAPrivateInstanceName,
       },
     );
     vpcAPrivateInstance.node.addDependency(vpcBInstance);
     vpcAPrivateInstance.node.addDependency(alb);
     // It takes a few minutes for the instance to return the full message so does this EC2 instance need a depenency on the Transit Gateway?
 
+    /**
+     * 28. Deploy an EC2 intance into the Routable Subnet of VPC A. The goal of this instance
+     * is to allow users to connect to it and make a request to the EC2 instance in the
+     * Non-Routable Subnet of VPC A.
+     */
+    const userDataRoutableEc2InstanceVpcA = cdk.aws_ec2.UserData.forLinux();
+    // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
+    userDataRoutableEc2InstanceVpcA.addCommands(
+      "#!/bin/bash",
+      "yum update -y",
+      "yum install -y httpd",
+      "systemctl start httpd",
+      "systemctl enable httpd",
+      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
+      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via VPC A Private Instance -> Private NAT Gateway -> Transit Gateway -> ALB</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Response from ${vpcAPrivateInstanceName}: '$(curl --location ${vpcAPrivateInstance.instancePrivateIp})'</h1>" >> /var/www/html/index.html`,
+    );
+
+    const vpcAPublicInstance = new cdk.aws_ec2.Instance(
+      this,
+      "publicInstanceVpcA",
+      {
+        vpcSubnets: {
+          subnets: [publicSubnetVpcA],
+        },
+        vpc: vpcA,
+        securityGroup: securityGroupVpcA,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userDataRoutableEc2InstanceVpcA,
+        instanceName: `publicInstanceVpcA-${props.scope}`,
+      },
+    );
+    vpcAPublicInstance.node.addDependency(vpcAPrivateInstance);
+
     new cdk.CfnOutput(this, "nonRoutableEc2VpcA", {
       description:
         "Private IP of the EC2 instance in the Non-Routable Subnet of VPC A",
       value: vpcAPrivateInstance.instancePrivateIp,
       exportName: `nonRoutableEc2VpcAPrivateIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "routableEc2VpcA", {
+      description: "Public IP of the EC2 instance in Routable Subnet of VPC A",
+      value: vpcAPublicInstance.instancePublicIp,
+      exportName: `routableEc2VpcAPublicIp-${props.scope}`,
     });
   }
 }
