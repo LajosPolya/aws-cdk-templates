@@ -509,7 +509,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
-      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via Private NAT Gateway -> Transit Gateway -> ALB</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via 'Private NAT Gateway -> Transit Gateway -> ALB' from $(hostname -f)</h1>" >> /var/www/html/index.html`,
       // The statement below makes a request to the load balancer in VPC B which forwards it to the EC2 instance in the Non-Routable
       // Subnet of VPC B.
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
@@ -572,7 +572,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
-      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via VPC A Private Instance -> Private NAT Gateway -> Transit Gateway -> ALB</h1>" >> /var/www/html/index.html`,
+      `echo "<h1>Connecting to VPC B Private Instance (${vpcBPrivateInstance}) via 'VPC A Private Instance -> Private NAT Gateway -> Transit Gateway -> ALB' from $(hostname -f)</h1>" >> /var/www/html/index.html`,
       `echo "<h1>Response from ${vpcAPrivateInstanceName}: '$(curl --location ${vpcAPrivateInstance.instancePrivateIp})'</h1>" >> /var/www/html/index.html`,
     );
 
