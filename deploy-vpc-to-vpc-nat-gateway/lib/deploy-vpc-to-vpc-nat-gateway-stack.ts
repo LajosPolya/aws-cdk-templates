@@ -448,7 +448,6 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
           subnets: [privateRoutableSubnetVpcB, privateSubnetVpcBForAlb],
         },
         internetFacing: false,
-        denyAllIgwTraffic: true,
       },
     );
 
