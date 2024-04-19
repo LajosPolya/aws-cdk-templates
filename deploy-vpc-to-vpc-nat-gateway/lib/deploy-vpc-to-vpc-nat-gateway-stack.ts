@@ -104,6 +104,8 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 6. Create a Private NAT Gateway. This Private NAT Gateway will allow the Non-Routable
      * Subnet to communicate with the other Non-Routable Subnet in VPC B.
      */
+    // An arbitrary IP address from the Public Subnet of VPC A (10.0.0.0/24)
+    const privateNatGatewayIpAddress = "10.0.0.10";
     const privateNatGateway = new cdk.aws_ec2.CfnNatGateway(
       this,
       "privateNatGateway",
@@ -111,6 +113,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         connectivityType: "private",
         subnetId: publicSubnetVpcA.subnetId,
         tags: tags,
+        privateIpAddress: privateNatGatewayIpAddress,
       },
     );
 
@@ -419,31 +422,33 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 25. Deploy ALB. The ALB sends traffic from the routable subnet to the EC2 instance in the
      * Non-Routable Subnet.
      */
-    const securityGroupVpcB = new cdk.aws_ec2.SecurityGroup(
+    const albSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "securityGroupVpcB",
+      "albSecurityGroup",
       {
-        securityGroupName: `ec2InstanceVpcB-${props.scope}`,
-        description: "Allow all traffic",
+        securityGroupName: `albVpcB-${props.scope}`,
+        description: "Allow traffic from Private NAT Gateway on Port 80",
         vpc: vpcB,
       },
     );
-    securityGroupVpcB.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTraffic(),
-      "Allow all traffic",
+    albSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.ipv4(privateNatGatewayIpAddress + "/32"),
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow traffic from Private NAT Gateway on Port 80",
     );
 
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
       this,
       "alb",
       {
-        securityGroup: securityGroupVpcB,
+        securityGroup: albSecurityGroup,
         loadBalancerName: `vpcB-${props.scope}`,
         vpc: vpcB,
         vpcSubnets: {
           subnets: [privateRoutableSubnetVpcB, privateSubnetVpcBForAlb],
         },
+        internetFacing: false,
+        denyAllIgwTraffic: true,
       },
     );
 
@@ -451,6 +456,21 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
      * 26. Deploy an EC2 instance into the Non-Routable Subnet of VPC B. Then add it as a Target to the
      * ALB in the Routable Subnet of VPC B
      */
+    const privateInstanceVpcBSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "securityGroupVpcB",
+      {
+        securityGroupName: `ec2InstanceVpcB-${props.scope}`,
+        description: "Allow all traffic from ALB",
+        vpc: vpcB,
+      },
+    );
+    privateInstanceVpcBSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.securityGroupId(albSecurityGroup.securityGroupId),
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow all traffic from ALB",
+    );
+
     const vpcBPrivateInstance = `privateInstanceVpcB-${props.scope}`;
     const userData = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
@@ -467,7 +487,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
         subnets: [privateNonRoutableSubnetVpcB],
       },
       vpc: vpcB,
-      securityGroup: securityGroupVpcB,
+      securityGroup: privateInstanceVpcBSecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO,
@@ -479,6 +499,9 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
 
     const listener = alb.addListener("ec2", {
       port: 80,
+      // https://github.com/aws/aws-cdk/issues/3177#issuecomment-508211497
+      // the default of `open: true` changes the ALB's Security Group to allow all ingress
+      open: false,
     });
     const instance1Target =
       new cdk.aws_elasticloadbalancingv2_targets.InstanceTarget(vpcBInstance);
@@ -515,19 +538,37 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
       `echo "<h1>Response from ${vpcBPrivateInstance}: '$(curl --location ${alb.loadBalancerDnsName})'</h1>" >> /var/www/html/index.html`,
     );
 
-    const securityGroupVpcA = new cdk.aws_ec2.SecurityGroup(
+    const openTrafficSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "securityGroupVpcA",
       {
-        securityGroupName: `ec2InstanceVpcA-${props.scope}`,
+        securityGroupName: `openTrafficVpcA-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpcA,
       },
     );
-    securityGroupVpcA.addIngressRule(
+    openTrafficSecurityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTraffic(),
       "Allow all",
+    );
+
+    const vpcAPrivateInstanceSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+      this,
+      "vpcAPrivateInstanceSecurityGroup",
+      {
+        securityGroupName: `privateEc2InstanceVpcA-${props.scope}`,
+        description:
+          "Allow all TCP traffic on port 80 from EC2 instance in routable subnet of VPC A",
+        vpc: vpcA,
+      },
+    );
+    vpcAPrivateInstanceSecurityGroup.addIngressRule(
+      cdk.aws_ec2.Peer.securityGroupId(
+        openTrafficSecurityGroup.securityGroupId,
+      ),
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow all TCP traffic on port 80 from EC2 instance in routable subnet of VPC A",
     );
 
     /**
@@ -544,7 +585,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
           subnets: [privateNonRoutableSubnetVpcA],
         },
         vpc: vpcA,
-        securityGroup: securityGroupVpcA,
+        securityGroup: vpcAPrivateInstanceSecurityGroup,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO,
@@ -584,7 +625,7 @@ export class DeployVpcToVpcNatGatewayStack extends cdk.Stack {
           subnets: [publicSubnetVpcA],
         },
         vpc: vpcA,
-        securityGroup: securityGroupVpcA,
+        securityGroup: openTrafficSecurityGroup,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO,
