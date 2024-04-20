@@ -1,15 +1,15 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployVpcToVpcNetworkStackProps extends cdk.StackProps {
+export interface DeployVpcToVpcTransitGatewayStackProps extends cdk.StackProps {
   scope: string;
 }
 
-export class DeployVpcToVpcNetworkStack extends cdk.Stack {
+export class DeployVpcToVpcTransitGatewayStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployVpcToVpcNetworkStackProps,
+    props: DeployVpcToVpcTransitGatewayStackProps,
   ) {
     super(scope, id, props);
 
