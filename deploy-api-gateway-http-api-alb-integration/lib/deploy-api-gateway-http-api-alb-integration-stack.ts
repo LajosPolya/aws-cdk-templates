@@ -132,8 +132,7 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
     );
     const listener = alb.addListener("internetListener", {
       port: 80,
-      // https://github.com/aws/aws-cdk/issues/3177#issuecomment-508211497
-      // Doesn't need to be open to everyone.
+      // Doesn't need to be open to anyone in the VPC.
       // The ALB's security group is configured to only allow connections
       // from the VPC Link
       open: false,

@@ -18,7 +18,7 @@ This CDK application contains two CDK stacks and therefore will take multiple st
 
 ### Build the Lambda handler
 
-Follow the instructions in [lambda-handler](../lambda-handler/README.md#Build-Docker-Container) to build Docker image of the Lambda handler's code. Remember to save `<image_name>` and `<image_tag>` for later.
+Follow the instructions in [lambda-handler](../lambda-handler/README.md#Build-Docker-Container) to build Docker image of the Lambda handler's code. Remeber to save `<image_name>` and `<image_tag>` for later.
 
 ### Deploy the ECR repository
 

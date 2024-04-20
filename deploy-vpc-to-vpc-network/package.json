@@ -1,8 +1,8 @@
 {
-  "name": "deploy-vpc-to-vpc-transit-gateway",
+  "name": "deploy-vpc-to-vpc-network",
   "version": "0.1.0",
   "bin": {
-    "deploy-vpc-to-vpc-transit-gateway": "bin/deploy-vpc-to-vpc-transit-gateway.js"
+    "deploy-vpc-to-vpc-network": "bin/deploy-vpc-to-vpc-network.js"
   },
   "scripts": {
     "build": "tsc",
