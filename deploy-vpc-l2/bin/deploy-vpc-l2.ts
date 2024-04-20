@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
-import { DeployVpcDefaultStack } from "../lib/deploy-vpc-default-stack";
+import { DeployVpcL2Stack } from "../lib/deploy-vpc-l2-stack";
 
 const app = new cdk.App();
 const scope = app.node.getContext("scope");
 const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
-new DeployVpcDefaultStack(app, "DeployVpcDefaultStack", {
+new DeployVpcL2Stack(app, "DeployVpcL2Stack", {
   stackName: `defaultVpc-${scope}`,
   scope,
   env: {

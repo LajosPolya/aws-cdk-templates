@@ -1,12 +1,12 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export interface DeployVpcDefaultStackProps extends cdk.StackProps {
+export interface DeployVpcL2StackProps extends cdk.StackProps {
   scope: string;
 }
 
-export class DeployVpcDefaultStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployVpcDefaultStackProps) {
+export class DeployVpcL2Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: DeployVpcL2StackProps) {
     super(scope, id, props);
 
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {

@@ -1,8 +1,8 @@
 {
-  "name": "deploy-vpc-default",
+  "name": "deploy-vpc-l2",
   "version": "0.1.0",
   "bin": {
-    "deploy-vpc-default": "bin/deploy-vpc-default.js"
+    "deploy-vpc-l2": "bin/deploy-vpc-l2.js"
   },
   "scripts": {
     "build": "tsc",

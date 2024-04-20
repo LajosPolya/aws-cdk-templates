@@ -80,8 +80,8 @@ This test proves that the EC2 instances are able to communiate within the VPC by
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c vpcTag=<vpc_tag> --all`
+`cdk destroy -c scope=<scope>`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c vpcTag=<vpc_tag> --all`
+`winpty cdk.cmd destroy -c scope=<scope>`
