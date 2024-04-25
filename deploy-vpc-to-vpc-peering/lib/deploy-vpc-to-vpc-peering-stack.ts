@@ -161,7 +161,8 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "systemctl start httpd",
       "systemctl enable httpd",
       'echo "Hello world from $(hostname -f)" > /var/www/html/index.html',
-      `echo "Response from: '$(curl --location ${vpcPeeringPrivateEgressInstance.instancePrivateIp})'" >> /var/www/html/index.html`,
+      `echo "Making a request to ${vpcPeeringPrivateEgressInstance.instancePrivateIp}" >> /var/www/html/index.html`,
+      `echo "Response is: '$(curl --location ${vpcPeeringPrivateEgressInstance.instancePrivateIp})'" >> /var/www/html/index.html`,
     );
     const mainVpcPublicInstance = new cdk.aws_ec2.Instance(
       this,
