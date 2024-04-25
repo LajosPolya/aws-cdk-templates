@@ -190,7 +190,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       exportName: `peeredPrivateIp-${props.scope}`,
     });
 
-    new cdk.CfnOutput(this, "publicIpVpcInstance", {
+    new cdk.CfnOutput(this, "publicIpMainVpcInstance", {
       description: "Public IP of the EC2 instance in the Main VPC",
       value: mainVpcPublicInstance.instancePublicIp,
       exportName: `publicIpMainVpc-${props.scope}`,
