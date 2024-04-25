@@ -96,14 +96,14 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "peeredVpcSecurityGroup",
       {
         securityGroupName: `peeredVpcSecurityGroup-${props.scope}`,
-        description: "Allow all traffic from ALB",
+        description: "Peered VPC Private with Egress Subnet",
         vpc: peeredVpc,
       },
     );
     peeredVpcSecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTraffic(),
-      "Allow all traffic",
+      cdk.aws_ec2.Peer.ipv4(mainVpc.publicSubnets[0].ipv4CidrBlock),
+      cdk.aws_ec2.Port.tcp(80),
+      "Allow TCP traffic on Port 80 from the Public Subnet of the Main VPC",
     );
     const userDataPeeredVpc = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
@@ -142,7 +142,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "vpcSecurityGroup",
       {
         securityGroupName: `vpcSecurityGroup-${props.scope}`,
-        description: "Allow all traffic from ALB",
+        description: "Allow all traffic",
         vpc: mainVpc,
       },
     );
