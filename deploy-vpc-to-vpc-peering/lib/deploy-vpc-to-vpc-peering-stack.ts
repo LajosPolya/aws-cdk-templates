@@ -137,7 +137,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
     /**
      * 6. Create a Security Group, User Data, and an EC2 Instance in the Main VPC.
      */
-    const vpcSecurityGroup = new cdk.aws_ec2.SecurityGroup(
+    const mainVpcSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "vpcSecurityGroup",
       {
@@ -146,7 +146,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
         vpc: mainVpc,
       },
     );
-    vpcSecurityGroup.addIngressRule(
+    mainVpcSecurityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTraffic(),
       "Allow all traffic",
@@ -171,7 +171,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
         vpc: mainVpc,
-        securityGroup: vpcSecurityGroup,
+        securityGroup: mainVpcSecurityGroup,
         instanceType: cdk.aws_ec2.InstanceType.of(
           cdk.aws_ec2.InstanceClass.T2,
           cdk.aws_ec2.InstanceSize.MICRO,
