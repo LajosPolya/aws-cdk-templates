@@ -13,6 +13,16 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
+    /**
+     * 1. Deploy two VPCs. They will be able to communicate via Peering Connection.
+     * The VPCs must not have overlapping CIDRs.
+     *
+     * The main VPC only has a Public Subnet, this subnet's Route Table will be
+     * used later.
+     *
+     * The second VPC has a Public Subnet, and a Private with Egress Subnet. This
+     * subnet's Route Table will be used later.
+     */
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr("10.0.0.0/16"),
       availabilityZones: [`${props.env!.region!}a`],
@@ -42,6 +52,9 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       ],
     });
 
+    /**
+     * 2. Connect the two VPCs using a Peering Connection.
+     */
     const vpcPeeringConnection = new cdk.aws_ec2.CfnVPCPeeringConnection(
       this,
       "peeringConnection",
@@ -51,18 +64,33 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 3. Update the Route Table in the Main VPC's Public Subnet to direct
+     * traffic to the Private with Egress Subnet of the Peered VPC through the
+     * Peering Connection. This is what allows the Main VPC to make a request to
+     * the Peered VPC.
+     */
     new cdk.aws_ec2.CfnRoute(this, "vpcPublicToPeeredVpc", {
       destinationCidrBlock: "11.0.16.0/20",
       routeTableId: vpc.publicSubnets[0].routeTable.routeTableId,
       vpcPeeringConnectionId: vpcPeeringConnection.attrId,
     });
 
+    /**
+     * 4. Update the Route Table in the Peered VPC's Private with Egress Subnet to
+     * direct traffic to the Publuc Subnet og the Main VPC through the
+     * Peering Connection. This is what allows the Peered VPC to respond to the
+     * Main VPC.
+     */
     new cdk.aws_ec2.CfnRoute(this, "peeredVpcToVpcPublic", {
       destinationCidrBlock: "10.0.0.0/20",
       routeTableId: peeredVpc.privateSubnets[0].routeTable.routeTableId,
       vpcPeeringConnectionId: vpcPeeringConnection.attrId,
     });
 
+    /**
+     * 5. Create a Security Group, User Data, and an EC2 Instance in the Peered VPC.
+     */
     const peeredVpcSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "peeredVpcSecurityGroup",
@@ -106,6 +134,9 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       },
     );
 
+    /**
+     * 6. Create a Security Group, User Data, and an EC2 Instance in the Main VPC.
+     */
     const vpcSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
       "vpcSecurityGroup",
