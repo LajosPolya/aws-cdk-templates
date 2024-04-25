@@ -175,5 +175,11 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       value: vpcPeeringPrivateEgressInstance.instancePrivateIp,
       exportName: `privateIpPeeredInstance-${props.scope}`,
     });
+
+    new cdk.CfnOutput(this, "publicIpVpcInstance", {
+      description: "Public IP of the EC2 instance in the owning VPC",
+      value: vpcPublicInstance.instancePublicIp,
+      exportName: `publicIpVpcInstance-${props.scope}`,
+    });
   }
 }
