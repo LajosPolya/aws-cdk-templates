@@ -85,7 +85,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
+      'echo "Hello world from $(hostname -f)" > /var/www/html/index.html',
     );
     const vpcPeeringPrivateEgressInstance = new cdk.aws_ec2.Instance(
       this,
@@ -129,8 +129,8 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
-      `echo "<h1>Response from: '$(curl --location ${vpcPeeringPrivateEgressInstance.instancePrivateIp})'</h1>" >> /var/www/html/index.html`,
+      'echo "Hello world from $(hostname -f)" > /var/www/html/index.html',
+      `echo "Response from: '$(curl --location ${vpcPeeringPrivateEgressInstance.instancePrivateIp})'" >> /var/www/html/index.html`,
     );
     const vpcPublicInstance = new cdk.aws_ec2.Instance(this, "vpcPublic", {
       vpcSubnets: {
