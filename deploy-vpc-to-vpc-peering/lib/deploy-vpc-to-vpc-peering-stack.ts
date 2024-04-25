@@ -57,18 +57,6 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       vpcPeeringConnectionId: vpcPeeringConnection.attrId,
     });
 
-    new cdk.aws_ec2.CfnRoute(this, "vpcToPeeredVpc", {
-      destinationCidrBlock: "11.0.16.0/20",
-      routeTableId: vpc.privateSubnets[0].routeTable.routeTableId,
-      vpcPeeringConnectionId: vpcPeeringConnection.attrId,
-    });
-
-    new cdk.aws_ec2.CfnRoute(this, "peeredVpcToVpc", {
-      destinationCidrBlock: "10.0.16.0/20",
-      routeTableId: peeredVpc.privateSubnets[0].routeTable.routeTableId,
-      vpcPeeringConnectionId: vpcPeeringConnection.attrId,
-    });
-
     new cdk.aws_ec2.CfnRoute(this, "peeredVpcToVpcPublic", {
       destinationCidrBlock: "10.0.0.0/20",
       routeTableId: peeredVpc.privateSubnets[0].routeTable.routeTableId,
