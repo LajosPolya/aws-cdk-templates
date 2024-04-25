@@ -35,7 +35,7 @@ This deploys two VPCs; the first VPC (A) contains a Public Subnet with an EC2 In
 
 ## Testing EC2 Instance Connectivity
 
-The EC2 instance within VPC A has a public IP which will be used to make requests to the HTTP servers. The EC2 instance within VPC B only has a Private IP. The IPs are exported by the CDK and therefore printed to the CLI when the EC2 instances are deployed.
+The EC2 instance within VPC A has a Public IP which will be used to make requests to the HTTP servers. The EC2 instance within VPC B only has a Private IP. The IPs are exported by the CDK and therefore printed to the CLI when the EC2 instances are deployed.
 
 ### Test 1: Accessibility from public internet
 
@@ -43,7 +43,7 @@ The EC2 instance within VPC A has a public IP which will be used to make request
 
 `curl <publicInstancePublicIp>`
 
-2. Verify no access to the EC2 instance in VPC B via public IP
+2. Verify no access to the EC2 instance in VPC B via private IP
 
 `curl <privateInstancePrivateIp>`
 
@@ -53,7 +53,7 @@ The EC2 instance within the Public Subnet is the only instance accessible by the
 
 Login to the AWS Console and find the EC2 instance within VPC A and connect to it via EC2 Instance Connect (click the connect button on the EC2 instance's page).
 
-1. Verify the EC2 instance with VPC A has access to the EC2 instance within VPC B via private IP
+1. Verify the EC2 instance within VPC A has access to the EC2 instance within VPC B via private IP
 
 `ping <privateInstancePrivateIp>`
 
