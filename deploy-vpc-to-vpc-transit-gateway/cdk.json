@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/deploy-vpc-to-vpc-network.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/deploy-vpc-to-vpc-transit-gateway.ts",
   "watch": {
     "include": ["**"],
     "exclude": [
