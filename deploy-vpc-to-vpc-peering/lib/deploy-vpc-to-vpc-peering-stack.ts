@@ -23,7 +23,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
      * The second VPC has a Public Subnet, and a Private with Egress Subnet. This
      * subnet's Route Table will be used later.
      */
-    const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
+    const mainVpc = new cdk.aws_ec2.Vpc(this, "mainVpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr("10.0.0.0/16"),
       availabilityZones: [`${props.env!.region!}a`],
       subnetConfiguration: [
@@ -60,7 +60,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "peeringConnection",
       {
         peerVpcId: peeredVpc.vpcId,
-        vpcId: vpc.vpcId,
+        vpcId: mainVpc.vpcId,
       },
     );
 
@@ -72,7 +72,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
      */
     new cdk.aws_ec2.CfnRoute(this, "vpcPublicToPeeredVpc", {
       destinationCidrBlock: peeredVpc.privateSubnets[0].ipv4CidrBlock,
-      routeTableId: vpc.publicSubnets[0].routeTable.routeTableId,
+      routeTableId: mainVpc.publicSubnets[0].routeTable.routeTableId,
       vpcPeeringConnectionId: vpcPeeringConnection.attrId,
     });
 
@@ -83,7 +83,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
      * Main VPC.
      */
     new cdk.aws_ec2.CfnRoute(this, "peeredVpcToVpcPublic", {
-      destinationCidrBlock: vpc.publicSubnets[0].ipv4CidrBlock,
+      destinationCidrBlock: mainVpc.publicSubnets[0].ipv4CidrBlock,
       routeTableId: peeredVpc.privateSubnets[0].routeTable.routeTableId,
       vpcPeeringConnectionId: vpcPeeringConnection.attrId,
     });
@@ -143,7 +143,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       {
         securityGroupName: `vpcSecurityGroup-${props.scope}`,
         description: "Allow all traffic from ALB",
-        vpc: vpc,
+        vpc: mainVpc,
       },
     );
     vpcSecurityGroup.addIngressRule(
@@ -152,9 +152,9 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       "Allow all traffic",
     );
 
-    const userDataVpc = cdk.aws_ec2.UserData.forLinux();
+    const userDataMainVpc = cdk.aws_ec2.UserData.forLinux();
     // This list of commands was copied from Stephane Maarek's AWS Certified Associate DVA-C01 Udemy Course
-    userDataVpc.addCommands(
+    userDataMainVpc.addCommands(
       "#!/bin/bash",
       "yum update -y",
       "yum install -y httpd",
@@ -163,32 +163,36 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       'echo "Hello world from $(hostname -f)" > /var/www/html/index.html',
       `echo "Response from: '$(curl --location ${vpcPeeringPrivateEgressInstance.instancePrivateIp})'" >> /var/www/html/index.html`,
     );
-    const vpcPublicInstance = new cdk.aws_ec2.Instance(this, "vpcPublic", {
-      vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+    const mainVpcPublicInstance = new cdk.aws_ec2.Instance(
+      this,
+      "mainVpcPublic",
+      {
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
+        },
+        vpc: mainVpc,
+        securityGroup: vpcSecurityGroup,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userDataMainVpc,
+        instanceName: `vpcPublic-${props.scope}`,
       },
-      vpc: vpc,
-      securityGroup: vpcSecurityGroup,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userDataVpc,
-      instanceName: `vpcPublic-${props.scope}`,
-    });
-    vpcPublicInstance.node.addDependency(vpcPeeringPrivateEgressInstance);
+    );
+    mainVpcPublicInstance.node.addDependency(vpcPeeringPrivateEgressInstance);
 
     new cdk.CfnOutput(this, "privateIpPeeredInstance", {
       description: "Private IP of the EC2 instance in the Peered VPC",
       value: vpcPeeringPrivateEgressInstance.instancePrivateIp,
-      exportName: `privateIpPeeredInstance-${props.scope}`,
+      exportName: `peeredPrivateIp-${props.scope}`,
     });
 
     new cdk.CfnOutput(this, "publicIpVpcInstance", {
-      description: "Public IP of the EC2 instance in the owning VPC",
-      value: vpcPublicInstance.instancePublicIp,
-      exportName: `publicIpVpcInstance-${props.scope}`,
+      description: "Public IP of the EC2 instance in the Main VPC",
+      value: mainVpcPublicInstance.instancePublicIp,
+      exportName: `publicIpMainVpc-${props.scope}`,
     });
   }
 }
