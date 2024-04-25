@@ -22,11 +22,6 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
           name: `public-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
-        {
-          cidrMask: 20,
-          name: `privateEgress-${props.scope}`,
-          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
-        },
       ],
     });
 
@@ -43,11 +38,6 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
           cidrMask: 20,
           name: `peeredPrivateEgress-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
-        },
-        {
-          cidrMask: 20,
-          name: `peeredPrivateIsolated-${props.scope}`,
-          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
         },
       ],
     });
