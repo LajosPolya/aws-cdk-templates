@@ -45,14 +45,15 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       "asgSecurityGroup",
       {
         securityGroupName: `asgNlbEc2InstanceSecurityGroup-${props.scope}`,
-        description: "Allow all traffic",
+        description:  `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`,
         vpc: vpc,
       }
     );
     // Allow connection from the NLB
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.tcp(DeployNlbWithEc2InstanceStack.port)
+      cdk.aws_ec2.Port.tcp(DeployNlbWithEc2InstanceStack.port),
+      `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`
     );
     const ec2Instance1 = new cdk.aws_ec2.Instance(this, "ec2Instance1", {
       vpcSubnets: {
