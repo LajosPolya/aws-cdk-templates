@@ -63,7 +63,7 @@ export class DeployVpcL2Stack extends cdk.Stack {
       'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
-    new cdk.aws_ec2.Instance(this, "public1", {
+    const publicInstance = new cdk.aws_ec2.Instance(this, "public", {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       },
@@ -75,37 +75,75 @@ export class DeployVpcL2Stack extends cdk.Stack {
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
-      instanceName: `public1-${props.scope}`,
+      instanceName: `public-${props.scope}`,
     });
 
-    new cdk.aws_ec2.Instance(this, "privateEgress1", {
-      vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    const privateWithEgressInstance = new cdk.aws_ec2.Instance(
+      this,
+      "privateEgress",
+      {
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        vpc: vpc,
+        securityGroup: securityGroup,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userData,
+        instanceName: `privateEgress-${props.scope}`,
       },
-      vpc: vpc,
-      securityGroup: securityGroup,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      instanceName: `privateEgress1-${props.scope}`,
+    );
+
+    const privateIsolatedInstance = new cdk.aws_ec2.Instance(
+      this,
+      "privateIsolated",
+      {
+        vpcSubnets: {
+          subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
+        },
+        vpc: vpc,
+        securityGroup: securityGroup,
+        instanceType: cdk.aws_ec2.InstanceType.of(
+          cdk.aws_ec2.InstanceClass.T2,
+          cdk.aws_ec2.InstanceSize.MICRO,
+        ),
+        machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
+        userData: userData,
+        instanceName: `privateIsolated-${props.scope}`,
+      },
+    );
+
+    new cdk.CfnOutput(this, "publicInstancePublicIp", {
+      description: "Public IP of the public instance",
+      value: publicInstance.instancePublicIp,
+      exportName: `publicEc2PublicIp-${props.scope}`,
     });
 
-    new cdk.aws_ec2.Instance(this, "privateIsolated1", {
-      vpcSubnets: {
-        subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
-      },
-      vpc: vpc,
-      securityGroup: securityGroup,
-      instanceType: cdk.aws_ec2.InstanceType.of(
-        cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO,
-      ),
-      machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData: userData,
-      instanceName: `privateIsolated1-${props.scope}`,
+    new cdk.CfnOutput(this, "privateEgressInstancePublicIp", {
+      description: "Public IP of the private with egress instance",
+      value: privateWithEgressInstance.instancePublicIp,
+      exportName: `privateEgressEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateEgressInstancePrivateIp", {
+      description: "Private IP of the private with egress instance",
+      value: privateWithEgressInstance.instancePrivateIp,
+      exportName: `privateEgressEc2PrivateIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateIsolatedInstancePublicIp", {
+      description: "Public IP of the private with egress instance",
+      value: privateIsolatedInstance.instancePublicIp,
+      exportName: `privateIsolatedEc2PublicIp-${props.scope}`,
+    });
+
+    new cdk.CfnOutput(this, "privateIsolatedInstancePrivateIp", {
+      description: "Private IP of the private isolated instance",
+      value: privateIsolatedInstance.instancePrivateIp,
+      exportName: `privateIsolatedEc2PrivateIp-${props.scope}`,
     });
   }
 }
