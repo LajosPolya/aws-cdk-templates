@@ -97,6 +97,12 @@ export class DeployVpcL2Stack extends cdk.Stack {
       },
     );
 
+    /**
+     * The private isolated subnet has no route to the public internet and is therefore not able to download
+     * or install any external software. For this reason the EC2 instance in the isolated subnet will not
+     * have a `UserData` resource object to attempt to download an httpd server installed on it, meaning that
+     * all `curl` commands will fail, but `ping` will still continue to work from within the VPC.
+     */
     const privateIsolatedInstance = new cdk.aws_ec2.Instance(
       this,
       "privateIsolated",
@@ -111,7 +117,6 @@ export class DeployVpcL2Stack extends cdk.Stack {
           cdk.aws_ec2.InstanceSize.MICRO,
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-        userData: userData,
         instanceName: `privateIsolated-${props.scope}`,
       },
     );
@@ -132,12 +137,6 @@ export class DeployVpcL2Stack extends cdk.Stack {
       description: "Private IP of the private with egress instance",
       value: privateWithEgressInstance.instancePrivateIp,
       exportName: `privateEgressEc2PrivateIp-${props.scope}`,
-    });
-
-    new cdk.CfnOutput(this, "privateIsolatedInstancePublicIp", {
-      description: "Public IP of the private with egress instance",
-      value: privateIsolatedInstance.instancePublicIp,
-      exportName: `privateIsolatedEc2PublicIp-${props.scope}`,
     });
 
     new cdk.CfnOutput(this, "privateIsolatedInstancePrivateIp", {
