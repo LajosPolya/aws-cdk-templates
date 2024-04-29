@@ -127,12 +127,6 @@ export class DeployVpcL2Stack extends cdk.Stack {
       exportName: `publicEc2PublicIp-${props.scope}`,
     });
 
-    new cdk.CfnOutput(this, "privateEgressInstancePublicIp", {
-      description: "Public IP of the private with egress instance",
-      value: privateWithEgressInstance.instancePublicIp,
-      exportName: `privateEgressEc2PublicIp-${props.scope}`,
-    });
-
     new cdk.CfnOutput(this, "privateEgressInstancePrivateIp", {
       description: "Private IP of the private with egress instance",
       value: privateWithEgressInstance.instancePrivateIp,
