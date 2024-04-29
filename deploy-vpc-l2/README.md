@@ -48,11 +48,11 @@ Each EC2 instance has a public IP and a private IP which will be used to make re
 
 2. Verify no access to the EC2 instance in the Private with Egress Subnet via public IP
 
-`curl <privateEgressInstancePublicIp>`
+`curl <privateEgressInstancePrivateIp>`
 
 3. Verify no access the EC2 instance in the private isolate subnet via public IP
 
-`curl <privateIsolatedInstancePublicIp>`
+`curl <privateIsolatedInstancePrivateIp>`
 
 The EC2 instance within the Public Subnet is the only instance accessible by the public internet because the Public Subnet is the only subnet routed to the Internet Gateway. The Internet Gateway is the component which allows two way communication between a VPC and the public internet.
 
