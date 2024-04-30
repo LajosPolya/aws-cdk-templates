@@ -33,5 +33,11 @@ export class DeployDynamodbStack extends cdk.Stack {
         type: cdk.aws_dynamodb.AttributeType.NUMBER,
       },
     });
+
+    new cdk.CfnOutput(this, "tableName", {
+      description: "The Table's name",
+      value: table.tableName,
+      exportName: `tableName-${props.scope}`,
+    });
   }
 }
