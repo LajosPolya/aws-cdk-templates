@@ -26,7 +26,7 @@ The app will set the environment (account and region) based on the environment v
 
 This app deploys [micronaut-api](../api/README.md), before deploying this CDK app build the Micronaut API following the instructions in the README. Verify that Docker is running.
 
-```Bash
+```
 CLUSTER_ARN=<clusterArn>
 TASK_ARN=$(aws ecs list-tasks --cluster $CLUSTER_ARN --query "taskArns[0]" --output text)
 ENI=$(aws ecs describe-tasks --tasks $TASK_ARN --cluster $CLUSTER_ARN --query "tasks[0].attachments[0].details[1].value" --output text)
