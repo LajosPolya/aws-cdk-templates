@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
   },
   "devDependencies": {
     "@types/node": "20.11.19",
@@ -17,7 +19,7 @@
     "typescript": "~5.3.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.132.0",
+    "aws-cdk-lib": "2.139.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
