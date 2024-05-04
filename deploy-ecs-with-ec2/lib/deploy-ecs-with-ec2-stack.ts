@@ -35,7 +35,7 @@ export class DeployEcsWithEc2Stack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 16,
-          name: `ecsWithEc2SubnetGroup-${props.scope}`,
+          name: `ecsWithEc2-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
         },
       ],
