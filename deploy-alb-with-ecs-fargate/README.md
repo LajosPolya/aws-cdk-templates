@@ -14,6 +14,8 @@ This CDK app deploys an Application Load Balancer whose target is a set of ECS F
 
 ## Deployment :rocket:
 
+Prior to deploying this stack, run Docker and [build the API](../api/README.md).
+
 ### \*nix/Mac
 
 `cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
@@ -30,7 +32,9 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<albDnsName>:80/health'`
+`curl <albDnsName>/health`
+
+Where `albDnsName` is the DNS name of the Application Load Balancer in front of the Fargate task, it's exported by the CDK and therefore printing to the screen during deployment.
 
 ### Browser :surfer:
 
