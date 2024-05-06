@@ -2,30 +2,20 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
 export interface DeployAlbWithEcsFargateStackProps extends cdk.StackProps {
-  ecrName: string;
   scope: string;
-  imageTag: string;
 }
 
 export class DeployAlbWithEcsFargateStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployAlbWithEcsFargateStackProps
+    props: DeployAlbWithEcsFargateStackProps,
   ) {
     super(scope, id, props);
 
-    const ecr = cdk.aws_ecr.Repository.fromRepositoryArn(
-      this,
-      "ecr",
-      `arn:aws:ecr:${props.env!.region!}:${props.env!.account!}:repository/${
-        props.ecrName
-      }`
-    );
-
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
-        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
+        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       availabilityZones: [`${props.env!.region!}a`, `${props.env!.region!}b`],
     });
@@ -43,10 +33,10 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
         cpu: 256,
         memoryLimitMiB: 512,
         family: `albWithEcsFamily-${props.scope}`,
-      }
+      },
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, props.imageTag),
+      image: cdk.aws_ecs.ContainerImage.fromAsset("../api"),
       essential: true,
       portMappings: [
         {
@@ -72,7 +62,7 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
           desiredCount: 2,
           taskDefinition: fargateTaskDef,
           publicLoadBalancer: true,
-        }
+        },
       );
 
     albEcsFargate.targetGroup.configureHealthCheck({
