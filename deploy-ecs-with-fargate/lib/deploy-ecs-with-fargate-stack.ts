@@ -2,7 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
 export interface DeployEcsWithFargateStackProps extends cdk.StackProps {
-  ecrName: string;
+  repo: cdk.aws_ecr.IRepository;
   imageTag: string;
   scope: string;
 }
@@ -14,14 +14,6 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
     props: DeployEcsWithFargateStackProps
   ) {
     super(scope, id, props);
-
-    const ecr = cdk.aws_ecr.Repository.fromRepositoryArn(
-      this,
-      "ecr",
-      `arn:aws:ecr:${props.env!.region!}:${props.env!.account!}:repository/${
-        props.ecrName
-      }`
-    );
 
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
@@ -54,7 +46,10 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       }
     );
     fargateTaskDef.addContainer("apiContainer", {
-      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(ecr, props.imageTag),
+      image: cdk.aws_ecs.ContainerImage.fromEcrRepository(
+        props.repo,
+        props.imageTag
+      ),
       essential: true,
       portMappings: [
         {

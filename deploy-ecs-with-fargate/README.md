@@ -14,19 +14,45 @@ This CDK app deploys a Fargate instance within an ECS Cluster.
 
 ## Deployment :rocket:
 
-### \*nix/Mac
+This app contains multiple stacks and therefore will take multiple steps to deploy.
 
-`cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+### Build the Docker Image
 
-### Git Bash on Windows
+Follow the [API instructions](../api/README.md) to build a Docker Image of the API. Remember the value of `image_name` and `image_tag`.
 
-`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+### Deploy the Elastic Container Registry
 
-- `ecrName` represents the name of the Elastic Container Repository containing the image to run on the ECS Fargate tasks. Follow the instructions in [deploy-ecr](../deploy-ecr/README.md) to deploy an image of a simple API to an AWS Elastic Container Repository
+#### \*nix/Mac
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
+`cdk deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>`
 
-If deploying [micronaut-api](../api/README.md) then once deployed you may access the `/health` endpoint by either the public IP `http://<public_ip>:8080/health` or the public DNS `http://<public_dns>:8080/health`. The server can be tested for connectivity using the following list of commands.
+#### Git Bash on Windows
+
+`winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>`
+
+Where `image_tag` is the tag of the Docker Image built in the previous step.
+
+### Push the Docker Image to ECR
+
+Reference: https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html
+
+```Bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+docker tag <image_name>:<image_tag> <repoUriForTag>
+docker push <repoUriForTag>
+```
+
+Where `repoUriForTag` is the URI of the AWS ECR Repository, this value is exported by the CDK and therefore printed to the CLI during the deployment.
+
+### Deploy the ECS Fargate Task
+
+#### \*nix/Mac
+
+`cdk deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>`
+
+#### Git Bash on Windows
+
+`winpty cdk.cmd deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>`
 
 ```Bash
 CLUSTER_ARN=<clusterArn>
@@ -34,6 +60,7 @@ TASK_ARN=$(aws ecs list-tasks --cluster $CLUSTER_ARN --query "taskArns[0]" --out
 ENI=$(aws ecs describe-tasks --tasks $TASK_ARN --cluster $CLUSTER_ARN --query "tasks[0].attachments[0].details[1].value" --output text)
 TASK_IP=$(aws ec2 describe-network-interfaces --network-interface-ids $ENI --query 'NetworkInterfaces[0].Association.PublicIp' --output text)
 
+# This command assumes the Micronaut API from `../api` was deployed
 curl -I --location 'http://'"$TASK_IP"':8080/health'
 ```
 
@@ -45,8 +72,8 @@ curl -I --location 'http://'"$TASK_IP"':8080/health'
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+`cdk destroy -c scope=<scope> -c tag=<image_tag> --all`
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope> -c tag=<image_tag> --all`
