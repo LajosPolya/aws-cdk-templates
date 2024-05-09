@@ -13,13 +13,30 @@
 
 - [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
+## Build the API
+```
+./gradlew build
+```
+
+## Build a Docker Image of the API
+```
+# as a prerequisite, install and run docker
+./gradlew build
+docker build -t <image_name>:<image_tag> ./
+```
+
+Where `image_name` is the name of the image and `image_tag` is a tag assigned to the image.
+
+
 ## Build and Run via Docker
-    # as a prerequisite, install and run docker
-    ./gradlew build
+```
+# as a prerequisite, install and run docker
+./gradlew build
 
-    docker build -t micronaut-api:latest ./
+docker build -t micronaut-api:latest ./
 
-    docker run -p 8080:8080 --name micronaut-api micronaut-api:latest
+docker run -p 8080:8080 --name micronaut-api micronaut-api:latest
 
-    # call the API via `curl`
-    curl localhost:8080/health -v
+# call the API via `curl`
+curl localhost:8080/health -v
+```
