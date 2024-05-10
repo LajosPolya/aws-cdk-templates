@@ -40,6 +40,12 @@ To trigger high CPU usage and therefore the Autoscaling Group call the `/max-cpu
 
 `curl <albDnsName>/max-cpu`
 
+It may take a few minutes for the third instance to boot. Use the AWS CLI to verify that three instances are running.
+
+`aws ecs list-tasks --cluster <clusterName>`
+
+Where `clusterName` is the name of the cluster, it's exported by tje CDK and therefore printed to the screen during deployment.
+
 ### Browser :surfer:
 
 If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/health`.
