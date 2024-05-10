@@ -65,6 +65,15 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
         },
       );
 
+    const scalableTaskCount = albEcsFargate.service.autoScaleTaskCount({
+      maxCapacity: 3,
+    });
+
+    scalableTaskCount.scaleOnCpuUtilization("scaleOnCpu", {
+      targetUtilizationPercent: 80,
+      policyName: `albWithEcs-${props.scope}`,
+    });
+
     albEcsFargate.targetGroup.configureHealthCheck({
       enabled: true,
       path: "/health",
@@ -72,6 +81,9 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
       port: "8080",
       healthyHttpCodes: "204",
     });
+
+
+    // TODO OUTPUT CLUSTER name to get tasks via command line aws ecs list-tasks --cluster <cluster_name>
 
     new cdk.CfnOutput(this, "albDnsName", {
       description: "The Application Load Balancer's public DNS name",
