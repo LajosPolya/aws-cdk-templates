@@ -34,7 +34,7 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 `curl <albDnsName>/health`
 
-Where `albDnsName` is the DNS name of the Application Load Balancer in front of the Fargate task, it's exported by the CDK and therefore printing to the screen during deployment.
+Where `albDnsName` is the DNS name of the Application Load Balancer in front of the Fargate task, it's exported by the CDK and therefore printed to the CLI during deployment.
 
 To trigger high CPU usage and therefore the Autoscaling Group call the `/max-cpu` endpoint. Call this endpoint at least a few times to guarantee that both initial tasks are hit by the load balancer. It may take a few mins for high CPU to register and for the third task to boot.
 
@@ -44,7 +44,7 @@ It may take a few minutes for the third instance to boot. Use the AWS CLI to ver
 
 `aws ecs list-tasks --cluster <clusterName>`
 
-Where `clusterName` is the name of the cluster, it's exported by tje CDK and therefore printed to the screen during deployment.
+Where `clusterName` is the name of the cluster, it's exported by tje CDK and therefore printed to the CLI during deployment.
 
 ### Browser :surfer:
 
