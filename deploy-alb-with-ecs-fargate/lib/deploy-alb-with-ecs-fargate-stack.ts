@@ -82,8 +82,11 @@ export class DeployAlbWithEcsFargateStack extends cdk.Stack {
       healthyHttpCodes: "204",
     });
 
-
-    // TODO OUTPUT CLUSTER name to get tasks via command line aws ecs list-tasks --cluster <cluster_name>
+    new cdk.CfnOutput(this, "clusterName", {
+      description: "The Cluster's name",
+      value: cluster.clusterName,
+      exportName: `clusterName-${props.scope}`,
+    });
 
     new cdk.CfnOutput(this, "albDnsName", {
       description: "The Application Load Balancer's public DNS name",
