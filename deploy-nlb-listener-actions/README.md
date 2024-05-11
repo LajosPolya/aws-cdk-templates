@@ -32,11 +32,13 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<nlb_dns>:80'` -> Contacts one of the two EC2 isntances
+`curl http://<nlb_dns>:80` -> Contacts one of the two EC2 isntances
 
-`curl --location 'http://<nlb_dns>:81'` -> Contacts the first EC2 instance
+`curl http://<nlb_dns>:81` -> Contacts the first EC2 instance
 
-`curl --location 'http://<nlb_dns>:82'` -> Contacts the second EC2 instance
+`curl http://<nlb_dns>:82` -> Contacts the second EC2 instance
+
+Note that the NLB may not respond right away. If that's the case wait a couple minutes and try again.
 
 ## Destruction :boom:
 
