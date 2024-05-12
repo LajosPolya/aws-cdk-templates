@@ -30,8 +30,6 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
         description: "EC2 Security Group",
         vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       },
     );
     ec2SecurityGroup.addIngressRule(
@@ -55,7 +53,6 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      allowAllOutbound: true,
       vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
