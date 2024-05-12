@@ -34,7 +34,11 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<nlb_dns>:80'` -> Contacts one of the two EC2 isntances
+`curl <nlb_dns>` -> Contacts one of the two EC2 instances
+
+Where `nlb_dns` is the DNS of the NLB. This value out exported by the CDK and therefore printed to the CLI after a deployment.
+
+Note that the NLB may not respond right away. If that's the case wait a couple minutes and try again.
 
 ## Destruction :boom:
 
