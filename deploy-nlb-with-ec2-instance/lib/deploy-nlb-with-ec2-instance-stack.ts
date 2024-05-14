@@ -59,7 +59,6 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      allowAllOutbound: true,
       vpc: vpc,
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
@@ -75,7 +74,6 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      allowAllOutbound: true,
       vpc: vpc,
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
