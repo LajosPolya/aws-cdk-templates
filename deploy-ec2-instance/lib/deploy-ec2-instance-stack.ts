@@ -9,13 +9,13 @@ export class DeployEc2InstanceStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployEc2InstanceStackProps
+    props: DeployEc2InstanceStackProps,
   ) {
     super(scope, id, props);
 
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
-        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
+        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       availabilityZones: [`${props.env!.region!}a`],
       natGateways: 0,
@@ -36,7 +36,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP"
+      "Allow all TCP",
     );
 
     const userData = cdk.aws_ec2.UserData.forLinux();
@@ -47,7 +47,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
+      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
     const instance = new cdk.aws_ec2.Instance(this, "ec2-istance", {
@@ -58,7 +58,7 @@ export class DeployEc2InstanceStack extends cdk.Stack {
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO
+        cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
