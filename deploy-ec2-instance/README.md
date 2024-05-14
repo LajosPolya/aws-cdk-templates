@@ -28,7 +28,7 @@ This deploys an HTTP server on an EC2 instance. The server can be accessed by ei
 
 ### Command Line
 
-`curl --location 'http://<publicDnsName>'` or `curl --location 'http://<publicIp>'`
+`curl <publicDnsName>` or `curl <publicIp>`
 
 ### Browser :surfer:
 
