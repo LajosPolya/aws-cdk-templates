@@ -30,7 +30,7 @@ This deploys an API Gateway HTTP API backed by NLB. This API is backed by an AWS
 
 The NLB can be accessed by the `nlb` endpoint.
 
-`curl --location <api_url>/nlb`
+`curl <api_url>/nlb`
 
 > **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
 
