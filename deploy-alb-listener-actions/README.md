@@ -28,15 +28,15 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<albDnsName>:80'` -> Contacts one of the two EC2 isntances
+`curl <albDnsName>:80` -> Contacts one of the two EC2 isntances
 
-`curl --location 'http://<albDnsName>:80/fixedResponse'` -> Responds with `"This is a fixed response"`
+`curl <albDnsName>:80/fixedResponse` -> Responds with `"This is a fixed response"`
 
-`curl --location 'http://<albDnsName>:80?redirect=true'` -> Redirects the request to the first EC2 instance
+`curl --location <albDnsName>:80?redirect=true` -> Redirects the request to the first EC2 instance
 
-`curl --location 'http://<albDnsName>:81'` -> Contacts the first EC2 instance
+`curl <albDnsName>:81` -> Contacts the first EC2 instance
 
-`curl --location 'http://<albDnsName>:82'` -> Contacts the second EC2 instance
+`curl <albDnsName>:82` -> Contacts the second EC2 instance
 
 ### Browser :surfer:
 
