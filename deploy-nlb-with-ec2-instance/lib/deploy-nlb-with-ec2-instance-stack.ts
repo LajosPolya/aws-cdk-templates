@@ -11,7 +11,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: DeployNlbWithEc2InstanceStackProps
+    props: DeployNlbWithEc2InstanceStackProps,
   ) {
     super(scope, id, props);
 
@@ -22,7 +22,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
     */
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
       ipAddresses: cdk.aws_ec2.IpAddresses.cidr(
-        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE
+        cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       enableDnsHostnames: false,
       enableDnsSupport: true,
@@ -37,7 +37,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       "yum install -y httpd",
       "systemctl start httpd",
       "systemctl enable httpd",
-      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html'
+      'echo "<h1>Hello world from $(hostname -f)</h1>" > /var/www/html/index.html',
     );
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
@@ -45,15 +45,15 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       "asgSecurityGroup",
       {
         securityGroupName: `asgNlbEc2InstanceSecurityGroup-${props.scope}`,
-        description:  `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`,
+        description: `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`,
         vpc: vpc,
-      }
+      },
     );
     // Allow connection from the NLB
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),
       cdk.aws_ec2.Port.tcp(DeployNlbWithEc2InstanceStack.port),
-      `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`
+      `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`,
     );
     const ec2Instance1 = new cdk.aws_ec2.Instance(this, "ec2Instance1", {
       vpcSubnets: {
@@ -63,7 +63,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO
+        cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
@@ -78,7 +78,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
-        cdk.aws_ec2.InstanceSize.MICRO
+        cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
       userData: userData,
@@ -94,7 +94,7 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
         vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
-      }
+      },
     );
     const listener = nlb.addListener("internetListener", {
       port: DeployNlbWithEc2InstanceStack.port,
