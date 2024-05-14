@@ -73,7 +73,6 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      allowAllOutbound: true,
       vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
@@ -89,7 +88,6 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      allowAllOutbound: true,
       vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
