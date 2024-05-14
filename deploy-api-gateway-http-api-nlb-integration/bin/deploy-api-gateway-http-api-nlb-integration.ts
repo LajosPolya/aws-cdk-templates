@@ -11,7 +11,7 @@ new DeployApiGatewayHttpApiNlbIntegrationStack(
   app,
   "DeployApiGatewayHttpApiNlbIntegrationStack",
   {
-    stackName: `httpApiGatewayWithAlb-${scope}`,
+    stackName: `httpApiGatewayWithNlb-${scope}`,
     scope,
     env: {
       account: account || process.env.CDK_DEFAULT_ACCOUNT,
