@@ -30,7 +30,7 @@ This deploys an API Gateway HTTP API backed by ALB. This API is backed by an AWS
 
 The ALB can be accessed by the `alb` endpoint.
 
-`curl --location <api_url>/alb`
+`curl <api_url>/alb`
 
 ### Browser :surfer:
 
