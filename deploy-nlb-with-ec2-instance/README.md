@@ -30,7 +30,7 @@ This deploys a Network Load Balancer which can be used to communicate with an HT
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<nlb_dns>:80'`
+`curl <nlb_dns>`
 
 ### Browser :surfer:
 
