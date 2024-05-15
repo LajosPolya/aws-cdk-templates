@@ -32,9 +32,11 @@ Have a docker image ready. One can be created by following the instruction in [a
 
 ```Bash
 aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
-docker tag <image_name>:<image_tag> <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<image_tag>
-docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repo_name>:<image_tag>
+docker tag <image_name>:<image_tag> <repo_url>:<image_tag>
+docker push <repo_url>:<image_tag>
 ```
+
+Where `<repo_url>` is the URL the the newly deployed repository. The Repo URL is exported by the CDK and therefore printed to the CLI at the end of the deployment.
 
 ## Destruction :boom:
 
