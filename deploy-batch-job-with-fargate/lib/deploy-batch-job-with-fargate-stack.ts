@@ -36,8 +36,6 @@ export class DeployBatchJobWithFargateStack extends cdk.Stack {
         securityGroupName: `batchSecurityGroup-${props.scope}`,
         description: "Batch Job Security Group",
         vpc,
-        allowAllOutbound: true,
-        allowAllIpv6Outbound: true,
       },
     );
     batchSecurityGroup.addIngressRule(
