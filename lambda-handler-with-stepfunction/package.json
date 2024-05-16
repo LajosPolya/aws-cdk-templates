@@ -1,0 +1,27 @@
+{
+  "name": "lambda-handler-with-stepfunction",
+  "version": "1.0.0",
+  "description": "Lambda triggered by Step Function",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.js*",
+    "prebuild-mingw": "rm -rf dist",
+    "build-mingw": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "postbuild-mingw": "cd dist && \"c:\\Program Files\\7-Zip\\7z.exe\" a index.zip index.js*",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LajosPolya"
+  },
+  "author": "Lajos Polya",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.137",
+    "esbuild": "^0.21.3",
+    "prettier": "3.2.5"
+  }
+}
