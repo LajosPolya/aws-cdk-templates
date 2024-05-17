@@ -71,7 +71,6 @@ export class DeployEc2Stack extends cdk.Stack {
       vpcSubnets: {
         subnets: [publicSubnet],
       },
-      allowAllOutbound: true,
       vpc: vpc,
       securityGroup: securityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
@@ -99,7 +98,6 @@ export class DeployEc2Stack extends cdk.Stack {
         vpcSubnets: {
           subnets: [privateWithEgressSubnet],
         },
-        allowAllOutbound: true,
         vpc: vpc,
         securityGroup: securityGroup,
         instanceType: cdk.aws_ec2.InstanceType.of(
@@ -128,7 +126,6 @@ export class DeployEc2Stack extends cdk.Stack {
         vpcSubnets: {
           subnets: [privateIsolatedSubnet],
         },
-        allowAllOutbound: true,
         vpc: vpc,
         securityGroup: securityGroup,
         instanceType: cdk.aws_ec2.InstanceType.of(
