@@ -7,7 +7,7 @@ This Lambda handler takes a JSON object of type `IncomingEvent` as input which i
 ## Useful commands
 
 - Install dependencies. Must be executed prior to runnig the build
-  ```Bash
+  ```Java
   npm ci
   ```
 - `npm run build` Builds the handler on Linux systems
