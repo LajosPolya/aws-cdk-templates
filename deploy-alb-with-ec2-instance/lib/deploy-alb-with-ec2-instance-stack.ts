@@ -37,11 +37,6 @@ export class DeployAlbWithEc2InstanceStack extends cdk.Stack {
         vpc,
       },
     );
-    albSecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP",
-    );
 
     const ec2SecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
