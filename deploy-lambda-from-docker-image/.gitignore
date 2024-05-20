@@ -9,4 +9,4 @@ cdk.out
 
 # AWS CLI output
 outfile.txt
-output/*
+output
