@@ -30,7 +30,7 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<albDnsName>'`
+`curl <albDnsName>`
 
 ### Browser :surfer:
 
