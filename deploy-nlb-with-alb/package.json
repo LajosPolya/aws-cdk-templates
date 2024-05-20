@@ -12,14 +12,14 @@
     "check": "npx prettier --check ."
   },
   "devDependencies": {
-    "@types/node": "20.12.11",
-    "aws-cdk": "2.141.0",
-    "prettier": "3.2.5",
+    "@types/node": "20.12.12",
+    "aws-cdk": "2.142.1",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.5"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.141.0",
+    "aws-cdk-lib": "2.142.1",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
