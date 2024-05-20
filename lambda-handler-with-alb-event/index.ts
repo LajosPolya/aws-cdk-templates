@@ -8,12 +8,12 @@ export const handler: ALBHandler = async (
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
 
   return {
-    "isBase64Encoded": false,
-    "statusCode": 200,
-    "statusDescription": "200 OK",
-    "headers": {
-        "Content-Type": "application/json"
+    isBase64Encoded: false,
+    statusCode: 200,
+    statusDescription: "200 OK",
+    headers: {
+      "Content-Type": "application/json",
     },
-    "body": "Successfully executed a TypeScript Lambda Handler (Check the logs for more information)"
-}
+    body: "Successfully executed a TypeScript Lambda Handler (Check the logs for more information)",
+  };
 };
