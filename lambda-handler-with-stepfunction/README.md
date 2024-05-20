@@ -2,12 +2,12 @@
 
 This is a NodeJS TypeScript AWS Lambda Handler which is meant to be deployed within a Step Function. Once this project is built, its zipped distribution file can be uploaded to AWS and used as an AWS Lambda handler.
 
-This Lambda handler takes a JSON object of type `IncomingEvent` as input which is defined in `index.ts`. Depending on the string assigned to the `task` field the handler will either throw a specific error or return a success message. The event expected expects the following schema `{ "task": "string" }` where the following occurs for each expected value of `task`:
+This Lambda handler takes a JSON object of type `IncomingEvent` as input which is defined in `index.ts`. Depending on the string assigned to the `task` field the handler will either throw a specific error or return a success message. The event must have the following schema `{ "task": "string" }`, where the `task` must be one of the following:
 
-1. `task == "succeed"` then return `{ message: "success" }`
-2. `task === "retry"` then throw `RetryableError`
-3. `task === "recover"` then throw `RecoverableTaskError`
-4. `task == null` then throw `UndefinedTaskError`
+1. `"succeed"` then return `{ message: "success" }`
+2. `"retry"` then throw `RetryableError`
+3. `"recover"` then throw `RecoverableTaskError`
+4. `null` then throw `UndefinedTaskError`
 5. else throw `UnknownTaskError`
 
 ## Useful commands
