@@ -30,7 +30,7 @@ This deploys a Lambda which when invoked by an ALB event will synchronously resp
 
 ### cURL :curling_stone:
 
-`curl --location 'http://<alb_dns>'`
+`curl <alb_dns>`
 
 ### Browser :surfer:
 
