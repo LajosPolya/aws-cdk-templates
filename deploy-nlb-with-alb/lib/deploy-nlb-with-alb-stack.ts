@@ -73,11 +73,6 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
         vpc,
       },
     );
-    albSecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP",
-    );
 
     const alb = new cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
       this,
