@@ -39,11 +39,6 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
         vpc,
       },
     );
-    albSecurityGroup.addIngressRule(
-      cdk.aws_ec2.Peer.anyIpv4(),
-      cdk.aws_ec2.Port.allTcp(),
-      "Allow all TCP",
-    );
 
     const launchTemplateSecurityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
