@@ -50,4 +50,4 @@ Note that the NLB may not respond right away. If that's the case wait a couple m
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

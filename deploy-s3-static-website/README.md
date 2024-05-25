@@ -44,4 +44,4 @@ Access the website by its public URL. The URL is exported by the CDK as `s3Stati
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

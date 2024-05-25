@@ -42,4 +42,4 @@ The app will set the environment (account and region) based on the environment v
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

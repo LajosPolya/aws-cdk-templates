@@ -48,4 +48,4 @@ Where both `api_url` and `queue_url` are exported by the CDK and therefore print
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

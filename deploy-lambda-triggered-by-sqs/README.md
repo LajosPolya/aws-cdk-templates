@@ -44,4 +44,4 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

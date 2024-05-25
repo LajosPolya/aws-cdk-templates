@@ -52,4 +52,4 @@ If the DNS name doesn't work then verify that the browser is using `http://` and
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

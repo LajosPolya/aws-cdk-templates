@@ -38,4 +38,4 @@ The `bucketName` is exported by the CDK and therefore printed to the CLI when th
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`

@@ -40,4 +40,4 @@ The function name takes the form `inlineCodeLambda-<scope>` where scope is the c
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+`winpty cdk.cmd destroy -c scope=<scope>`
