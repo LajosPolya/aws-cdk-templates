@@ -45,8 +45,6 @@ Where `<vpc_tag>` is an arbitrary tag assigned to the VPC. This tag is used to q
 
 `winpty cdk.cmd deploy DeployEc2Stack -c scope=<scope> -c vpcTag=<vpc_tag>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 The first stack deploys a VPC with three subnets; a Public Subnet which allows inbound and outbound connections to the public internet, a Private Subnet with Egress which only allows outbound connections to the
 public internet, and a Private Isolated Subnet which is only accessible from within the VPC.
 

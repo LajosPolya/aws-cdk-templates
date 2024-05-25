@@ -22,8 +22,6 @@ This CDK app deploys a DynamoDB Table with a Partition Key and Sort Key, and a G
 
 `winpty cdk.cmd deploy -c scope=<scope>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This deploys a DynamoDB Table with instructions on how to insert and get items from the table. The table defines two Global Indexes. The first having a Partition Key in the `publisherId` and a Sort Key on the `bookTitle`, and the Second Global Index having a Partition Key on `bookTitle` and a Sort Key on `year`.
 
 ## Writing to and Reading from the Table

@@ -22,8 +22,6 @@ This CDK app deploys an API Gateway REST API with AWS Integration, specifially t
 
 `winpty cdk.cmd deploy -c scope=<scope>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This deploys an API Gateway REST API integrated with an AWS SQS queue.
 
 ### cURL :curling_stone:

@@ -31,8 +31,6 @@ This CDK app deploys two VPCs with an overlapping CIDR and connects their networ
 
 `winpty cdk.cmd deploy -c scope=<scope>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This deploys two VPCs each having a Non-Routable Subnet with both subnets having the same CIDR. Normally traffic wouldn't be able to flow between these two subnets but with the help of a Private NAT Gateway, Transit Gateway, and ALB this is made possible. This deployer also deploys a couple Public NAT Gateways and an Internet Gateway in order to allow the EC2 instances to download HTTP servers and to allow the user to connect to one of the EC2 instances. A third EC2 instance is deploy which is used by users to connect to the EC2 instance within the Non-Routable Subnet of VPC A.
 
 The EC2 instance within the Routable Subnet of VPC A has a public IP which will be used to make requests to the HTTP servers. The IPs are exported by the CDK and therefore printed to the CLI when the EC2 instances are deployed.

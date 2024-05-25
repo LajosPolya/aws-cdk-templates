@@ -26,8 +26,6 @@ Prior to deploying this stack, run Docker and [build the API](../api/README.md) 
 
 - `ecrName` represents the name of the Elastic Container Repository containing the image to run on the ECS Fargate tasks. Follow the instructions in [deploy-ecr](../deploy-ecr/README.md) to deploy an image of a simple API to an AWS Elastic Container Repository
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This deploys an Application Load Balancer which can be used to communicate with an HTTP server on two ECS Fargate tasks. The Service's Autoscsaling will trigger if the average CPU goes above 80%. The server can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL :curling_stone:

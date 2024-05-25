@@ -29,8 +29,6 @@ The purpose of this application is to deploy two VPCs and allow them to communic
 
 `winpty cdk.cmd deploy -c scope=<scope>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This deploys two VPCs; the first VPC (A) contains a Public Subnet with an EC2 Instance deployed into it. The second VPC (B) contains a Private Isolated Subnet with an EC2 Instance deployed into it. The Public Subnet allows inbound and outbound traffic from the Public Internet. The Private Subnet should only allow traffic from within the VPC but deploying a Transit Gateway will also allow VPC A to open a connection with VPC B.
 
 ## Testing EC2 Instance Connectivity

@@ -22,8 +22,6 @@ This CDK app deploys a local Docker Image to Fargate within an ECS Cluster.
 
 `winpty cdk.cmd deploy -c scope=<scope>`
 
-The app will set the environment (account and region) based on the environment variables `CDK_DEFAULT_ACCOUNT` and `CDK_DEFAULT_REGION` respectively. These environment variables are set using the default AWS CLI configurations, more information can be [here](https://docs.aws.amazon.com/cdk/v2/guide/environments.html). The app can be deployed to the non-default environment by updating the CDK context with values for `account` and `region`.
-
 This app deploys [micronaut-api](../api/README.md), before deploying this CDK app build the Micronaut API following the instructions in the README. Verify that Docker is running.
 
 ```Bash
