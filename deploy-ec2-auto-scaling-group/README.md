@@ -38,7 +38,7 @@ for VARIABLE in $DOMAINS; do     curl -I --location 'http://'"$VARIABLE"''; done
 
 - `autoScalingGroupName` the name of the Auto Scaling Group. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
-The above list of commands makes a request to each of the EC2 isntances in the specified Auto Scaling Group. This list of commands should output the response status `200`. Note that the [AWS CLI](https://github.com/aws/aws-cli) must be installed. Each public DNS name can be used to communicate with the servers.
+The above list of commands makes a request to each of the EC2 instances in the specified Auto Scaling Group. This list of commands should output the response status `200`. Note that the [AWS CLI](https://github.com/aws/aws-cli) must be installed. Each public DNS name can be used to communicate with the servers.
 
 ### Browser :surfer:
 

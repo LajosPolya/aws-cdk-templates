@@ -28,7 +28,7 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl <albDnsName>:80` -> Contacts one of the two EC2 isntances
+`curl <albDnsName>:80` -> Contacts one of the two EC2 instances
 
 `curl <albDnsName>:80/fixedResponse` -> Responds with `"This is a fixed response"`
 
