@@ -45,7 +45,10 @@ The EC2 instance within the Main VPC has a Public IP which will be used to make 
 
 `curl <privateIpPeeredInstance>`
 
-The EC2 instance within the Public Subnet is the only instance accessible by the public internet because the Public Subnet is the only subnet routed to the Internet Gateway. The Internet Gateway is the component which allows two way communication between a VPC and the public internet. The output of the EC2 instance in the Main VPC indicates that it made a response to the EC2 Instance in the Peered VPC via Peered Connetion. Note if the response isn't successful then wait a minutes and try again because the EC2 instance may not be initialized.
+The EC2 instance within the Public Subnet is the only instance accessible by the public internet because the Public Subnet is the only subnet routed to the Internet Gateway. The Internet Gateway is the component which allows two way communication between a VPC and the public internet. The output of the EC2 instance in the Main VPC indicates that it made a response to the EC2 Instance in the Peered VPC via Peered Connetion. 
+
+> [!NOTE]
+> If the response isn't successful then wait a minutes and try again because the EC2 instance may not be initialized.
 
 ### Test 2: Accessibility from within the VPC
 

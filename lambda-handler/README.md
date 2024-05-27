@@ -33,4 +33,5 @@ docker run --platform linux/amd64 -p 9000:8080 <image_name>:<image_tag>
 curl http://localhost:9000/2015-03-31/functions/function/invocations -d '{}'
 ```
 
-Note to developers: This Dockerfile is used by some of the deployers, update with care.
+> [!NOTE]
+> This Dockerfile is used by some of the deployers, update with care.

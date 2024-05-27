@@ -26,7 +26,8 @@ This CDK app deploys a Network Load Balancer whose target is an Auto Scaling Gro
 
 This deploys a Network Load Balancer which can be used to communicate with an HTTP server on an EC2 instance within an Auto Scaling Group. The server can be accessed by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
-> **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
+> [!NOTE]
+> After the deployment completes the NLB may take a few extra minutes to come online.
 
 ### cURL :curling_stone:
 

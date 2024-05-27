@@ -30,7 +30,8 @@ The NLB can be accessed by the `nlb` endpoint.
 
 `curl <api_url>/nlb`
 
-> **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
+> [!NOTE]
+> After the deployment completes the NLB may take a few extra minutes to come online.
 
 ### Browser :surfer:
 

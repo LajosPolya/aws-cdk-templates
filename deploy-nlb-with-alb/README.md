@@ -24,7 +24,8 @@ This CDK app deploys a Network Load Balancer whose target is an Application Load
 
 This deploys a Network Load Balancer which can be used to communicate with an Application Load Balancer which communicates with an HTTP server on an EC2 instance. The server can be accessed by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
-> **Warning** After the deployment completes the NLB may take a few extra minutes to come online.
+> [!NOTE]
+> After the deployment completes the NLB may take a few extra minutes to come online.
 
 ### Browser :surfer:
 
@@ -36,7 +37,8 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 Where `nlb_dns` is the DNS of the NLB. This value out exported by the CDK and therefore printed to the CLI after a deployment.
 
-Note that the NLB may not respond right away. If that's the case wait a couple minutes and try again.
+> [!NOTE] 
+> The NLB may not respond right away. If that's the case wait a couple minutes and try again.
 
 ## Destruction :boom:
 
