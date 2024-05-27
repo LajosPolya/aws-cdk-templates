@@ -75,11 +75,21 @@ export class DeployStepFunctionWithLambdaStack extends cdk.Stack {
 
     new cdk.aws_stepfunctions.ChainDefinitionBody(lambdaInvoke);
 
-    new cdk.aws_stepfunctions.StateMachine(this, "stateMachine", {
-      stateMachineName: `smWithLambda-${props.scope}`,
-      definitionBody: new cdk.aws_stepfunctions.ChainDefinitionBody(
-        lambdaInvoke,
-      ),
+    const stateMachine = new cdk.aws_stepfunctions.StateMachine(
+      this,
+      "stateMachine",
+      {
+        stateMachineName: `smWithLambda-${props.scope}`,
+        definitionBody: new cdk.aws_stepfunctions.ChainDefinitionBody(
+          lambdaInvoke,
+        ),
+      },
+    );
+
+    new cdk.CfnOutput(this, "stepFunctionArn", {
+      description: "The ARN of the Step Function",
+      value: stateMachine.stateMachineArn,
+      exportName: `stepFuctionArn-${props.scope}`,
     });
   }
 }
