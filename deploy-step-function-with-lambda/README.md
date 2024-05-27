@@ -89,8 +89,6 @@ aws stepfunctions describe-execution --execution-arn $EXECUTION_ARN
 
 ## Destruction :boom:
 
-> **Warning** One of the compute instances deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
-
 ### \*nix/Mac
 
 `cdk destroy -c scope=<scope>`
