@@ -27,3 +27,7 @@ If using Windows it is reccomended to run `cdk` commands using the Git Bash comm
 ### 7 Zip
 
 The Lambda handlers' build process needs a compression library to zip the distribution files, but since Windows doesn't ship with a command line compression library, [7 Zip](https://www.7-zip.org/) must be installed to compress the distribution files.
+
+## Where to begin
+
+You should begin deploying what interests you but one of the simplest examples are [deploy-ec2-instance](./deploy-ec2-instance/) or [deploy-lambda](./deploy-lambda/). Once these deployments are easily understood move to some of the more complex examples; [deploy-vpc-l1](./deploy-vpc-l1/) or [deploy-vpc-to-vpc-transit-gateway](./deploy-vpc-to-vpc-transit-gateway/).
