@@ -36,7 +36,8 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 `curl http://<nlb_dns>:82` -> Contacts the second EC2 instance
 
-Note that the NLB may not respond right away. If that's the case wait a couple minutes and try again.
+> [!NOTE]
+> The NLB may not respond right away. If that's the case wait a couple minutes and try again.
 
 ## Destruction :boom:
 
