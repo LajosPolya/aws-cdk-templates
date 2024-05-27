@@ -24,7 +24,7 @@ After installing the CDK, install the [AWS CLI](https://aws.amazon.com/cli/) and
 
 ### Git Bash
 
-If using Windows it is reccomended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with [winpty](https://github.com/rprichard/winpty), for example, instead of executing `cdk deploy`, execute `winpty cdk.cmd deploy` (NodeJS must be on `PATH` for this to work).
+If using Windows it is recommended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with [winpty](https://github.com/rprichard/winpty), for example, instead of executing `cdk deploy`, execute `winpty cdk.cmd deploy` (NodeJS must be on `PATH` for this to work).
 
 ### 7 Zip
 
