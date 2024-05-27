@@ -24,11 +24,11 @@ After installing the CDK, install the [AWS CLI](https://aws.amazon.com/cli/) and
 
 ### Git Bash
 
-If using Windows it is recommended to run `cdk` commands using the Git Bash command line, Git Bash should be included with Git. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with [winpty](https://github.com/rprichard/winpty), for example, instead of executing `cdk deploy`, execute `winpty cdk.cmd deploy` (NodeJS must be on `PATH` for this to work).
+If using Windows it is recommended to run `cdk` commands using the Git Bash command line, Git Bash is included with the Git installation. Since Git Bash doesn't support TTY all `cdk` commands must be prefixed with [winpty](https://github.com/rprichard/winpty), for example, instead of executing `cdk deploy`, execute `winpty cdk.cmd deploy` (NodeJS must be on `PATH` for this to work).
 
 ### 7 Zip
 
-The Lambda handlers' build process needs a compression library to zip the distribution files, but since Windows doesn't ship with a command line compression library, [7 Zip](https://www.7-zip.org/) must be installed to compress the distribution files.
+The Lambda handlers' build process needs a compression library to zip the distribution files, since Windows doesn't ship with a command line compression library, [7 Zip](https://www.7-zip.org/) must be installed to compress the distribution files.
 
 ## Where to begin
 
