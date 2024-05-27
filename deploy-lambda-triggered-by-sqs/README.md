@@ -34,7 +34,8 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 ## Destruction :boom:
 
-> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

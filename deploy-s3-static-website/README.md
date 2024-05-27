@@ -34,9 +34,11 @@ Access the website by its public URL. The URL is exported by the CDK as `s3Stati
 
 ## Destruction :boom:
 
-> **Warning** The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent unwanted cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> The S3 bucket deployed by this app is open to the public internet and can be accessed by anyone. To prevent unwanted cost, always destroy this AWS environment when it's not in use.
 
-> **Warning** Deleting this bucket will delete all of its contents.
+> [!WARNING]
+> Deleting this bucket will delete all of its contents.
 
 ### \*nix/Mac
 

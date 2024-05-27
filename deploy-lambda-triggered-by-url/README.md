@@ -32,7 +32,8 @@ where `lambdaUrl` is the URL of the lambda. The lambda's URL is exported by this
 
 ## Destruction :boom:
 
-> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

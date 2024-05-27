@@ -64,7 +64,8 @@ Where `<albDnsName>` is the Application Load Balancer's public DNS which is expo
 
 ## Destruction :boom:
 
-> **Warning** The compute instance(s) deployed by this app is/are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> The compute instance(s) deployed by this app is/are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

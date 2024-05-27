@@ -40,7 +40,8 @@ Note that the NLB may not respond right away. If that's the case wait a couple m
 
 ## Destruction :boom:
 
-> **Warning** The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> The compute instances deployed by this app are open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

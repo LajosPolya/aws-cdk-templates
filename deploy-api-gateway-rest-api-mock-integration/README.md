@@ -34,7 +34,8 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ## Destruction :boom:
 
-> **Warning** The API Gateway deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> The API Gateway deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

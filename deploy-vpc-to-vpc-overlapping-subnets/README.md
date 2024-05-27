@@ -77,7 +77,8 @@ This test proves that the EC2 instances are able to communiate across VPCs even 
 
 ## Destruction :boom:
 
-> **Warning** One of the compute instances deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> One of the compute instances deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

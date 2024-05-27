@@ -34,7 +34,8 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 ## Destruction :boom:
 
-> **Warning** The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> The compute instance deployed by this app is open to the public internet and can be accessed by anyone. To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

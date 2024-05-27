@@ -30,7 +30,8 @@ The `bucketName` is exported by the CDK and therefore printed to the CLI when th
 
 ## Destruction :boom:
 
-> **Warning** Deleting this bucket will delete all of its contents.
+> [!WARNING]
+> Deleting this bucket will delete all of its contents.
 
 ### \*nix/Mac
 

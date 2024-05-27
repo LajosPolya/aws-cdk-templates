@@ -44,7 +44,8 @@ This operation searches through the table items on client side and is therefore 
 
 ## Destruction :boom:
 
-> **Warning** To prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> To prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

@@ -30,7 +30,8 @@ Once the lambda has been triggered, to look at the logs visit: AWS Console -> Cl
 
 ## Destruction :boom:
 
-> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 

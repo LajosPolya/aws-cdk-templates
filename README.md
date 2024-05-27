@@ -10,7 +10,8 @@ One of the major benefits of deploying AWS infrastructure using AWS CDK is that 
 
 These deployment examples are meant to be used as an opportunity to learn about AWS infrastructure and should not be used in production environments.
 
-> **Warning** The deployment of some of these CDK stacks cost money! To reduce costs, always destroy the deployment when it is no longer in use!
+> [!WARNING]
+> The deployment of some of these CDK stacks cost money! To reduce costs, always destroy the deployment when it is no longer in use!
 
 ## Installing the AWS CDK :hammer_and_wrench:
 

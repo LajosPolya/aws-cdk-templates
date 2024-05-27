@@ -46,7 +46,8 @@ The function name takes the form `bucketCodeLambda-<scope>` where scope is the c
 
 ## Destruction :boom:
 
-> **Warning** To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
+> [!WARNING]
+> To prevent accidental execution of the lambda and to prevent runaway cost, always destroy this AWS environment when it's not in use.
 
 ### \*nix/Mac
 
