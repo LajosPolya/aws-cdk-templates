@@ -14,7 +14,9 @@ The deployment of some of these CDK stacks cost money! To reduce costs, always d
 
 ## Installing the AWS CDK :hammer_and_wrench:
 
-`npm install -g aws-cdk`
+```console
+npm install -g aws-cdk
+```
 
 After installing the CDK, install the [AWS CLI](https://aws.amazon.com/cli/) and [bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html) the CDK to your AWS environment.
 
