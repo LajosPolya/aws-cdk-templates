@@ -96,17 +96,3 @@ aws stepfunctions describe-execution --execution-arn $EXECUTION_ARN
 ### Git Bash on Windows
 
 `winpty cdk.cmd destroy -c scope=<scope>`
-
-Ex request
-
-```console
-aws stepfunctions start-execution --state-machine-arn arn:aws:states:us-east-2:318123377634:stateMachine:smWithLambda-lpolya --input '{"task":"succeed"}'
-```
-
-aws stepfunctions list-executions --state-machine-arn arn:aws:states:us-east-2:318123377634:stateMachine:smWithLambda-lpolya --query "executions[0].executionArn" --output text
-
-```
-EXECUTION_ARN=$(aws stepfunctions list-executions --state-machine-arn arn:aws:states:us-east-2:318123377634:stateMachine:smWithLambda-lpolya --query "executions[0].executionArn" --output text)
-
-aws stepfunctions describe-execution --execution-arn $EXECUTION_ARN
-```
