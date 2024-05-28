@@ -40,11 +40,11 @@ Once the lambda has been triggered, to look at the logs visit: AWS Console -> Cl
 ### \*nix/Mac
 
 ```console
-cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>
+cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"
 ```
 
 ### Git Bash on Windows
 
 ```console
-winpty cdk.cmd destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>
+winpty cdk.cmd destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"
 ```
