@@ -16,11 +16,15 @@ This CDK app deploys a Step Function with a Lambda task.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Step Function with a Lambda task. This Step Function's behaviour depends on the input it was executed with. This input is passed into its Lambda task and the Lambda responds to the input accordingly. The following commands display how the Lambda and Step Funtion will respond. The variable `step_function_arn` is the Step Function's ARN and is exported by the CDK and therefore printed to the CLI after a deployment.
 
@@ -91,8 +95,12 @@ aws stepfunctions describe-execution --execution-arn $EXECUTION_ARN
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

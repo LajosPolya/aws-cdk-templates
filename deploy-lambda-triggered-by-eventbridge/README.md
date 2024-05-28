@@ -18,11 +18,15 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"`
+```console
+cdk deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"`
+```console
+winpty cdk.cmd deploy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>"
+```
 
 - `triggerLambdaCron` is a valid cron expression (in UTC) stating when to trigger the Lambda. For example, `"30 15 * * ? *"`, translates to "trigger the lambda at 3:30pm UTC". More info on the EventBridge scheduler can be found at https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
 
@@ -35,8 +39,12 @@ Once the lambda has been triggered, to look at the logs visit: AWS Console -> Cl
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>`
+```console
+cdk destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c triggerLambdaCron="<cron_schedule>
+```

@@ -24,11 +24,15 @@ Follow the [API instructions](../api/README.md) to build a Docker Image of the A
 
 #### \*nix/Mac
 
-`cdk deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>`
+```console
+cdk deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>
+```
 
 #### Git Bash on Windows
 
-`winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>`
+```console
+winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c tag=<image_tag>
+```
 
 Where `image_tag` is the tag of the Docker Image built in the previous step.
 
@@ -48,11 +52,15 @@ Where `repoUriForTag` is the URI of the AWS ECR Repository, this value is export
 
 #### \*nix/Mac
 
-`cdk deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>`
+```console
+cdk deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>
+```
 
 #### Git Bash on Windows
 
-`winpty cdk.cmd deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>`
+```console
+winpty cdk.cmd deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_tag>
+```
 
 ```Bash
 CLUSTER_ARN=<clusterArn>
@@ -73,8 +81,12 @@ curl -I --location 'http://'"$TASK_IP"':8080/health'
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c tag=<image_tag> --all`
+```console
+cdk destroy -c scope=<scope> -c tag=<image_tag> --all
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c tag=<image_tag> --all`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c tag=<image_tag> --all
+```

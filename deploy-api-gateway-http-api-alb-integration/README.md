@@ -16,11 +16,15 @@ This CDK app deploys an API Gateway HTTP API backed by an Application Load Balan
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway HTTP API backed by ALB. This API is backed by an AWS ALB and can be accessed by the API's URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
@@ -28,7 +32,9 @@ This deploys an API Gateway HTTP API backed by ALB. This API is backed by an AWS
 
 The ALB can be accessed by the `alb` endpoint.
 
-`curl <api_url>/alb`
+```console
+curl <api_url>/alb
+```
 
 ### Browser :surfer:
 
@@ -41,8 +47,12 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

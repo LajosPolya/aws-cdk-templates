@@ -20,19 +20,24 @@ Next, follow the instructions in [lambda-handler](../lambda-handler/README.md) t
 
 Then, upload the zip file to the private S3 bucket: 
 
-`cd lambda-handler/dist`
-
-`aws s3 cp index.zip s3://<bucket_name>`
+```console
+cd lambda-handler/dist
+aws s3 cp index.zip s3://<bucket_name>
+```
 
 Finally, deploy the lambda:
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip`
+```console
+cdk deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip`
+```console
+winpty cdk.cmd deploy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=index.zip
+```
 
 Where `buckerArn` represents the S3 bucket's ARN and `objectKey` references the zip file's name in the S3 bucket.
 
@@ -40,7 +45,9 @@ This deploys a Lambda which when invoked will return a JSON string. Note, the de
 
 To invoke the lambda via CLI execute the following command:
 
-`aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt`
+```console
+aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt
+```
 
 The function name takes the form `bucketCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
@@ -51,10 +58,14 @@ The function name takes the form `bucketCodeLambda-<scope>` where scope is the c
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
+```console
+cdk destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c bucketArn="<bucketArn>" -c objectKey=<objectKey>
+```
 
 Also destroy the S3 bucket by following the instructions in [private S3 bucket](../deploy-s3-private-bucket/README.md#deployment)

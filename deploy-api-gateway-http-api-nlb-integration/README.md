@@ -16,11 +16,15 @@ This CDK app deploys an API Gateway HTTP API backed by a Network Load Balancer.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway HTTP API backed by NLB. This API is backed by an AWS NLB and can be accessed by the API's URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
@@ -28,7 +32,9 @@ This deploys an API Gateway HTTP API backed by NLB. This API is backed by an AWS
 
 The NLB can be accessed by the `nlb` endpoint.
 
-`curl <api_url>/nlb`
+```console
+curl <api_url>/nlb
+```
 
 > [!NOTE]
 > After the deployment completes the NLB may take a few extra minutes to come online.
@@ -44,10 +50,14 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```
 
 Leave note about how it may take a couple of minutes for NLB to be usable by VPC Link

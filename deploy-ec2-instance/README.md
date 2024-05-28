@@ -16,17 +16,23 @@ This CDK app deploys an EC2 Instance with an HTTP server that is open to the pub
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an HTTP server on an EC2 instance. The server can be accessed by either the public IP or the public DNS which are both exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### Command Line
 
-`curl <publicDnsName>` or `curl <publicIp>`
+```console
+curl <publicDnsName>` or `curl <publicIp>
+```
 
 ### Browser :surfer:
 
@@ -39,8 +45,12 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

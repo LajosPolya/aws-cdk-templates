@@ -16,11 +16,15 @@ This CDK app deploys an API Gateway Websocket API backed by Lambda.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway Websocket API backed by Lambda. This API is backed by an instance of AWS Lambda and can be accessed by the API's **Websocket URL** which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
@@ -28,11 +32,15 @@ This deploys an API Gateway Websocket API backed by Lambda. This API is backed b
 
 1. Install `wscat`
 
-`npm install -g wscat`
+```console
+npm install -g wscat
+```
 
 2. Connect to the Websocket API
 
-`wscat -c <websocket_url>`
+```console
+wscat -c <websocket_url>
+```
 
 3. Send a message to the Websocket API
 
@@ -49,8 +57,12 @@ To exit the CLI press `CTRL+C`
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

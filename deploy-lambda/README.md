@@ -16,15 +16,21 @@ This CDK app deploys a Lambda. The Lambda's code is written inline in the CDK fo
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Lambda which when invoked will return a JSON string. To invoke the lambda via CLI execute the following command:
 
-`aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt`
+```console
+aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt
+```
 
 The function name takes the form `inlineCodeLambda-<scope>` where scope is the context variable named `scope` when deploying the lambda.
 
@@ -35,8 +41,12 @@ The function name takes the form `inlineCodeLambda-<scope>` where scope is the c
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

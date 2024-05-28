@@ -23,11 +23,15 @@ to learn about newtorking in AWS.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a VPC with three subnets; a Public Subnet which allows inbound and outbound connections to the public internet, a Private Subnet with Egress which only allows outbound connections to the
 public internet, and a Private Isolated Subnet which is only accessible from within the VPC.
@@ -42,15 +46,21 @@ Each EC2 instance has a public IP and a private IP which will be used to make re
 
 1. Verify access to the EC2 instance in the Public Subnet via public IP
 
-`curl <publicInstancePublicIp>`
+```console
+curl <publicInstancePublicIp>
+```
 
 2. Verify no access to the EC2 instance in the Private with Egress Subnet via public IP
 
-`curl <privateEgressInstancePrivateIp>`
+```console
+curl <privateEgressInstancePrivateIp>
+```
 
 3. Verify no access the EC2 instance in the private isolate subnet via public IP
 
-`curl <privateIsolatedInstancePrivateIp>`
+```console
+curl <privateIsolatedInstancePrivateIp>
+```
 
 The EC2 instance within the Public Subnet is the only instance accessible by the public internet because the Public Subnet is the only subnet routed to the Internet Gateway. The Internet Gateway is the component which allows two way communication between a VPC and the public internet.
 
@@ -60,15 +70,21 @@ Login to the AWS Console and find the EC2 instance within the Public Subnet and 
 
 1. Verify the public EC2 instance has access to the EC2 instance within the Private with Egress Subnet via private IP
 
-`curl <privateEgressInstancePrivateIp>`
+```console
+curl <privateEgressInstancePrivateIp>
+```
 
 2. Verify the public EC2 instance **cannot** `curl` the EC2 instance within the Private Isolated Subnet via private IP
 
-`curl <privateIsolatedInstancePrivateIp>`
+```console
+curl <privateIsolatedInstancePrivateIp>
+```
 
 3. Verify the public EC2 instance can `ping` the EC2 instance within the Private Isolated Subnet via private IP
 
-`ping <privateIsolatedInstancePrivateIp>`
+```console
+ping <privateIsolatedInstancePrivateIp>
+```
 
 This test proves that the EC2 instances are able to communiate within the VPC by their private IPs. Then why did the first `curl` command succeed but the second fail? The `curl` command to the EC2 instance within the Private with Egress Subnet succeeded because that subnet is routed to a NAT Gateway which allows the EC2 instance to make outbound connections to the public internet allowing it to download and install an HTTP server. The `curl` command to the EC2 instance within the Private Isolated Subnet falied because that subnet is not routed to the public internet so it can't download the HTTP server. The `ping` command succeeded proving that the EC2 instances are able to communicate.
 
@@ -79,8 +95,12 @@ This test proves that the EC2 instances are able to communiate within the VPC by
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

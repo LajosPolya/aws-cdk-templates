@@ -16,11 +16,15 @@ This CDK app deploys an API Gateway REST API backed by Lambda.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway REST API backed by Lambda. The API can be called by its URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
@@ -28,7 +32,9 @@ This deploys an API Gateway REST API backed by Lambda. The API can be called by 
 
 The API is a proxy API and therefore can be accessed by any path, for example.
 
-`curl --location <api_url>/parent/child`
+```console
+curl --location <api_url>/parent/child
+```
 
 ### Browser :surfer:
 
@@ -41,8 +47,12 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

@@ -16,17 +16,23 @@ This CDK app deploys an API Gateway REST Mock API.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway REST mock API. The API can be accessed by its URL which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL :curling_stone:
 
-`curl --location <api_url>`
+```console
+curl --location <api_url>
+```
 
 ### Browser :surfer:
 
@@ -39,8 +45,12 @@ The API will respond successfully if the URL is pasted into the browser.
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

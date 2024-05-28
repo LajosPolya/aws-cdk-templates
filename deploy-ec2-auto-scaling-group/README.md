@@ -16,11 +16,15 @@ This CDK app deploys EC2 instances scaled using an Auto Scaling Group.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+cdk deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+winpty cdk.cmd deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 - `deploySecondInstanceCron` is a valid cron expression (in UTC) stating when to deploy the second EC2 instance. For example, `"30 15 * * *"`, translates to "run the second job at 3:30pm UTC". More info on the cron scheduler can be found at http://crontab.org/
 
@@ -52,8 +56,12 @@ If the IP address or DNS doesn't work then verify that the browser is using `htt
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+cdk destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```

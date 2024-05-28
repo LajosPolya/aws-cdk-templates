@@ -16,11 +16,15 @@ This CDK app deploys a Network Load Balancer whose target is an Application Load
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Network Load Balancer which can be used to communicate with an Application Load Balancer which communicates with an HTTP server on an EC2 instance. The server can be accessed by the Network Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
@@ -47,8 +51,12 @@ Where `nlb_dns` is the DNS of the NLB. This value out exported by the CDK and th
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

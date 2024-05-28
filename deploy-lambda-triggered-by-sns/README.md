@@ -18,15 +18,21 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Lambda which when invoked by an SNS message will print the body of the message to a log. To invoke the lambda via CLI execute the following command:
 
-`aws sns publish --topic-arn <topic-arn> --message "Hello World!"`
+```console
+aws sns publish --topic-arn <topic-arn> --message "Hello World!"
+```
 
 The `topic-arn` represents the SNS topic's ARN. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
@@ -39,8 +45,12 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

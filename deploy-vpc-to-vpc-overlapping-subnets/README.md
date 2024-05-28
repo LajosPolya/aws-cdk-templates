@@ -25,11 +25,16 @@ This CDK app deploys two VPCs with an overlapping CIDR and connects their networ
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys two VPCs each having a Non-Routable Subnet with both subnets having the same CIDR. Normally traffic wouldn't be able to flow between these two subnets but with the help of a Private NAT Gateway, Transit Gateway, and ALB this is made possible. This deployer also deploys a couple Public NAT Gateways and an Internet Gateway in order to allow the EC2 instances to download HTTP servers and to allow the user to connect to one of the EC2 instances. A third EC2 instance is deploy which is used by users to connect to the EC2 instance within the Non-Routable Subnet of VPC A.
 
@@ -39,11 +44,13 @@ The EC2 instance within the Routable Subnet of VPC A has a public IP which will 
 
 1. Verify access to the EC2 instance in VPC A via public IP
 
-`curl <routableEc2VpcA>`
+```console
+curl <routableEc2VpcA>
+```
 
 You should see output similar to:
 
-```
+```console
 <h1>Hello world from <publicVpcAPrivateDns></h1>
 <h1>Connecting to VPC B Private Instance (privateInstanceVpcB) via VPC A Private Instance -> Private NAT Gateway -> Transit Gateway -> ALB</h1>
 <h1>Response from privateInstanceVpcA: '<h1>Hello world from <privateInstanceVpcADns></h1>
@@ -61,11 +68,13 @@ Login to the AWS Console and find the Public EC2 instance within VPC A and conne
 
 1. Verify the Non-Routable EC2 instance in VPC A has access to the Non-Routable EC2 instance within VPC B via private IP.
 
-`curl <nonRoutableEc2VpcAPrivateIp>`
+```console
+curl <nonRoutableEc2VpcAPrivateIp>
+```
 
 You should see output similar to:
 
-```
+```console
 <h1>Hello world from <privateInstanceVpcADns></h1>
 <h1>Connecting to VPC B Private Instance (privateInstanceVpcB) via Private NAT Gateway -> Transit Gateway -> ALB</h1>
 <h1>Response from privateInstanceVpcB: '<h1>Hello world from <privateInstanceVpcBDns></h1>'</h1>
@@ -82,8 +91,12 @@ This test proves that the EC2 instances are able to communiate across VPCs even 
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

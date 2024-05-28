@@ -16,17 +16,23 @@ This CDK app deploys an Application Load Balancer whose target is a set of EC2 i
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an Application Load Balancer which can be used to communicate with an HTTP servers on the two EC2 instances. The server can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL :curling_stone:
 
-`curl <alb_dns>`
+```console
+curl <alb_dns>
+```
 
 ### Browser :surfer:
 
@@ -39,8 +45,12 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

@@ -16,11 +16,15 @@ This CDK app deploys an Application Load Balancer whose target is an Auto Scalin
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+cdk deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+winpty cdk.cmd deploy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 - `deploySecondInstanceCron` is a valid cron expression (in UTC) stating when to deploy the second EC2 instance. For example, `"30 15 * * *"`, translates to "run the second job at 3:30pm UTC". More info on the cron scheduler can be found at http://crontab.org/
 
@@ -28,7 +32,9 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl <albDnsName>`
+```console
+curl <albDnsName>
+```
 
 ### Browser :surfer:
 
@@ -41,8 +47,12 @@ If the DNS doesn't work then verify that the browser is using `http://` and not 
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+cdk destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c deploySecondInstanceCron="<cron_schedule>"
+```

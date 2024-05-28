@@ -16,24 +16,34 @@ This CDK app deploys a Batch Job with an ECS Fargate Job.
 
 ### \*nix/Mac
 
-`cdk deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+```console
+cdk deploy -c ecrName=<ecr_Name> -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c scope=<scope>
+```
 
 - `ecrName` represents the name of the Elastic Container Repository containing the image to run on the ECS Fargate tasks. Follow the instructions in [deploy-ecr](../deploy-ecr/README.md) to deploy an image of a simple API to an AWS Elastic Container Repository
 
 This deploys a Batch Job with a Fargate Task. The Batch Job can be submitted with the following command. Both `jobQueue` and `jobDefinition` are exported by the CDK and therefore printed to the command line when the app is deployed. The job prints `Hello World from Batch Job` to the logs.
 
-`aws batch submit-job --job-name batch-job --job-queue <jobQueue> --job-definition <jobDefinition>`
+```console
+aws batch submit-job --job-name batch-job --job-queue <jobQueue> --job-definition <jobDefinition>
+```
 
 ## Destruction :boom:
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+```console
+cdk destroy -c ecrName=<ecr_Name> -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c scope=<scope>
+```

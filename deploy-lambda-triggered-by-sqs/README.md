@@ -18,15 +18,21 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Lambda which when invoked by an SQS message will print the body of the message to a log. To invoke the lambda via CLI execute the following command:
 
-`aws sqs send-message --queue-url <queue-url> --message-body "{ \"message\": \"hello world\" }"`
+```console
+aws sqs send-message --queue-url <queue-url> --message-body "{ \"message\": \"hello world\" }"
+```
 
 The `queue-url` parameter can either be the SQS queue's name or its URL. This value is exported by the CDK and therefore printed to the command line when the app is deployed.
 
@@ -39,8 +45,12 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

@@ -26,11 +26,15 @@ From this directory, run the following commands.
 
 #### \*nix/Mac
 
-`cdk deploy DeployEcrStack -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag>`
+```console
+cdk deploy DeployEcrStack -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag>
+```
 
 #### Git Bash on Windows
 
-`winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c repoName="<repo_name>" -c tag=<image_tag>`
+```console
+winpty cdk.cmd deploy DeployEcrStack -c scope=<scope> -c repoName="<repo_name>" -c tag=<image_tag>
+```
 
 Where `repo_name` represents the name of deployed ECR repository and `image_tag` represents the tag of the docker image built in the previous step. Note, `image_tag` isn't used in the deployment of this stack but it's still a required parameter.
 
@@ -50,17 +54,23 @@ docker push <ecr_repo_uri>:<image_tag>
 
 #### \*nix/Mac
 
-`cdk deploy DeployLambdaFromEcrStack -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag>`
+```console
+cdk deploy DeployLambdaFromEcrStack -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag>
+```
 
 #### Git Bash on Windows
 
-`winpty cdk.cmd deploy DeployLambdaFromEcrStack -c scope=<scope> -c repoName="<repo_name>" -c tag=<image_tag>`
+```console
+winpty cdk.cmd deploy DeployLambdaFromEcrStack -c scope=<scope> -c repoName="<repo_name>" -c tag=<image_tag>
+```
 
 This deploys a Lambda which when invoked will return a JSON string.
 
 To invoke the lambda via CLI execute the following command:
 
-`aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt`
+```console
+aws lambda invoke --function-name=<lambdaFunctionName> outfile.txt
+```
 
 Where `lambdaFunctionName` represents the Lambda function's name. The name of the function is exported by the CDK and therefore printed to the CLI. View the contents of `outfile.txt` to explore the Lambda's response.
 
@@ -71,8 +81,12 @@ Where `lambdaFunctionName` represents the Lambda function's name. The name of th
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag> --all`
+```console
+cdk destroy -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag> --all
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag> --all`
+```console
+winpty cdk.cmd destroy -c scope=<scope> -c repoName=<repo_name> -c tag=<image_tag> --all
+```

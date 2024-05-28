@@ -16,11 +16,15 @@ This CDK app deploys an EC2 Insance within an ECS Cluster.
 
 ### \*nix/Mac
 
-`cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+cdk deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```
 
 If deploying [micronaut-api](../api/README.md) then once deployed you may access the `/health` endpoint by either the public IP `http://<public_ip>:8080/health` or the public DNS `http://<public_dns>:8080/health` which can be found in AWS Console -> Amazon Elastic Container Service -> Clusters -> cluser_name -> Infrastructure -> Container instance -> container_instance_id -> Public IP or Public DNS respectively.
 
@@ -39,8 +43,12 @@ curl http://$PUBLIC_IP:8080/health -v
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```

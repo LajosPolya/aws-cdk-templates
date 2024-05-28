@@ -16,11 +16,15 @@ This CDK app deploys a DynamoDB Table with a Partition Key and Sort Key, and a G
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a DynamoDB Table with instructions on how to insert and get items from the table. The table defines two Global Indexes. The first having a Partition Key in the `publisherId` and a Sort Key on the `bookTitle`, and the Second Global Index having a Partition Key on `bookTitle` and a Sort Key on `year`.
 
@@ -30,17 +34,23 @@ In the example below `<table_name>` represents the DybamoDB Table's name, this n
 
 ### Write an item to the table
 
-`aws dynamodb put-item --table-name <table_name> --item "{\"publisherId\": {\"N\": \"1234\"}, \"bookTitle\": {\"S\": \"My First Book\"}, \"year\": {\"N\": \"2024\"}}"`
+```console
+aws dynamodb put-item --table-name <table_name> --item "{\"publisherId\": {\"N\": \"1234\"}, \"bookTitle\": {\"S\": \"My First Book\"}, \"year\": {\"N\": \"2024\"}}"
+```
 
 ### Fetching an item by Partition Key
 
-`aws dynamodb get-item --table-name <table_name> --key "{\"publisherId\": {\"N\": \"1234\"}, \"bookTitle\": {\"S\": \"My First Book\"}}"`
+```console
+aws dynamodb get-item --table-name <table_name> --key "{\"publisherId\": {\"N\": \"1234\"}, \"bookTitle\": {\"S\": \"My First Book\"}}"
+```
 
 ### Query an item by Non-Partition Key attributes
 
 This operation searches through the table items on client side and is therefore inefficient and not recommended.
 
-`aws dynamodb query --table-name <table_name> --key-conditions "{\"publisherId\": { \"AttributeValueList\": [{\"N\": \"1234\"}], \"ComparisonOperator\": \"EQ\"}}"`
+```console
+aws dynamodb query --table-name <table_name> --key-conditions "{\"publisherId\": { \"AttributeValueList\": [{\"N\": \"1234\"}], \"ComparisonOperator\": \"EQ\"}}"
+```
 
 ## Destruction :boom:
 
@@ -49,8 +59,12 @@ This operation searches through the table items on client side and is therefore 
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

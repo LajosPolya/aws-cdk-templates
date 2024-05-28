@@ -16,11 +16,15 @@ This CDK app deploys a local Docker Image to Fargate within an ECS Cluster.
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This app deploys [micronaut-api](../api/README.md), before deploying this CDK app build the Micronaut API following the instructions in the README. Verify that Docker is running.
 
@@ -42,8 +46,12 @@ curl -I --location 'http://'"$TASK_IP"':8080/health'
 
 ### \*nix/Mac
 
-`cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+```

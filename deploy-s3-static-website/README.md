@@ -16,21 +16,29 @@ This app deploys a public S3 bucket which can be used as a static website. The i
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 Once the bucket is deployed upload the `resources/index.html` to it.
 
-`aws s3 cp resources/index.html s3://<bucketName>`
+```console
+aws s3 cp resources/index.html s3://<bucketName>
+```
 
 The `bucketName` is exported by the CDK and therefore printed to the CLI when this app is deployed.
 
 Access the website by its public URL. The URL is exported by the CDK as `s3StaticWebsiteUrl` and therefore printed to the CLI when this app is deployed.
 
-`curl --location '<s3StaticWebsiteUrl>'`
+```console
+curl --location '<s3StaticWebsiteUrl>'
+```
 
 ## Destruction :boom:
 
@@ -42,8 +50,12 @@ Access the website by its public URL. The URL is exported by the CDK as `s3Stati
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

@@ -16,11 +16,15 @@ This CDK app deploys an API Gateway REST API with AWS Integration, specifially t
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys an API Gateway REST API integrated with an AWS SQS queue.
 
@@ -28,11 +32,15 @@ This deploys an API Gateway REST API integrated with an AWS SQS queue.
 
 A message can be placed in the queue by calling the API Gateway.
 
-`curl --header "Content-Type: application/json" --request POST --data '{"hello":"world","integration":"sqs"}' <api_url>`
+```console
+curl --header "Content-Type: application/json" --request POST --data '{"hello":"world","integration":"sqs"}' <api_url>
+```
 
 Once the message is placed in the queue, it can be view with the following AWS CLI command:
 
-`aws sqs receive-message --queue-url <queue_url>`
+```console
+aws sqs receive-message --queue-url <queue_url>
+```
 
 Where both `api_url` and `queue_url` are exported by the CDK and therefore printed to the CLI during deployment.
 
@@ -43,8 +51,12 @@ Where both `api_url` and `queue_url` are exported by the CDK and therefore print
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

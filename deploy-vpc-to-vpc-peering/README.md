@@ -23,11 +23,15 @@ The purpose of this application is to deploy two VPCs and allow them to communic
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys two VPCs; the first VPC (A) contains a Public Subnet with an EC2 Instance deployed into it. The second VPC (B) contains a Private Isolated Subnet with an EC2 Instance deployed into it. The Public Subnet allows inbound and outbound traffic from the Public Internet. The Private Subnet should only allow traffic from within the VPC but deploying a Transit Gateway will also allow VPC A to open a connection with VPC B.
 
@@ -39,11 +43,15 @@ The EC2 instance within the Main VPC has a Public IP which will be used to make 
 
 1. Verify access to the EC2 instance in the Main VPC via public IP
 
-`curl <publicIpMainVpcInstance>`
+```console
+curl <publicIpMainVpcInstance>
+```
 
 2. Verify no access to the EC2 instance in peered VPC via private IP
 
-`curl <privateIpPeeredInstance>`
+```console
+curl <privateIpPeeredInstance>
+```
 
 The EC2 instance within the Public Subnet is the only instance accessible by the public internet because the Public Subnet is the only subnet routed to the Internet Gateway. The Internet Gateway is the component which allows two way communication between a VPC and the public internet. The output of the EC2 instance in the Main VPC indicates that it made a response to the EC2 Instance in the Peered VPC via Peered Connetion. 
 
@@ -56,7 +64,9 @@ Login to the AWS Console and find the EC2 instance within VPC A and connect to i
 
 1. Verify the EC2 instance within the Main VPC has access to the EC2 instance within the Peered VPC via private IP
 
-`curl <privateIpPeeredInstance>`
+```console
+curl <privateIpPeeredInstance>
+```
 
 This test proves that the EC2 instances are able to communiate across VPCs using the Peering Connection.
 
@@ -67,8 +77,12 @@ This test proves that the EC2 instances are able to communiate across VPCs using
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

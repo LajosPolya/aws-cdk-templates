@@ -16,11 +16,15 @@ This CDK app deploys an AWS Elastic Container Repository to store docker images.
 
 ### \*nix/Mac
 
-`cdk deploy -c repoName=<repo_name>`
+```console
+cdk deploy -c repoName=<repo_name>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c repoName=<repo_name>`
+```console
+winpty cdk.cmd deploy -c repoName=<repo_name>
+```
 
 ## Push image to ECR
 
@@ -40,8 +44,12 @@ Where `<repo_url>` is the URL the the newly deployed repository. The Repo URL is
 
 ### \*nix/Mac
 
-`cdk destroy -c repoName=<repo_name>`
+```console
+cdk destroy -c repoName=<repo_name>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c repoName=<repo_name>`
+```console
+winpty cdk.cmd destroy -c repoName=<repo_name>
+```

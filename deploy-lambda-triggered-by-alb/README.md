@@ -18,17 +18,23 @@ Before deploying this lambda, first follow the instructions in [lambda-handler-w
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Lambda which when invoked by an ALB event will synchronously respond with a JSON body. The Lambda can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ### cURL :curling_stone:
 
-`curl <alb_dns>`
+```console
+curl <alb_dns>
+```
 
 ### Browser :surfer:
 
@@ -43,8 +49,12 @@ To find the output of the Lambda visit the AWS Console and go to CloudWatch -> L
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

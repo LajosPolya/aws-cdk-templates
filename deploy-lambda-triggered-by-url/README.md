@@ -18,15 +18,21 @@ Before deploying this lambda, first follow the instructions in [lambda-handler](
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 This deploys a Lambda which when invoked by calling its URL will synchronously respond with a JSON message. To invoke the lambda via CLI execute the following command:
 
-`curl --location '<lambdaUrl>'`
+```console
+curl --location '<lambdaUrl>'
+```
 
 where `lambdaUrl` is the URL of the lambda. The lambda's URL is exported by this CDK app and therefore printed to the CLI when the app is deployed. The lambda's URL can also be found in the AWS Console on the lambda's page.
 
@@ -37,8 +43,12 @@ where `lambdaUrl` is the URL of the lambda. The lambda's URL is exported by this
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```

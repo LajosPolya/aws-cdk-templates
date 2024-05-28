@@ -16,15 +16,21 @@ This app deploys a private S3 bucket. The bucket can be used to store any type o
 
 ### \*nix/Mac
 
-`cdk deploy -c scope=<scope>`
+```console
+cdk deploy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd deploy -c scope=<scope>`
+```console
+winpty cdk.cmd deploy -c scope=<scope>
+```
 
 Once the bucket is deployed upload a file to it.
 
-`aws s3 cp <filename> s3://<bucketName>`
+```console
+aws s3 cp <filename> s3://<bucketName>
+```
 
 The `bucketName` is exported by the CDK and therefore printed to the CLI when this app is deployed.
 
@@ -35,8 +41,12 @@ The `bucketName` is exported by the CDK and therefore printed to the CLI when th
 
 ### \*nix/Mac
 
-`cdk destroy -c scope=<scope>`
+```console
+cdk destroy -c scope=<scope>
+```
 
 ### Git Bash on Windows
 
-`winpty cdk.cmd destroy -c scope=<scope>`
+```console
+winpty cdk.cmd destroy -c scope=<scope>
+```
