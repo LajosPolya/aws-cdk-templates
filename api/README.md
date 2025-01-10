@@ -14,12 +14,12 @@
 - [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
 
 ## Build the API
-```console
+```bash
 ./gradlew build
 ```
 
 ## Build a Docker Image of the API
-```console
+```bash
 # as a prerequisite, install and run docker
 ./gradlew build
 docker build -t <image_name>:<image_tag> ./
@@ -29,7 +29,7 @@ Where `image_name` is the name of the image and `image_tag` is a tag assigned to
 
 
 ## Build and Run via Docker
-```console
+```bash
 # as a prerequisite, install and run docker
 ./gradlew build
 
