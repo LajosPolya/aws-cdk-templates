@@ -15,7 +15,7 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
         cdk.aws_ec2.Vpc.DEFAULT_CIDR_RANGE,
       ),
       availabilityZones: [`${props.env!.region!}a`],
-      natGateways: 0,
+      natGateways: 1,
       subnetConfiguration: [
         {
           cidrMask: 28,
@@ -23,6 +23,12 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         {
+          /*
+            The ECS standalone task will be run in the Private Subnet
+            but a Public Subnet is needed in order for the Private Subnet
+            to route traffic through a NAT Gateway to download the image
+            from ECR. 
+          */
           cidrMask: 28,
           name: `ecsFargatePublic-${props.scope}`,
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
@@ -94,11 +100,12 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "taskSubnetId", {
       description: "The ID of the Subnet",
+      // There should only be one Private Subnet
       value: vpc.privateSubnets[0].subnetId,
       exportName: `subnetId-${props.scope}`,
     });
 
     // Output task definition, public subnet id, sg id, etc
-    // aws ecs run-task --task-definition ecsFargateStandalone-lajos --cluster ecsFargateStandalone-lajos --network-configuration "awsvpcConfiguration={subnets=['subnet-0c43e5a96c0b23487'],securityGroups=['sg-0ef6ca47b54664365'],assignPublicIp=ENABLED}" --launch-type FARGATE
+    // aws ecs run-task --task-definition ecsFargateStandalone-lajos --cluster ecsFargateStandalone-lajos --network-configuration "awsvpcConfiguration={subnets=['subnet-0c43e5a96c0b23487'],securityGroups=['sg-0ef6ca47b54664365']}" --launch-type FARGATE
   }
 }
