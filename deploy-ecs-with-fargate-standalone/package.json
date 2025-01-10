@@ -1,0 +1,25 @@
+{
+  "name": "deploy-ecs-with-fargate-standalone",
+  "version": "0.1.0",
+  "bin": {
+    "deploy-ecs-with-fargate-standalone": "bin/deploy-ecs-with-fargate-standalone.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "format": "npx prettier --write .",
+    "check": "npx prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "22.7.9",
+    "aws-cdk": "2.173.4",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.3"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.173.4",
+    "constructs": "^10.0.0"
+  }
+}
