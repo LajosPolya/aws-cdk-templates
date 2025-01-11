@@ -1,13 +1,18 @@
-import * as cdk from 'aws-cdk-lib';
-import { TaskDefinition } from 'aws-cdk-lib/aws-ecs';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { TaskDefinition } from "aws-cdk-lib/aws-ecs";
+import { Construct } from "constructs";
 
-export interface DeployEcsWithFargateStandaloneStackProps extends cdk.StackProps {
+export interface DeployEcsWithFargateStandaloneStackProps
+  extends cdk.StackProps {
   scope: string;
 }
 
 export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: DeployEcsWithFargateStandaloneStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: DeployEcsWithFargateStandaloneStackProps,
+  ) {
     super(scope, id, props);
 
     const vpc = new cdk.aws_ec2.Vpc(this, "vpc", {
@@ -104,8 +109,5 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
       value: vpc.privateSubnets[0].subnetId,
       exportName: `subnetId-${props.scope}`,
     });
-
-    // Output task definition, public subnet id, sg id, etc
-    // aws ecs run-task --task-definition ecsFargateStandalone-lajos --cluster ecsFargateStandalone-lajos --network-configuration "awsvpcConfiguration={subnets=['subnet-0c43e5a96c0b23487'],securityGroups=['sg-0ef6ca47b54664365']}" --launch-type FARGATE
   }
 }
