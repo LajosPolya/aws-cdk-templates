@@ -1,5 +1,5 @@
 import * as cdk from "aws-cdk-lib";
-import { TaskDefinition } from "aws-cdk-lib/aws-ecs";
+import { LogGroup } from "aws-cdk-lib/aws-logs";
 import { Construct } from "constructs";
 
 export interface DeployEcsWithFargateStandaloneStackProps
@@ -56,6 +56,8 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
         family: `ecsFargateStandalone-${props.scope}`,
       },
     );
+
+    const logGroupName = `/ecs-with-fargate-standalone/${props.scope}`;
     fargateTaskDef.addContainer("apiContainer", {
       image: cdk.aws_ecs.ContainerImage.fromAsset("../batch-job-script"),
       essential: true,
@@ -67,7 +69,7 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
       logging: cdk.aws_ecs.LogDrivers.awsLogs({
         streamPrefix: `ecsFargate-${props.scope}`,
         logGroup: new cdk.aws_logs.LogGroup(this, "logGroup", {
-          logGroupName: `/ecs-with-fargate-standalone/${props.scope}`,
+          logGroupName: logGroupName,
           retention: cdk.aws_logs.RetentionDays.ONE_DAY,
           removalPolicy: cdk.RemovalPolicy.DESTROY,
         }),
@@ -97,6 +99,12 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
       exportName: `fargateClusterName-${props.scope}`,
     });
 
+    new cdk.CfnOutput(this, "clusterArn", {
+      description: "The ARN of the Fargate Cluster",
+      value: cluster.clusterArn,
+      exportName: `fargateClusterArn-${props.scope}`,
+    });
+
     new cdk.CfnOutput(this, "securityGroupId", {
       description: "The ID of the Security Group",
       value: securityGroup.securityGroupId,
@@ -109,5 +117,26 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
       value: vpc.privateSubnets[0].subnetId,
       exportName: `subnetId-${props.scope}`,
     });
+
+    new cdk.CfnOutput(this, "logGroupName", {
+      description: "The Task's Log Group name",
+      value: logGroupName,
+      exportName: `logGroupName-${props.scope}`,
+    });
+
+
+    /**
+     * ```Bash
+CLUSTER_ARN=arn:aws:ecs:us-east-2:318123377634:cluster/ecsFargateStandalone-lajos
+TASK_ARN=$(aws ecs list-tasks --cluster $CLUSTER_ARN --query "taskArns[0]" --output text)
+
+aws ecs wait tasks-running --cluster $CLUSTER_ARN --tasks "$TASK_ARN"
+MSYS_NO_PATHCONV=1 aws logs tail "/ecs-with-fargate-standalone/lajos"
+
+// not windows
+aws logs tail "/ecs-with-fargate-standalone/lajos"
+
+```
+     */
   }
 }
