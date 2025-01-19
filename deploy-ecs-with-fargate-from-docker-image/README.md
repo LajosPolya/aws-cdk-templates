@@ -47,11 +47,11 @@ curl -I --location 'http://'"$TASK_IP"':8080/health'
 ### \*nix/Mac
 
 ```console
-cdk destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+cdk destroy -c scope=<scope>
 ```
 
 ### Git Bash on Windows
 
 ```console
-winpty cdk.cmd destroy -c ecrName=<ecr_Name> -c tag=<image_tag> -c scope=<scope>
+winpty cdk.cmd destroy -c scope=<scope>
 ```
