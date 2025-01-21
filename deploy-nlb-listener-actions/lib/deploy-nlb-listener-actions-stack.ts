@@ -42,9 +42,9 @@ export class DeployNlbListenerActionsStack extends cdk.Stack {
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "asgSecurityGroup",
+      "securityGroup",
       {
-        securityGroupName: `asgNlbEc2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `nlbEc2Instance-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
       },
@@ -130,7 +130,7 @@ export class DeployNlbListenerActionsStack extends cdk.Stack {
                 enabled: true,
                 healthyThresholdCount: 2,
               },
-              vpc,
+              vpc: vpc,
             },
           ),
         ]),
@@ -151,7 +151,7 @@ export class DeployNlbListenerActionsStack extends cdk.Stack {
                 enabled: true,
                 healthyThresholdCount: 2,
               },
-              vpc,
+              vpc: vpc,
             },
           ),
         ]),

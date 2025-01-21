@@ -27,9 +27,9 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       this,
       "ec2SecurityGroup",
       {
-        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `ec2Instance-${props.scope}`,
         description: "EC2 Security Group",
-        vpc,
+        vpc: vpc,
       },
     );
     ec2SecurityGroup.addIngressRule(
@@ -53,14 +53,14 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      vpc,
+      vpc: vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
+      userData: userData,
       instanceName: `ec2Instance1-${props.scope}`,
     });
 
@@ -68,9 +68,9 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
     albSecurityGroup.addIngressRule(
@@ -85,7 +85,7 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       {
         securityGroup: albSecurityGroup,
         loadBalancerName: `albEc2Instance-${props.scope}`,
-        vpc,
+        vpc: vpc,
         internetFacing: true,
         vpcSubnets: {
           subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
@@ -113,7 +113,7 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
               enabled: true,
               healthyThresholdCount: 2,
             },
-            vpc,
+            vpc: vpc,
           },
         ),
       ],
@@ -125,7 +125,7 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
       {
         crossZoneEnabled: true,
         loadBalancerName: `nlbEc2Instance-${props.scope}`,
-        vpc,
+        vpc: vpc,
         internetFacing: true,
         vpcSubnets: {
           subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
@@ -149,7 +149,7 @@ export class DeployNlbWithAlbStack extends cdk.Stack {
             enabled: true,
             healthyThresholdCount: 2,
           },
-          vpc,
+          vpc: vpc,
         },
       );
     nlb.addListener("nlbListenerForAlb", {

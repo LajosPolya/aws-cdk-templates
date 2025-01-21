@@ -9,7 +9,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployAlbWithEc2InstanceStack(app, "DeployAlbWithEc2InstanceStack", {
   stackName: `albWithEc2Instance-${scope}`,
-  scope,
+  scope: scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,

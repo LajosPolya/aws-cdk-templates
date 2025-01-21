@@ -42,6 +42,8 @@ The second lambda is a proxy lambda for `/parent/*` which means it will execute 
 curl --location <api_url>/parent/child
 ```
 
+Where `api_url` is exported by the CDK and therefore printed to the CLI during deployment.
+
 ### Browser :surfer:
 
 The API will respond successfully if the URL is pasted into the browser.

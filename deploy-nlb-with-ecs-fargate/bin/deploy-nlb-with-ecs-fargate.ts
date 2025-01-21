@@ -11,7 +11,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployNlbWithEcsFargateStack(app, "DeployNlbWithEcsFargateStack", {
   stackName: `nlbWithEcsFargate-${scope}`,
-  scope,
+  scope: scope,
   ecrName,
   imageTag,
   env: {

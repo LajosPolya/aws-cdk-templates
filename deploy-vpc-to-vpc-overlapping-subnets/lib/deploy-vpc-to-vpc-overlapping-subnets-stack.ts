@@ -492,7 +492,7 @@ export class DeployVpcToVpcOverlappingSubnetsStack extends cdk.Stack {
         cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
+      userData: userData,
       instanceName: vpcBPrivateInstance,
     });
 

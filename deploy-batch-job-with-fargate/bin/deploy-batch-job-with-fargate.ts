@@ -9,7 +9,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployBatchJobWithFargateStack(app, "DeployBatchJobWithFargateStack", {
   stackName: `batchJobWithFargate-${scope}`,
-  scope,
+  scope: scope,
   ecrName,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,

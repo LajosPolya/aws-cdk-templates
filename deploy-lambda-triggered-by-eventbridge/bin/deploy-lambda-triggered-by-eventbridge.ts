@@ -13,7 +13,7 @@ new DeployLambdaTriggeredByEventbridgeStack(
   "DeployLambdaTriggeredByEventbridgeStack",
   {
     stackName: `lambdaTriggeredByEventBridge-${scope}`,
-    scope,
+    scope: scope,
     triggerLambdaCron,
     env: {
       account: account || process.env.CDK_DEFAULT_ACCOUNT,

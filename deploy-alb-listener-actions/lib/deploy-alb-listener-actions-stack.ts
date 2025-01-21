@@ -32,9 +32,9 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
 
@@ -42,9 +42,9 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
       this,
       "ec2SecurityGroup",
       {
-        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `ec2Instance-${props.scope}`,
         description: "EC2 Security Group",
-        vpc,
+        vpc: vpc,
       },
     );
     ec2SecurityGroup.addIngressRule(
@@ -164,7 +164,7 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
             port: 80,
             targets: [instance1Target],
             targetGroupName: `firstEc2Instance-${props.scope}`,
-            vpc,
+            vpc: vpc,
             healthCheck: {
               enabled: true,
               healthyThresholdCount: 2,
@@ -185,7 +185,7 @@ export class DeployAlbListenerActionsStack extends cdk.Stack {
             port: 80,
             targets: [instance2Target],
             targetGroupName: `secondEc2Instance-${props.scope}`,
-            vpc,
+            vpc: vpc,
             healthCheck: {
               enabled: true,
               healthyThresholdCount: 2,

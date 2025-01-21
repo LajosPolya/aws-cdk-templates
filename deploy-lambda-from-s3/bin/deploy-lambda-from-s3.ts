@@ -11,7 +11,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployLambdaFromS3Stack(app, "DeployLambdaFromS3Stack", {
   stackName: `lambdaFromS3-${scope}`,
-  scope,
+  scope: scope,
   bucketArn,
   objectKey,
   env: {

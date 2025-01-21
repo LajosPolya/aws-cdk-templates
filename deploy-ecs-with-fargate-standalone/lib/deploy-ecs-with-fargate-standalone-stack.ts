@@ -123,20 +123,5 @@ export class DeployEcsWithFargateStandaloneStack extends cdk.Stack {
       value: logGroupName,
       exportName: `logGroupName-${props.scope}`,
     });
-
-
-    /**
-     * ```Bash
-CLUSTER_ARN=arn:aws:ecs:us-east-2:318123377634:cluster/ecsFargateStandalone-lajos
-TASK_ARN=$(aws ecs list-tasks --cluster $CLUSTER_ARN --query "taskArns[0]" --output text)
-
-aws ecs wait tasks-running --cluster $CLUSTER_ARN --tasks "$TASK_ARN"
-MSYS_NO_PATHCONV=1 aws logs tail "/ecs-with-fargate-standalone/lajos"
-
-// not windows
-aws logs tail "/ecs-with-fargate-standalone/lajos"
-
-```
-     */
   }
 }

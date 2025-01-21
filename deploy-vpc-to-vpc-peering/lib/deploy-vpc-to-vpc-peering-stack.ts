@@ -95,7 +95,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       this,
       "peeredVpcSecurityGroup",
       {
-        securityGroupName: `peeredVpcSecurityGroup-${props.scope}`,
+        securityGroupName: `peeredVpc-${props.scope}`,
         description: "Peered VPC Private with Egress Subnet",
         vpc: peeredVpc,
       },
@@ -141,7 +141,7 @@ export class DeployVpcToVpcPeeringStack extends cdk.Stack {
       this,
       "vpcSecurityGroup",
       {
-        securityGroupName: `vpcSecurityGroup-${props.scope}`,
+        securityGroupName: `vpc-${props.scope}`,
         description: "Allow all traffic",
         vpc: mainVpc,
       },

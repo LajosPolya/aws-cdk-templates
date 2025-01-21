@@ -34,6 +34,8 @@ This deploys an API Gateway REST mock API. The API can be accessed by its URL wh
 curl --location <api_url>
 ```
 
+Where `api_url` is exported by the CDK and therefore printed to the CLI during deployment.
+
 ### Browser :surfer:
 
 The API will respond successfully if the URL is pasted into the browser.

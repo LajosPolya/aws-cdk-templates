@@ -42,9 +42,9 @@ export class DeployLambdaTriggeredByAlbStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
 

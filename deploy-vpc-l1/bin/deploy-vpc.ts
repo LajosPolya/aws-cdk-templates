@@ -12,7 +12,7 @@ const region = app.node.tryGetContext("region");
 
 const vpcStack = new DeployVpcStack(app, "DeployVpcStack", {
   stackName: `vpc-${scope}`,
-  scope,
+  scope: scope,
   vpcTag: vpcTag,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
@@ -22,7 +22,7 @@ const vpcStack = new DeployVpcStack(app, "DeployVpcStack", {
 
 new DeployEc2Stack(app, "DeployEc2Stack", {
   stackName: `vpcEc2-${scope}`,
-  scope,
+  scope: scope,
   vpcL1: vpcStack.vpcL1,
   publicSubnet: vpcStack.publicSubnet,
   privateWithEgressSubnet: vpcStack.privateWithEgressSubnet,

@@ -26,9 +26,9 @@ export class DeployAlbWithLambdaStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
 
@@ -36,9 +36,9 @@ export class DeployAlbWithLambdaStack extends cdk.Stack {
       this,
       "securityGroup",
       {
-        securityGroupName: `lambdaSecurityGroup-${props.scope}`,
+        securityGroupName: `lambda-${props.scope}`,
         description: "Allow traffic from ALB",
-        vpc,
+        vpc: vpc,
       },
     );
     lambdaSecurityGroup.addIngressRule(

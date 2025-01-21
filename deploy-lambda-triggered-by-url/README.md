@@ -31,7 +31,7 @@ winpty cdk.cmd deploy -c scope=<scope>
 This deploys a Lambda which when invoked by calling its URL will synchronously respond with a JSON message. To invoke the lambda via CLI execute the following command:
 
 ```console
-curl --location '<lambdaUrl>'
+curl --location <lambdaUrl>
 ```
 
 where `lambdaUrl` is the URL of the lambda. The lambda's URL is exported by this CDK app and therefore printed to the CLI when the app is deployed. The lambda's URL can also be found in the AWS Console on the lambda's page.

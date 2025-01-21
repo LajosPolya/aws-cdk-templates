@@ -42,9 +42,9 @@ export class DeployNlbWithEc2InstanceStack extends cdk.Stack {
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(
       this,
-      "asgSecurityGroup",
+      "securityGroup",
       {
-        securityGroupName: `asgNlbEc2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `nlbEc2Instance-${props.scope}`,
         description: `Allow all traffic on Port ${DeployNlbWithEc2InstanceStack.port}`,
         vpc: vpc,
       },

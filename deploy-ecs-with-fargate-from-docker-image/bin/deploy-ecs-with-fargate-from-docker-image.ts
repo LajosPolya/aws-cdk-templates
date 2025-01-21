@@ -13,7 +13,7 @@ new DeployEcsWithFargateFromDockerImageStack(
   "DeployEcsWithFargateFromDockerImageStack",
   {
     stackName: `ecsWithFargate-${scope}`,
-    scope,
+    scope: scope,
     env: {
       account: account || process.env.CDK_DEFAULT_ACCOUNT,
       region: region || process.env.CDK_DEFAULT_REGION,

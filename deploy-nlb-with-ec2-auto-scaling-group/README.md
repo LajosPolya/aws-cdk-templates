@@ -36,7 +36,7 @@ This deploys a Network Load Balancer which can be used to communicate with an HT
 ### cURL :curling_stone:
 
 ```console
-curl --location 'http://<nlb_dns>:80'
+curl --location http://<nlb_dns>:80
 ```
 
 ### Browser :surfer:

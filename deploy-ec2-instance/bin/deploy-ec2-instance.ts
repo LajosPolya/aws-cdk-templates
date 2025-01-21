@@ -11,7 +11,7 @@ const region = app.node.tryGetContext("region");
 
 new DeployEc2InstanceStack(app, "DeployEc2InstanceStack", {
   stackName: `ec2Instance-${scope}`,
-  scope,
+  scope: scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,

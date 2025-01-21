@@ -33,9 +33,9 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       this,
       "vpcLinkSecurityGroup",
       {
-        securityGroupName: `vpcLinkSecurityGroup-${props.scope}`,
+        securityGroupName: `vpcLink-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
     vpcLinkSecurityGroup.addIngressRule(
@@ -48,9 +48,9 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "Allow TCP connection from VPC Link on port 80",
-        vpc,
+        vpc: vpc,
       },
     );
     albSecurityGroup.addIngressRule(
@@ -63,9 +63,9 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       this,
       "ec2SecurityGroup",
       {
-        securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `ec2Instance-${props.scope}`,
         description: "EC2 Security Group",
-        vpc,
+        vpc: vpc,
       },
     );
     ec2SecurityGroup.addIngressRule(
@@ -89,14 +89,14 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      vpc,
+      vpc: vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
+      userData: userData,
       instanceName: `ec2Instance1-${props.scope}`,
     });
 
@@ -104,14 +104,14 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      vpc,
+      vpc: vpc,
       securityGroup: ec2SecurityGroup,
       instanceType: cdk.aws_ec2.InstanceType.of(
         cdk.aws_ec2.InstanceClass.T2,
         cdk.aws_ec2.InstanceSize.MICRO,
       ),
       machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-      userData,
+      userData: userData,
       instanceName: `ec2Instance2-${props.scope}`,
     });
 
@@ -121,7 +121,7 @@ export class DeployApiGatewayHttpApiAlbIntegrationStack extends cdk.Stack {
       {
         securityGroup: albSecurityGroup,
         loadBalancerName: `albEc2Instance-${props.scope}`,
-        vpc,
+        vpc: vpc,
         // Doesn't need to be internet routable since the VPC Link routes it
         // to the API Gateway's VPC
         internetFacing: false,

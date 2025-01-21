@@ -15,7 +15,7 @@ new DeployNlbWithEc2AutoScalingGroupStack(
   "DeployNlbWithEc2AutoScalingGroupStack",
   {
     stackName: `albWithEc2AutoScalingGroup-${scope}`,
-    scope,
+    scope: scope,
     deploySecondInstanceCron,
     env: {
       account: account || process.env.CDK_DEFAULT_ACCOUNT,

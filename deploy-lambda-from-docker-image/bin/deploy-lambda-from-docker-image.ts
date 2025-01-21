@@ -9,7 +9,7 @@ const region = app.node.tryGetContext("region");
 const scope = app.node.getContext("scope");
 new DeployLambdaFromDockerImageStack(app, "DeployLambdaFromDockerImageStack", {
   stackName: `lambdaFromDockerImage-${scope}`,
-  scope,
+  scope: scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,

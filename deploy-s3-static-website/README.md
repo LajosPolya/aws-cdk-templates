@@ -37,7 +37,7 @@ The `bucketName` is exported by the CDK and therefore printed to the CLI when th
 Access the website by its public URL. The URL is exported by the CDK as `s3StaticWebsiteUrl` and therefore printed to the CLI when this app is deployed.
 
 ```console
-curl --location '<s3StaticWebsiteUrl>'
+curl --location <s3StaticWebsiteUrl>
 ```
 
 ## Destruction :boom:

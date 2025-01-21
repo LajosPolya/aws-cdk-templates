@@ -34,9 +34,9 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       this,
       "albSecurityGroup",
       {
-        securityGroupName: `albSecurityGroup-${props.scope}`,
+        securityGroupName: `alb-${props.scope}`,
         description: "ALB Security Group",
-        vpc,
+        vpc: vpc,
       },
     );
 
@@ -44,9 +44,9 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       this,
       "securityGroup",
       {
-        securityGroupName: `launchTemplateSecurityGroup-${props.scope}`,
+        securityGroupName: `launchTemplate-${props.scope}`,
         description: "Allow traffic from ALB",
-        vpc,
+        vpc: vpc,
       },
     );
     launchTemplateSecurityGroup.addIngressRule(
@@ -76,7 +76,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
           cdk.aws_ec2.InstanceSize.MICRO,
         ),
         machineImage: cdk.aws_ec2.MachineImage.latestAmazonLinux2023(),
-        userData,
+        userData: userData,
         securityGroup: launchTemplateSecurityGroup,
       },
     );
@@ -110,7 +110,7 @@ export class DeployAlbWithEc2AutoScalingGroupStack extends cdk.Stack {
       {
         securityGroup: albSecurityGroup,
         loadBalancerName: `albAutoScaling-${props.scope}`,
-        vpc,
+        vpc: vpc,
         internetFacing: true,
         deletionProtection: false,
       },

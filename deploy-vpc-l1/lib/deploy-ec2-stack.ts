@@ -29,9 +29,9 @@ export class DeployEc2Stack extends cdk.Stack {
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, "securityGroup", {
-      securityGroupName: `ec2InstanceSecurityGroup-${props.scope}`,
+      securityGroupName: `ec2Instance-${props.scope}`,
       description: "Allow all traffic",
-      vpc,
+      vpc: vpc,
     });
     securityGroup.addIngressRule(
       cdk.aws_ec2.Peer.anyIpv4(),

@@ -70,7 +70,7 @@ export class DeployEcsWithFargateStack extends cdk.Stack {
       this,
       "security-group",
       {
-        securityGroupName: `ecsWithFargateSecurityGroup-${props.scope}`,
+        securityGroupName: `ecsWithFargate-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
       }

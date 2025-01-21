@@ -65,7 +65,7 @@ winpty cdk.cmd deploy DeployEcsWithFargateStack -c scope=<scope> -c tag=<image_t
 This deploys an Application Load Balancer which can be used to communicate with the HTTP server on two ECS Fargate tasks. The server can be accessed by the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.
 
 ```console
-curl -v '<albDnsName>/health'
+curl -v <albDnsName>/health
 ```
 
 Where `<albDnsName>` is the Application Load Balancer's public DNS which is exported by the CDK and therefore printed to the CLI when the app is deployed.

@@ -45,9 +45,9 @@ export class DeployApiGatewayHttpApiNlbIntegrationStack extends cdk.Stack {
       this,
       "vpcLinkSecurityGroup",
       {
-        securityGroupName: `vpcLinkSecurityGroup-${props.scope}`,
+        securityGroupName: `vpcLink-${props.scope}`,
         description: "Allow all traffic",
-        vpc,
+        vpc: vpc,
       },
     );
     vpcLinkSecurityGroup.addIngressRule(
@@ -60,7 +60,7 @@ export class DeployApiGatewayHttpApiNlbIntegrationStack extends cdk.Stack {
       this,
       "instanceSecurityGroup",
       {
-        securityGroupName: `nlbEc2InstanceSecurityGroup-${props.scope}`,
+        securityGroupName: `nlbEc2Instance-${props.scope}`,
         description: "Allow all traffic",
         vpc: vpc,
       },

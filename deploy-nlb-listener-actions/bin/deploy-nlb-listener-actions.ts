@@ -9,7 +9,7 @@ const account = app.node.tryGetContext("account");
 const region = app.node.tryGetContext("region");
 new DeployNlbListenerActionsStack(app, "DeployNlbListenerActionsStack", {
   stackName: `nlbListenerActions-${scope}`,
-  scope,
+  scope: scope,
   env: {
     account: account || process.env.CDK_DEFAULT_ACCOUNT,
     region: region || process.env.CDK_DEFAULT_REGION,
