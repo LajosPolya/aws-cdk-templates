@@ -30,11 +30,11 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### cURL :curling_stone:
 
-`curl <albDnsName>:80` -> Contacts one of the two EC2 instances
+`curl <albDnsName>` -> Contacts one of the two EC2 instances
 
-`curl <albDnsName>:80/fixedResponse` -> Responds with `"This is a fixed response"`
+`curl <albDnsName>/fixedResponse` -> Responds with `"This is a fixed response"`
 
-`curl --location <albDnsName>:80?redirect=true` -> Redirects the request to the first EC2 instance
+`curl --location <albDnsName>?redirect=true` -> Redirects the request to the first EC2 instance
 
 `curl <albDnsName>:81` -> Contacts the first EC2 instance
 
@@ -42,7 +42,7 @@ This deploys an Application Load Balancer which can be used to communicate with 
 
 ### Browser :surfer:
 
-If the DNS name doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>/`.
+If the DNS name doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<albDnsName>`.
 
 ## Destruction :boom:
 
