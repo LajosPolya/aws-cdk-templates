@@ -64,7 +64,7 @@ exports.handler = async(event) => {
       this,
       "inlineProxyCodeLambda",
       {
-        runtime: cdk.aws_lambda.Runtime.NODEJS_20_X,
+        runtime: cdk.aws_lambda.Runtime.NODEJS_22_X,
         code: proxyInlineCode,
         handler: "index.handler",
         description:
