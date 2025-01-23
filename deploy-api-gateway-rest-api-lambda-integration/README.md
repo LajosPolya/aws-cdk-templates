@@ -33,13 +33,13 @@ This deploys an API Gateway REST API backed by Lambda. This API is backed by two
 The first lambda can be accessed by the `parent` endpoint.
 
 ```console
-curl --location <api_url>/parent
+curl <api_url>/parent
 ```
 
 The second lambda is a proxy lambda for `/parent/*` which means it will execute for any path that begins with `parent/`, for example:
 
 ```console
-curl --location <api_url>/parent/child
+curl <api_url>/parent/child
 ```
 
 Where `api_url` is exported by the CDK and therefore printed to the CLI during deployment.
