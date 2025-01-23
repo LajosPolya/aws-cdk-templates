@@ -46,7 +46,9 @@ wscat -c <websocket_url>
 
 Sending a message to the Websocket API will execute the lambda that's integrated with it. The API responds to the following actions: `connect`, `disconnect`, or `default` routes. For example:
 
-`{"action":"default"}`
+```console
+{"action":"default"}
+```
 
 To exit the CLI press `CTRL+C`
 
