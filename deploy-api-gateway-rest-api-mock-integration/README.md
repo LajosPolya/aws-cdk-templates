@@ -31,7 +31,7 @@ This deploys an API Gateway REST mock API. The API can be accessed by its URL wh
 ### cURL :curling_stone:
 
 ```console
-curl --location <api_url>
+curl <api_url>
 ```
 
 Where `api_url` is exported by the CDK and therefore printed to the CLI during deployment.
