@@ -47,7 +47,7 @@ The above list of commands makes a request to each of the EC2 instances in the s
 
 ### Browser :surfer:
 
-If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
+If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>` or `http://<dns>`.
 
 ## Destruction :boom:
 
