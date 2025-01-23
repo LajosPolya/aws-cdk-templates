@@ -59,5 +59,3 @@ cdk destroy -c scope=<scope>
 ```console
 winpty cdk.cmd destroy -c scope=<scope>
 ```
-
-Leave note about how it may take a couple of minutes for NLB to be usable by VPC Link
