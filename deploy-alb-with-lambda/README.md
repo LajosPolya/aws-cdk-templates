@@ -36,7 +36,7 @@ curl <alb_dns>
 
 ### Browser :surfer:
 
-If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<alb_dns>/`.
+If the DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<alb_dns>`.
 
 ## Destruction :boom:
 
