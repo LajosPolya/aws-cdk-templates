@@ -38,7 +38,7 @@ curl <publicIp>
 
 ### Browser :surfer:
 
-If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>/` or `http://<dns>/`.
+If the IP address or DNS doesn't work then verify that the browser is using `http://` and not `https://`. For example, `http://<ip_address>` or `http://<dns>`.
 
 ## Destruction :boom:
 
