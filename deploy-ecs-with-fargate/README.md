@@ -69,7 +69,7 @@ ENI=$(aws ecs describe-tasks --tasks $TASK_ARN --cluster $CLUSTER_ARN --query "t
 TASK_IP=$(aws ec2 describe-network-interfaces --network-interface-ids $ENI --query 'NetworkInterfaces[0].Association.PublicIp' --output text)
 
 # This command assumes the Micronaut API from `../api` was deployed
-curl -I --location 'http://'"$TASK_IP"':8080/health'
+curl -I http://"$TASK_IP":8080/health
 ```
 
 `clusterArn` is the ARN of the ECS Cluster which is exported by the CDK and therefore printed to the CLI when the app is deployed. This list of commands should output the response status `204`.
