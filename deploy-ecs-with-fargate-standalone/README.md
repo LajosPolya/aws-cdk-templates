@@ -49,7 +49,7 @@ aws logs tail "/ecs-with-fargate-standalone/<scope>"
 `subnetId` is the Private Subnet's id, this is the subnet the task will be executed in.
 `securityGroupId` is the Security Group which will be attached to the task.
 
-#### Windows
+#### Git Bash on Windows
 
 ```Bash
 aws ecs run-task --task-definition ecsFargateStandalone-<scope> --cluster ecsFargateStandalone-<scope> --network-configuration "awsvpcConfiguration={subnets=['<subnetId>'],securityGroups=['<securityGroupId>']}" --launch-type FARGATE
