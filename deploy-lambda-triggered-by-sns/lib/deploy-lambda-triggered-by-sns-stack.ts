@@ -26,7 +26,7 @@ export class DeployLambdaTriggeredBySnsStack extends cdk.Stack {
     );
 
     const lambda = new cdk.aws_lambda.Function(this, "lambdaTriggeredBySns", {
-      runtime: cdk.aws_lambda.Runtime.NODEJS_18_X,
+      runtime: cdk.aws_lambda.Runtime.NODEJS_22_X,
       code: asset,
       handler: "index.handler",
       description: "Lambda triggered by SNS",
