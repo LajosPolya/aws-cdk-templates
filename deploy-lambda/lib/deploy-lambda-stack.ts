@@ -19,7 +19,7 @@ exports.handler = async(event) => {
     `);
 
     new cdk.aws_lambda.Function(this, "inlineCodeLambda", {
-      runtime: cdk.aws_lambda.Runtime.NODEJS_18_X,
+      runtime: cdk.aws_lambda.Runtime.NODEJS_22_X,
       code: inlineCode,
       handler: "index.handler",
       description: "Lambda deployed with inline code",
