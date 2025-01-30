@@ -24,7 +24,7 @@ export class DeployLambdaTriggeredByEventbridgeStack extends cdk.Stack {
       this,
       "lambdaTriggeredByEventBridge",
       {
-        runtime: cdk.aws_lambda.Runtime.NODEJS_18_X,
+        runtime: cdk.aws_lambda.Runtime.NODEJS_22_X,
         code: asset,
         handler: "index.handler",
         description: "Lambda triggered by EventBridge",
