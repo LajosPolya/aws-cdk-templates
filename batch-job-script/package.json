@@ -17,6 +17,6 @@
   "license": "ISC",
   "devDependencies": {
     "esbuild": "^0.19.2",
-    "prettier": "3.0.2"
+    "prettier": "3.4.2"
   }
 }
